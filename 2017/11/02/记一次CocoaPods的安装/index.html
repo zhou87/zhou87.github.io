@@ -6,15 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Tag: 阅读 | 周老实</title>
+  <title>记一次CocoaPods的安装 | 周老实</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="周老实">
-<meta property="og:url" content="http://yoursite.com/tags/阅读/index.html">
+  <meta name="description" content="###前言  按照之前的一贯安装方法： 指定源： 123$ gem sources --remove https://rubygems.org/$ gem sources -a https://ruby.taobao.org/$ sudo gem install cocoapods 结果报错如下： 1234ERROR:  Could not find a valid gem &amp;apos;cocoa">
+<meta name="keywords" content="iOS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="记一次CocoaPods的安装">
+<meta property="og:url" content="http://yoursite.com/2017/11/02/记一次CocoaPods的安装/index.html">
 <meta property="og:site_name" content="周老实">
+<meta property="og:description" content="###前言  按照之前的一贯安装方法： 指定源： 123$ gem sources --remove https://rubygems.org/$ gem sources -a https://ruby.taobao.org/$ sudo gem install cocoapods 结果报错如下： 1234ERROR:  Could not find a valid gem &amp;apos;cocoa">
 <meta property="og:locale" content="zh-cn">
+<meta property="og:updated_time" content="2017-11-10T08:04:33.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="周老实">
+<meta name="twitter:title" content="记一次CocoaPods的安装">
+<meta name="twitter:description" content="###前言  按照之前的一贯安装方法： 指定源： 123$ gem sources --remove https://rubygems.org/$ gem sources -a https://ruby.taobao.org/$ sudo gem install cocoapods 结果报错如下： 1234ERROR:  Could not find a valid gem &amp;apos;cocoa">
   
     <link rel="alternative" href="/atom.xml" title="周老实" type="application/atom+xml">
   
@@ -158,60 +163,218 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-记一次CocoaPods的安装" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/05/02/2017-像个书虫/" class="archive-article-date">
-  	<time datetime="2017-05-02T03:17:46.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-05-02</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/05/02/2017-像个书虫/">2017 像个书虫</a>
+    <h1 class="article-title" itemprop="name">
+      记一次CocoaPods的安装
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2017/11/02/记一次CocoaPods的安装/" class="archive-article-date">
+  	<time datetime="2017-11-02T09:36:35.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-02</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>###前言</p>
+<hr>
+<p>按照之前的一贯安装方法：</p>
+<p>指定源：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ gem sources --remove https://rubygems.org/</span><br><span class="line">$ gem sources -a https://ruby.taobao.org/</span><br><span class="line">$ sudo gem install cocoapods</span><br></pre></td></tr></table></figure>
+<p>结果报错如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ERROR:  Could not find a valid gem &apos;cocoapods&apos; (&gt;= 0), here is why:</span><br><span class="line">          Unable to download data from https://ruby.taobao.org/ - server did not return a valid file (https://ruby.taobao.org/latest_specs.4.8.gz)</span><br><span class="line">ERROR:  While executing gem ... (OpenSSL::SSL::SSLError)</span><br><span class="line">    hostname &quot;gems.ruby-china.org&quot; does not match the server certificate</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>然后升级了下ruby：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo gem update --system</span><br></pre></td></tr></table></figure>
+<p>然后升级到了 2.6.14,继续安装：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ gem install cocoapods</span><br></pre></td></tr></table></figure>
+<p>然而，错误又来了：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">YAML safe loading is not available. Please upgrade psych to a version that supports safe loading (&gt;= 2.0).</span><br><span class="line">ERROR:  SSL verification error at depth 1: unable to get local issuer certificate (20)</span><br><span class="line">ERROR:  You must add /O=Digital Signature Trust Co./CN=DST Root CA X3 to your local trusted store</span><br><span class="line">ERROR:  While executing gem ... (Errno::EPERM)</span><br><span class="line">    Operation not permitted - /usr/bin/fuzzy_match</span><br></pre></td></tr></table></figure>
+<p>只好Google了下，然后准备用rvm重新安装ruby</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ curl -L get.rvm.io | bash -s stable</span><br></pre></td></tr></table></figure>
+<p>终端显示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">% Total    % Received % Xferd  Average Speed   Time    Time     Time  Current</span><br><span class="line">                                 Dload  Upload   Total   Spent    Left  Speed</span><br><span class="line">100   194  100   194    0     0     51      0  0:00:03  0:00:03 --:--:--    51</span><br><span class="line">100 24090  100 24090    0     0   2939      0  0:00:08  0:00:08 --:--:--  7199</span><br><span class="line">Downloading https://github.com/rvm/rvm/archive/1.29.3.tar.gz</span><br><span class="line">Downloading https://github.com/rvm/rvm/releases/download/1.29.3/1.29.3.tar.gz.asc</span><br><span class="line">Found PGP signature at: &apos;https://github.com/rvm/rvm/releases/download/1.29.3/1.29.3.tar.gz.asc&apos;,</span><br><span class="line">but no GPG software exists to validate it, skipping.</span><br><span class="line"></span><br><span class="line">Installing RVM to /Users/zhouhuiping/.rvm/</span><br><span class="line">    Adding rvm PATH line to /Users/zhouhuiping/.profile /Users/zhouhuiping/.mkshrc /Users/zhouhuiping/.bashrc /Users/zhouhuiping/.zshrc.</span><br><span class="line">    Adding rvm loading line to /Users/zhouhuiping/.profile /Users/zhouhuiping/.bash_profile /Users/zhouhuiping/.zlogin.</span><br><span class="line">Installation of RVM in /Users/zhouhuiping/.rvm/ is almost complete:</span><br><span class="line"></span><br><span class="line">  * To start using RVM you need to run `source /Users/zhouhuiping/.rvm/scripts/rvm`</span><br><span class="line">    in all your open shell windows, in rare cases you need to reopen all shell windows.</span><br></pre></td></tr></table></figure>
+<p>然后：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ source ~/.bashrc</span><br><span class="line">$ source ~/.bash_profile</span><br></pre></td></tr></table></figure>
+<p>查看ruby版本：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ruby -v</span><br></pre></td></tr></table></figure>
+<p>列出rvm下所有ruby版本:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ rvm list known</span><br></pre></td></tr></table></figure>
+<p>安装ruby：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ rvm install 2.4.1</span><br></pre></td></tr></table></figure>
+<p>时间有点久：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">Searching for binary rubies, this might take some time.</span><br><span class="line">No binary rubies available for: osx/10.12/x86_64/ruby-2.4.1.</span><br><span class="line">Continuing with compilation. Please read &apos;rvm help mount&apos; to get more information on binary rubies.</span><br><span class="line">Checking requirements for osx.</span><br><span class="line">Installing requirements for osx.</span><br><span class="line">Updating system...........................................</span><br><span class="line">Installing required packages: autoconf, automake, libtool, coreutils, libyaml, libksba, openssl@1.1.-</span><br><span class="line"></span><br><span class="line">.......</span><br><span class="line">Certificates bundle &apos;/usr/local/etc/openssl@1.1/cert.pem&apos; is already up to date.</span><br><span class="line">Requirements installation successful.</span><br><span class="line">Installing Ruby from source to: /Users/zhouhuiping/.rvm/rubies/ruby-2.4.1, this may take a while depending on your cpu(s)...</span><br><span class="line">ruby-2.4.1 - #downloading ruby-2.4.1, this may take a while depending on your connection...</span><br><span class="line">  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current</span><br><span class="line">                                 Dload  Upload   Total   Spent    Left  Speed</span><br><span class="line">100 11.9M  100 11.9M    0     0   121k      0  0:01:41  0:01:41 --:--:--  118k</span><br><span class="line">ruby-2.4.1 - #extracting ruby-2.4.1 to /Users/zhouhuiping/.rvm/src/ruby-2.4.1....</span><br><span class="line">ruby-2.4.1 - #applying patch /Users/zhouhuiping/.rvm/patches/ruby/2.4.1/random_c_using_NR_prefix.patch.</span><br><span class="line">ruby-2.4.1 - #configuring..................................................................</span><br><span class="line">ruby-2.4.1 - #post-configuration.</span><br><span class="line">ruby-2.4.1 - #compiling..............................................................</span><br><span class="line">ruby-2.4.1 - #installing.......</span><br><span class="line">ruby-2.4.1 - #making binaries executable..</span><br><span class="line">ruby-2.4.1 - #downloading rubygems-2.6.14</span><br><span class="line">  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current</span><br><span class="line">                                 Dload  Upload   Total   Spent    Left  Speed</span><br><span class="line">100  751k  100  751k    0     0  18507      0  0:00:41  0:00:41 --:--:--  7229</span><br><span class="line">No checksum for downloaded archive, recording checksum in user configuration.</span><br><span class="line">ruby-2.4.1 - #extracting rubygems-2.6.14....</span><br><span class="line">ruby-2.4.1 - #removing old rubygems.........</span><br><span class="line">ruby-2.4.1 - #installing rubygems-2.6.14...........................</span><br><span class="line">ruby-2.4.1 - #gemset created /Users/zhouhuiping/.rvm/gems/ruby-2.4.1@global</span><br><span class="line">ruby-2.4.1 - #importing gemset /Users/zhouhuiping/.rvm/gemsets/global.gems.............................|</span><br><span class="line">ruby-2.4.1 - #generating global wrappers........</span><br><span class="line">ruby-2.4.1 - #gemset created /Users/zhouhuiping/.rvm/gems/ruby-2.4.1</span><br><span class="line">ruby-2.4.1 - #importing gemsetfile /Users/zhouhuiping/.rvm/gemsets/default.gems evaluated to empty gem list</span><br><span class="line">ruby-2.4.1 - #generating default wrappers........</span><br><span class="line">ruby-2.4.1 - #adjusting #shebangs for (gem irb erb ri rdoc testrb rake).</span><br><span class="line">Install of ruby-2.4.1 - #complete </span><br><span class="line">Ruby was built without documentation, to build it run: rvm docs generate-ri</span><br></pre></td></tr></table></figure>
+<p>安装成功之后就可以安装CocoaPods了：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo gem install cocoapods</span><br></pre></td></tr></table></figure>
+<p>输入密码，很快安装好了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Password:</span><br><span class="line">Fetching: concurrent-ruby-1.0.5.gem (100%)</span><br><span class="line">Successfully installed concurrent-ruby-1.0.5</span><br><span class="line">Fetching: i18n-0.9.0.gem (100%)</span><br><span class="line">Successfully installed i18n-0.9.0</span><br><span class="line">Fetching: thread_safe-0.3.6.gem (100%)</span><br><span class="line">Successfully installed thread_safe-0.3.6</span><br><span class="line">.</span><br><span class="line">.</span><br><span class="line">.</span><br><span class="line">Installing ri documentation for cocoapods-1.3.1</span><br><span class="line">Done installing documentation for concurrent-ruby, i18n, thread_safe, tzinfo, activesupport, nap, fuzzy_match, cocoapods-core, claide, cocoapods-deintegrate, cocoapods-downloader, cocoapods-plugins, cocoapods-search, cocoapods-stats, netrc, cocoapods-trunk, cocoapods-try, molinillo, CFPropertyList, colored2, nanaimo, xcodeproj, escape, fourflusher, gh_inspector, ruby-macho, cocoapods after 36 seconds</span><br><span class="line">27 gems installed</span><br></pre></td></tr></table></figure>
+<p> 接着就是 安装一些第三方库，足足等了几个小时。。。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ cd #项目目录#</span><br><span class="line">zhouhuipingdeMacBook-Pro:JieNiuLife zhouhuiping$ pod install</span><br><span class="line">Setting up CocoaPods master repo</span><br><span class="line">  $ /usr/bin/git clone https://github.com/CocoaPods/Specs.git master --progress</span><br><span class="line">  Cloning into &apos;master&apos;...</span><br><span class="line">  remote: Counting objects: 1646580, done.        </span><br><span class="line">  remote: Compressing objects: 100% (922/922), done.        </span><br><span class="line">  Receiving objects:  10% (179069/1646580), 35.62 MiB | 27.00 KiB/s</span><br></pre></td></tr></table></figure></p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>一分也是爱，煎饼果子来一份...<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="http://ooqxuxrxe.bkt.clouddn.com/WechatIMG9.jpeg">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="http://ooqxuxrxe.bkt.clouddn.com/WechatIMG7.jpeg">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">阅读</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">iOS</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2017/11/02/记一次CocoaPods的安装/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2017/11/08/AppStore审核记录/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          AppStore审核记录
+        
+      </div>
+    </a>
   
   
-    </div></section>
+    <a href="/2017/10/30/The-time-gone/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">The time has gone</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+  
+  
   
 
-    
+  
+
+  
+
+  
 
 
           </div>
@@ -234,9 +397,9 @@
 	var yiliaConfig = {
 		mathjax: true,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,

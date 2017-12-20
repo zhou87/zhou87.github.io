@@ -6,15 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Tag: 阅读 | 周老实</title>
+  <title>滑动视图子视图触摸时间延迟问题 | 周老实</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="周老实">
-<meta property="og:url" content="http://yoursite.com/tags/阅读/index.html">
+  <meta name="description" content="场景：一个按钮放在UIScrollView里 或者 UITableViewCell里时，点击按钮 发现按钮的高亮状态延时，如果迅速的触摸一下按钮 甚至不回看到按钮的高亮状态。原因：UIScrollView：属性delaysContentTouches，布尔类型，默认值为YES。值为YES时，UIScrollView会在接收到手势时延迟150ms来判断该手势是否能够出发UIScrollView的滑动">
+<meta name="keywords" content="手势延迟,iOS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="滑动视图子视图触摸时间延迟问题">
+<meta property="og:url" content="http://yoursite.com/2017/08/11/滑动视图子视图触摸时间延迟问题/index.html">
 <meta property="og:site_name" content="周老实">
+<meta property="og:description" content="场景：一个按钮放在UIScrollView里 或者 UITableViewCell里时，点击按钮 发现按钮的高亮状态延时，如果迅速的触摸一下按钮 甚至不回看到按钮的高亮状态。原因：UIScrollView：属性delaysContentTouches，布尔类型，默认值为YES。值为YES时，UIScrollView会在接收到手势时延迟150ms来判断该手势是否能够出发UIScrollView的滑动">
 <meta property="og:locale" content="zh-cn">
+<meta property="og:updated_time" content="2017-11-10T08:04:33.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="周老实">
+<meta name="twitter:title" content="滑动视图子视图触摸时间延迟问题">
+<meta name="twitter:description" content="场景：一个按钮放在UIScrollView里 或者 UITableViewCell里时，点击按钮 发现按钮的高亮状态延时，如果迅速的触摸一下按钮 甚至不回看到按钮的高亮状态。原因：UIScrollView：属性delaysContentTouches，布尔类型，默认值为YES。值为YES时，UIScrollView会在接收到手势时延迟150ms来判断该手势是否能够出发UIScrollView的滑动">
   
     <link rel="alternative" href="/atom.xml" title="周老实" type="application/atom+xml">
   
@@ -158,60 +163,195 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-滑动视图子视图触摸时间延迟问题" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/05/02/2017-像个书虫/" class="archive-article-date">
-  	<time datetime="2017-05-02T03:17:46.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-05-02</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/05/02/2017-像个书虫/">2017 像个书虫</a>
+    <h1 class="article-title" itemprop="name">
+      滑动视图子视图触摸时间延迟问题
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2017/08/11/滑动视图子视图触摸时间延迟问题/" class="archive-article-date">
+  	<time datetime="2017-08-11T09:15:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-11</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="场景：一个按钮放在UIScrollView里-或者-UITableViewCell里时，点击按钮-发现按钮的高亮状态延时，如果迅速的触摸一下按钮-甚至不回看到按钮的高亮状态。"><a href="#场景：一个按钮放在UIScrollView里-或者-UITableViewCell里时，点击按钮-发现按钮的高亮状态延时，如果迅速的触摸一下按钮-甚至不回看到按钮的高亮状态。" class="headerlink" title="场景：一个按钮放在UIScrollView里 或者 UITableViewCell里时，点击按钮 发现按钮的高亮状态延时，如果迅速的触摸一下按钮 甚至不回看到按钮的高亮状态。"></a>场景：一个按钮放在UIScrollView里 或者 UITableViewCell里时，点击按钮 发现按钮的高亮状态延时，如果迅速的触摸一下按钮 甚至不回看到按钮的高亮状态。</h1><p>原因：<br>UIScrollView：<br>属性delaysContentTouches，布尔类型，默认值为YES。值为YES时，UIScrollView会在接收到手势时延迟150ms来判断该手势是否能够出发UIScrollView的滑动事件；值为NO时，UIScrollView会立马将接收到的手势分发到子视图上。<br>（注：仅仅设置这个是不够的，你会发现如果想要拖动scrollView而起点落在其他有手势识别的视图上时会拖不动）<br>方法- (BOOL)touchesShouldCancelInContentView:(UIView *)view，此方法的重载是帮助我们完美解决问题的重点，决定手势是否取消传递到view上，拖动ScrollView时触发。返回NO时，拖动手势将留在ScrollView上，返回YES则将手势传到view上。（若view是UIControl，则默认返回YES）</p>
+<a id="more"></a>
+<p>UITableView：<br>不得不说，UITableView（包括UITableViewCell在内）在iOS7和iOS8中的视图结构是不同的，且存在着很多我们在编码时永远接触不到的视图，但我们可通过Debug将其subviews逐个逐个找出来。这关系到我们这个问题坑比较深的层次。<br>iOS7：UITableView中存在n+1个UIScrollView，一个是UITableView本身，另外n个存在于UITableViewCell与cell的contentView之间，类名为UITableViewCellScrollView，活的不久，仅存在于iOS7中，在iOS8中已被移除。<br>iOS8：UITableView中存在2个UIScrollView，一个是UITableView本身，另外一个存在于UITableView与UITableViewCell之间，类名为UITableViewWrapperView。需要注意的是，UITableViewWrapperView在iOS7中并不是一个UIScrollView。</p>
+<p>解决办法：<br>将UIButton所有属于UIScrollView的父视图的delaysContentTouches属性设置成为NO。<br>      2、继承UIScrollView或UITableView，并重写<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (BOOL)touchesShouldCancelInContentView:(UIView*)view方法，让其响应拖动方法。</span><br></pre></td></tr></table></figure></p>
+<p>demoCodes:<br>自定义一个UIScrollView<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">- (instancetype)initWithFrame:(CGRect)frame</span><br><span class="line">&#123;</span><br><span class="line">    if (self = [superinitWithFrame:frame])</span><br><span class="line">    &#123;</span><br><span class="line">        self.delaysContentTouches =NO;//禁止滑动延时</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    returnself;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//重载</span><br><span class="line">- (BOOL)touchesShouldCancelInContentView:(UIView *)view</span><br><span class="line">&#123;</span><br><span class="line">    if ([viewisKindOfClass:[UIButtonclass]])</span><br><span class="line">    &#123;</span><br><span class="line">        returnYES;</span><br><span class="line">    &#125;</span><br><span class="line">    return [supertouchesShouldCancelInContentView:view];</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>UITableViewCell 的实例代码也是一样的。</p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>一分也是爱，煎饼果子来一份...<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="http://ooqxuxrxe.bkt.clouddn.com/WechatIMG9.jpeg">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="http://ooqxuxrxe.bkt.clouddn.com/WechatIMG7.jpeg">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">阅读</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">手势延迟</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">iOS</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2017/08/11/滑动视图子视图触摸时间延迟问题/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2017/10/27/Java学习笔记-基础语法/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Java学习笔记-基础语法
+        
+      </div>
+    </a>
   
   
-    </div></section>
+    <a href="/2017/05/02/2017-像个书虫/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">2017 像个书虫</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+  
+  
   
 
-    
+  
+
+  
+
+  
 
 
           </div>
@@ -234,9 +374,9 @@
 	var yiliaConfig = {
 		mathjax: true,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,
