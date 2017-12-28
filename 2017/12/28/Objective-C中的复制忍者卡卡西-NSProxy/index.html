@@ -8,19 +8,19 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>Objective-C中的复制忍者卡卡西---NSProxy | 周老实</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="是不是曾经在别人面前夸下海口：OC中所有的类的基类是NSObject;我之前也一直也这么以为的，但是认真看了下官方文档：  啪啪，好响，好疼~（看来英文水平也很重要啊……）不卖关子了，我们今天要讨论的就是NSProxy,他跟NSObject类属于同一级别，他是个虚拟类，只是实现了的协议;按照官方的定义：NSProxy是一个为对象定义接口的抽象父类，并且为其它对象或者一些不存在的对象扮演了替身角色。">
+  <meta name="description" content="是不是曾经在别人面前夸下海口：OC中所有的类的基类都是NSObject;我之前也一直也这么以为的，但是认真看了下官方文档：  啪啪，好响，好疼~（看来英文水平也很重要啊……）不卖关子了，我们今天要讨论的就是NSProxy。它是跟NSObject类属于同一级别的类，他是个抽象类，只是实现了的协议;按照官方的定义：NSProxy是一个为对象定义接口的抽象父类，并且为其它对象或者一些不存在的对象扮演了替">
 <meta name="keywords" content="NSProxy">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Objective-C中的复制忍者卡卡西---NSProxy">
 <meta property="og:url" content="http://yoursite.com/2017/12/28/Objective-C中的复制忍者卡卡西-NSProxy/index.html">
 <meta property="og:site_name" content="周老实">
-<meta property="og:description" content="是不是曾经在别人面前夸下海口：OC中所有的类的基类是NSObject;我之前也一直也这么以为的，但是认真看了下官方文档：  啪啪，好响，好疼~（看来英文水平也很重要啊……）不卖关子了，我们今天要讨论的就是NSProxy,他跟NSObject类属于同一级别，他是个虚拟类，只是实现了的协议;按照官方的定义：NSProxy是一个为对象定义接口的抽象父类，并且为其它对象或者一些不存在的对象扮演了替身角色。">
+<meta property="og:description" content="是不是曾经在别人面前夸下海口：OC中所有的类的基类都是NSObject;我之前也一直也这么以为的，但是认真看了下官方文档：  啪啪，好响，好疼~（看来英文水平也很重要啊……）不卖关子了，我们今天要讨论的就是NSProxy。它是跟NSObject类属于同一级别的类，他是个抽象类，只是实现了的协议;按照官方的定义：NSProxy是一个为对象定义接口的抽象父类，并且为其它对象或者一些不存在的对象扮演了替">
 <meta property="og:locale" content="zh-cn">
 <meta property="og:image" content="http://yoursite.com/图片测试/A14B3BD8-1FB4-4F2B-BB4E-B259CA3B4DD7.png">
-<meta property="og:updated_time" content="2017-12-28T04:10:29.000Z">
+<meta property="og:updated_time" content="2017-12-28T05:43:24.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Objective-C中的复制忍者卡卡西---NSProxy">
-<meta name="twitter:description" content="是不是曾经在别人面前夸下海口：OC中所有的类的基类是NSObject;我之前也一直也这么以为的，但是认真看了下官方文档：  啪啪，好响，好疼~（看来英文水平也很重要啊……）不卖关子了，我们今天要讨论的就是NSProxy,他跟NSObject类属于同一级别，他是个虚拟类，只是实现了的协议;按照官方的定义：NSProxy是一个为对象定义接口的抽象父类，并且为其它对象或者一些不存在的对象扮演了替身角色。">
+<meta name="twitter:description" content="是不是曾经在别人面前夸下海口：OC中所有的类的基类都是NSObject;我之前也一直也这么以为的，但是认真看了下官方文档：  啪啪，好响，好疼~（看来英文水平也很重要啊……）不卖关子了，我们今天要讨论的就是NSProxy。它是跟NSObject类属于同一级别的类，他是个抽象类，只是实现了的协议;按照官方的定义：NSProxy是一个为对象定义接口的抽象父类，并且为其它对象或者一些不存在的对象扮演了替">
 <meta name="twitter:image" content="http://yoursite.com/图片测试/A14B3BD8-1FB4-4F2B-BB4E-B259CA3B4DD7.png">
   
     <link rel="alternative" href="/atom.xml" title="周老实" type="application/atom+xml">
@@ -183,10 +183,9 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>是不是曾经在别人面前夸下海口：OC中所有的类的基类是NSObject;我之前也一直也这么以为的，但是认真看了下官方文档：</p>
+        <p>是不是曾经在别人面前夸下海口：OC中所有的类的基类都是NSObject;我之前也一直也这么以为的，但是认真看了下官方文档：</p>
 <p><img src="/图片测试/A14B3BD8-1FB4-4F2B-BB4E-B259CA3B4DD7.png" alt=""></p>
-<p>啪啪，好响，好疼~（看来英文水平也很重要啊……）<br>不卖关子了，我们今天要讨论的就是NSProxy,他跟NSObject类属于同一级别，他是个虚拟类，只是实现了<nsobject>的协议;<br>按照官方的定义：NSProxy是一个为对象定义接口的抽象父类，并且为其它对象或者一些不存在的对象扮演了替身角色。通常，给proxy的消息被转发给实际对象或者导致proxy加载（转化它为）实际对象。NSProxy的子类能被用来实现透明的分布式消息(例如:NSDistantObject)或者延缓要花费昂贵代价创建的对象的实现。</nsobject></p>
-<p>下面我们看看NSProxy是怎么复制类的：</p>
+<p>啪啪，好响，好疼~（看来英文水平也很重要啊……）<br>不卖关子了，我们今天要讨论的就是NSProxy。它是跟NSObject类属于同一级别的类，他是个抽象类，只是实现了<nsobject>的协议;<br>按照官方的定义：NSProxy是一个为对象定义接口的抽象父类，并且为其它对象或者一些不存在的对象扮演了替身角色。通常，给proxy的消息被转发给实际对象或者导致proxy加载（转化它为）实际对象。NSProxy的子类能被用来实现透明的分布式消息(例如:NSDistantObject)或者延缓要花费昂贵代价创建的对象的实现。<br><a id="more"></a><br>下面我们看看NSProxy是怎么复制别的类（几乎所有类）的：</nsobject></p>
 
       
 
