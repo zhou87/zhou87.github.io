@@ -178,9 +178,9 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>是不是曾经在别人面前夸下海口：<code>OC</code>中所有的类的基类都是<code>NSObject</code>;我之前也一直也这么以为的，但是认真看了下官方文档：</p>
+        <p>是不是曾经在别人面前夸下海口：<code>Objective-C</code>中所有的类的基类都是<code>NSObject</code>;我之前也一直也这么以为的，但是认真看了下官方文档：</p>
 <p><img src="/图片测试/A14B3BD8-1FB4-4F2B-BB4E-B259CA3B4DD7.png" alt=""></p>
-<p>啪啪，好响，好疼~（看来英文水平也很重要啊……）<br>不卖关子了，我们今天要讨论的就是<code>NSProxy</code>。它是跟<code>NSObject</code>类属于同一级别的类，他是个抽象类，只是实现了<code>&lt;NSObject&gt;</code>的协议;<br>按照官方的定义：<code>NSProxy</code>是一个为对象定义接口的抽象父类，并且为其它对象或者一些不存在的对象扮演了替身角色。通常，给proxy的消息被转发给实际对象或者导致proxy加载（转化它为）实际对象。<code>NSProxy</code>的子类能被用来实现透明的分布式消息(例如:NSDistantObject)或者延缓要花费昂贵代价创建的对象的实现。<br>
+<p>啪啪，好响，好疼~（看来英文水平也很重要啊……）<br>不卖关子了，我们今天要讨论的就是<code>NSProxy</code>。它是跟<code>NSObject</code>类属于同一级别的类，是个抽象类，只是实现了<code>&lt;NSObject&gt;</code>的协议;<br>按照官方的定义：<code>NSProxy</code>是一个为对象定义接口的抽象父类，并且为其它对象或者一些不存在的对象扮演了替身角色。通常，给proxy的消息被转发给实际对象或者导致proxy加载（转化它为）实际对象。<code>NSProxy</code>的子类能被用来实现透明的分布式消息(例如:NSDistantObject)或者延缓要花费昂贵代价创建的对象的实现。<br>
         
           <a class="article-more-a" href="/2017/12/28/Objective-C中的复制忍者卡卡西-NSProxy/#more">more >></a>
         
