@@ -158,6 +158,86 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-滑动视图子视图触摸时间延迟问题" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/08/11/滑动视图子视图触摸时间延迟问题/">滑动视图子视图触摸时间延迟问题</a>
+    </h1>
+  
+
+        
+        <a href="/2017/08/11/滑动视图子视图触摸时间延迟问题/" class="archive-article-date">
+  	<time datetime="2017-08-11T09:15:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-11</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="场景：一个按钮放在UIScrollView里-或者-UITableViewCell里时，点击按钮-发现按钮的高亮状态延时，如果迅速的触摸一下按钮-甚至不回看到按钮的高亮状态。"><a href="#场景：一个按钮放在UIScrollView里-或者-UITableViewCell里时，点击按钮-发现按钮的高亮状态延时，如果迅速的触摸一下按钮-甚至不回看到按钮的高亮状态。" class="headerlink" title="场景：一个按钮放在UIScrollView里 或者 UITableViewCell里时，点击按钮 发现按钮的高亮状态延时，如果迅速的触摸一下按钮 甚至不回看到按钮的高亮状态。"></a>场景：一个按钮放在UIScrollView里 或者 UITableViewCell里时，点击按钮 发现按钮的高亮状态延时，如果迅速的触摸一下按钮 甚至不回看到按钮的高亮状态。</h1><p>原因：<br>UIScrollView：<br>属性delaysContentTouches，布尔类型，默认值为YES。值为YES时，UIScrollView会在接收到手势时延迟150ms来判断该手势是否能够出发UIScrollView的滑动事件；值为NO时，UIScrollView会立马将接收到的手势分发到子视图上。<br>（注：仅仅设置这个是不够的，你会发现如果想要拖动scrollView而起点落在其他有手势识别的视图上时会拖不动）<br>方法- (BOOL)touchesShouldCancelInContentView:(UIView *)view，此方法的重载是帮助我们完美解决问题的重点，决定手势是否取消传递到view上，拖动ScrollView时触发。返回NO时，拖动手势将留在ScrollView上，返回YES则将手势传到view上。（若view是UIControl，则默认返回YES）</p>
+        
+          <a class="article-more-a" href="/2017/08/11/滑动视图子视图触摸时间延迟问题/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">手势延迟</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">iOS</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/08/11/滑动视图子视图触摸时间延迟问题/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-2017-像个书虫" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -666,11 +746,11 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">iOS</a>
+                <a href="javascript:void(0)" class="js-tag color1">iOS App Store审核</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">iOS App Store审核</a>
+                <a href="javascript:void(0)" class="js-tag color5">HTTPS/TLS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -686,15 +766,19 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">手势延迟</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">NSProxy</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">heox博客搭建</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">手势延迟</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">iOS</a>
               </li>
              
               <li class="article-tag-list-item">

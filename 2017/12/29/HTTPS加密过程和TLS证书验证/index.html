@@ -6,21 +6,24 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>献给许许多多的忌日 | 周老实</title>
+  <title>HTTPS加密过程和TLS证书验证 | 周老实</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="哪有人喜欢孤独，只是不想失望罢了。  昨天又看遍《挪威的森林》，印象深刻的还是这句话。  ————————  2017.12.21">
+  <meta name="description" content="前言大家都知道，苹果在2016年WWDC上宣布了关于应用需要强制使用HTTPS的规定。这也算是个好消息吧，虽然开发者们可能需要适配下HTTPS，但是我们的应用可算是披上一个安全的保护罩了。笔者不才，有些地方还是理解不到位，若有不正之处，还请耐心指出，轻喷~。 HTTPS加密过程最近总结了下HTTP和HTTPS: 首先二者都是网络传输协议;HTTPS在传输过程中是可以通过加密来保护数据安全的，以免用">
+<meta name="keywords" content="HTTPS&#x2F;TLS">
 <meta property="og:type" content="article">
-<meta property="og:title" content="献给许许多多的忌日">
-<meta property="og:url" content="http://yoursite.com/2017/12/21/献给许许多多的忌日/index.html">
+<meta property="og:title" content="HTTPS加密过程和TLS证书验证">
+<meta property="og:url" content="http://yoursite.com/2017/12/29/HTTPS加密过程和TLS证书验证/index.html">
 <meta property="og:site_name" content="周老实">
-<meta property="og:description" content="哪有人喜欢孤独，只是不想失望罢了。  昨天又看遍《挪威的森林》，印象深刻的还是这句话。  ————————  2017.12.21">
+<meta property="og:description" content="前言大家都知道，苹果在2016年WWDC上宣布了关于应用需要强制使用HTTPS的规定。这也算是个好消息吧，虽然开发者们可能需要适配下HTTPS，但是我们的应用可算是披上一个安全的保护罩了。笔者不才，有些地方还是理解不到位，若有不正之处，还请耐心指出，轻喷~。 HTTPS加密过程最近总结了下HTTP和HTTPS: 首先二者都是网络传输协议;HTTPS在传输过程中是可以通过加密来保护数据安全的，以免用">
 <meta property="og:locale" content="zh-cn">
-<meta property="og:image" content="http://yoursite.com/图片测试/挪威的森林.jpeg">
-<meta property="og:updated_time" content="2017-12-28T04:03:10.000Z">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2402164-be11eb2f83b02605.png">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2402164-db6c5a0d348fcc15.png">
+<meta property="og:image" content="http://ooqxuxrxe.bkt.clouddn.com/BACA45B95F7B1FEB75CE889445B8D3C6.jpg">
+<meta property="og:updated_time" content="2017-12-29T08:45:34.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="献给许许多多的忌日">
-<meta name="twitter:description" content="哪有人喜欢孤独，只是不想失望罢了。  昨天又看遍《挪威的森林》，印象深刻的还是这句话。  ————————  2017.12.21">
-<meta name="twitter:image" content="http://yoursite.com/图片测试/挪威的森林.jpeg">
+<meta name="twitter:title" content="HTTPS加密过程和TLS证书验证">
+<meta name="twitter:description" content="前言大家都知道，苹果在2016年WWDC上宣布了关于应用需要强制使用HTTPS的规定。这也算是个好消息吧，虽然开发者们可能需要适配下HTTPS，但是我们的应用可算是披上一个安全的保护罩了。笔者不才，有些地方还是理解不到位，若有不正之处，还请耐心指出，轻喷~。 HTTPS加密过程最近总结了下HTTP和HTTPS: 首先二者都是网络传输协议;HTTPS在传输过程中是可以通过加密来保护数据安全的，以免用">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/2402164-be11eb2f83b02605.png">
   
     <link rel="alternative" href="/atom.xml" title="周老实" type="application/atom+xml">
   
@@ -162,35 +165,88 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-献给许许多多的忌日" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-HTTPS加密过程和TLS证书验证" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      献给许许多多的忌日
+      HTTPS加密过程和TLS证书验证
     </h1>
   
 
         
-        <a href="/2017/12/21/献给许许多多的忌日/" class="archive-article-date">
-  	<time datetime="2017-12-21T02:31:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-21</time>
+        <a href="/2017/12/29/HTTPS加密过程和TLS证书验证/" class="archive-article-date">
+  	<time datetime="2017-12-29T05:57:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-29</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=156446&auto=0&height=66"></iframe>
-
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>大家都知道，苹果在<a href="https://developer.apple.com/wwdc/" target="_blank" rel="noopener">2016年WWDC</a>上宣布了关于应用需要强制使用<code>HTTPS</code>的规定。这也算是个好消息吧，虽然开发者们可能需要适配下<code>HTTPS</code>，但是我们的应用可算是披上一个安全的保护罩了。笔者不才，有些地方还是理解不到位，若有不正之处，还请耐心指出，轻喷~。</p>
+<h3 id="HTTPS加密过程"><a href="#HTTPS加密过程" class="headerlink" title="HTTPS加密过程"></a>HTTPS加密过程</h3><p>最近总结了下<code>HTTP</code>和<code>HTTPS</code>: 首先二者都是网络传输协议;<code>HTTPS</code>在传输过程中是可以通过加密来保护数据安全的，以免用户敏感信息被第三方获取。简单点讲， <code>HTTPS</code>是<code>HTTP</code>的升级版、安全版。下面我们就简单讲下HTTPS的加密过程，先看下图。<br><a id="more"></a></p>
+<ol>
+<li><p>客户端发起<code>HTTPS</code>请求<br> 这个没什么好说的，就是用户在浏览器里输入一个<code>HTTPS</code>网址，然后连接到服务端的443端口。</p>
+</li>
+<li><p>服务端的配置<br> 采用<code>HTTPS</code>协议的服务器必须要有一套数字证书，可以自己制作，也可以向组织申请。区别就是自己颁发的证书需要客户端验证通过，才可以继续访问，而使用受信任的公司申请的证书则不会弹出提示页面。这套证书其实就是一对公钥和私钥。如果对公钥不太理解，可以想象成一把钥匙和一个锁头，只是世界上只有你一个人有这把钥匙，你可以把锁头给别人，别人可以用这个锁把重要的东西锁起来，然后发给你，因为只有你一个人有这把钥匙，所以只有你才能看到被这把锁锁起来的东西。</p>
+</li>
+<li>传送证书<br> 这个证书其实就是公钥，只是包含了很多信息，如证书的颁发机构，过期时间等等。</li>
+<li>客户端解析证书<br> 这部分工作是由客户端的SSL/TLS来完成的，首先会验证公钥是否有效，比如颁发机构，过期时间等等，如果发现异常，则会弹出一个警示框，提示证书存在的问题。如果证书没有问题，那么就生成一个<strong><em>随机值</em></strong>。然后用证书（也就是公钥）对这个随机值进行加密。就好像上面说的，把随机值用锁头锁起来，这样除非有钥匙，不然看不到被锁住的内容。</li>
+<li>传送加密信息<br>这部分传送的是用证书加密后的随机值，目的是让服务端得到这个随机值，以后客户端和服务端的通信就可以通过这个随机值来进行加密解密了。</li>
+<li>服务端解密信息<br>服务端用私钥解密后，得到了客户端传过来的随机值，然后把内容通过该随机值进行对称加密，将信息和私钥通过某种算法混合在一起，这样除非知道私钥，不然无法获取内容，而正好客户端和服务端都知道这个私钥，所以只要加密算法够彪悍，私钥够复杂，数据就够安全。</li>
+<li>传输加密后的信息<br>这部分信息就是服务端用私钥加密后的信息，可以在客户端用随机值解密还原。</li>
+<li>客户端解密信息<br>客户端用之前生产的私钥解密服务端传过来的信息，于是获取了解密后的内容。整个过程第三方即使监听到了数据，也束手无策。</li>
+</ol>
+<p>到了这里，<code>HTTPS</code>的整个加密过程也就差不多完成了，但是这个过程中是不是还有些概念还是不太清楚，比如<code>SSL</code>是什么，<code>TLS</code>又是什么，他们是怎么验证我们的证书是否有效的呢，它们的验证策略又是怎样的呢。别急，下面我们就讨论下<code>TLS</code>。</p>
+<h3 id="TLS"><a href="#TLS" class="headerlink" title="TLS"></a>TLS</h3><p>刚开始听到<code>TLS</code>的时候，你可能还不太熟悉，但是说起<code>SSL</code>你可能就觉得好耳熟了。其实<code>TLS</code>就是从<code>SSL</code>发展而来的，只是<code>SSL</code>发展到3.0版本后改成了<code>TLS</code>。</p>
 <blockquote>
-<p><strong><em>哪有人喜欢孤独，只是不想失望罢了。</em></strong></p>
+<p><code>TLS</code>主要提供三个基本服务</p>
 </blockquote>
-<p>昨天又看遍《挪威的森林》，<br>印象深刻的还是这句话。</p>
-<p><img src="/图片测试/挪威的森林.jpeg" alt=""></p>
-<p>————————</p>
-<p> 2017.12.21</p>
+<ul>
+<li>加密</li>
+<li>身份验证，也可以叫证书验证吧~</li>
+<li>消息完整性校验</li>
+</ul>
+<p>第三个是网络协议中常用的一个校验和机制，我这我们就先按下不表。</p>
+<h4 id="加密"><a href="#加密" class="headerlink" title="加密"></a>加密</h4><p>我们再看一遍客户端和服务端之间的加密机制：</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/2402164-be11eb2f83b02605.png" alt="TLS握手"></p>
+<p><code>TLS</code>协议是基于<code>TCP</code>协议之上的，图中第一个蓝色往返是<code>TCP</code>的握手过程，之后两次橙色的往返，我们可以叫做<code>TLS</code>的握手。握手过程如下：</p>
+<ol>
+<li><code>client1</code>：<code>TLS</code>版本号+所支持加密套件列表+希望使用的<code>TLS</code>选项</li>
+<li><code>Server1</code>:选择一个客户端的加密套件+自己的公钥+自己的证书+希望使用的<code>TLS</code>选项+（要求客户端证书）；</li>
+<li><code>Client2</code>:(自己的证书)+使用服务器公钥和协商的加密套件加密一个对称秘钥（自己生成的一个随机值）；</li>
+<li><code>Server2</code>:使用私钥解密出对称秘钥（随机值）后，发送加密的Finish消息，表明完成握手</li>
+</ol>
+<p>这里可能要提一下什么是对称加密和非对称加密：<br>一般的对称加密像这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">encrypt(明文，秘钥) = 密文</span><br><span class="line">decrypt(密文，秘钥) = 明文</span><br></pre></td></tr></table></figure>
+<p>也就是说加密和解密用的是同一个秘钥。而非对称加密是这样的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">encrypt(明文，公钥) = 密文</span><br><span class="line">decrypt(密文，私钥) = 明文</span><br></pre></td></tr></table></figure>
+<p>加密和解密是需要不同的秘钥的。</p>
+<p>经过这几次握手成功后，客服端和服务端之间通信的加密算法和所需要的密钥也就确定下来了，之后双方的交互都可以使用对称加密算法加密了。</p>
+<h4 id="证书机制-证书验证"><a href="#证书机制-证书验证" class="headerlink" title="证书机制/证书验证"></a>证书机制/证书验证</h4><p>在<code>TLS</code>中，我们需要证书来保证你所访问的服务器是真实的，可信的。<br>看这张图我们来讨论下证书的验证过程。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/2402164-db6c5a0d348fcc15.png" alt="证书链"></p>
+<ol>
+<li>客户端获取到了站点证书，拿到了站点的公钥；</li>
+<li>要验证站点可信后，才能使用其公钥，因此客户端找到其站点证书颁发者的信息；</li>
+<li>站点证书的颁发者验证了服务端站点是可信的，但客户端依然不清楚该颁发者是否可信；</li>
+<li>再往上回溯，找到了认证了中间证书商的源头证书颁发者。由于源头的证书颁发者非常少，我们浏览器之前就认识了，因此可以认为根证书颁发者是可信的；</li>
+<li>一路倒推，证书颁发者可信，那么它所颁发的所有站点也是可信的，最终确定了我们所访问的服务端是可信的；</li>
+<li>客户端使用证书中的公钥，继续完成<code>TLS</code>的握手过程。</li>
+</ol>
+<p><strong><em>那么，客户端是是如何验证某个证书的有效性，或者验证策略是怎样的?</em></strong></p>
+<p>证书颁发者一般提供两种方式来验证证书的有效性：<strong><em>CRL</em></strong>和<strong><em>OCSP</em></strong>。</p>
+<blockquote>
+<p><strong><em>CRL</em></strong></p>
+</blockquote>
+<p><code>CRL（Certificate Revocation List）</code>即证书撤销名单。证书颁发者会提供一份已经失效证书的名单，供浏览器验证证书使用。当然这份名单是巨长无比的，浏览器不可能每次TLS都去下载，所以常用的做法是浏览器会缓存这份名单，定期做后台更新。这样虽然后台更新存在时间间隔，证书失效不实时，但一般也OK。</p>
+<blockquote>
+<p><strong><em>OCSP</em></strong></p>
+</blockquote>
+<p>OCSP(Online Certificate StatusProtocol)即在线证书状态协议。除了离线文件，证书颁发者也会提供实时的查询接口，查询某个特定证书目前是否有效。实时查询的问题在于浏览器需要等待这个查询结束才能继续TLS握手，延迟会更大。</p>
+<p>以上是站点在证书颁发者的角度说明会提供的两种判断方式，实际情况下浏览器究竟会选择哪种方式判断，每个浏览器都会有自己的实现。下面是通过Chrome查看GitHub网站的证书信息：</p>
+<p><img src="http://ooqxuxrxe.bkt.clouddn.com/BACA45B95F7B1FEB75CE889445B8D3C6.jpg" alt="证书例子"></p>
 
       
 
@@ -230,13 +286,24 @@
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">HTTPS/TLS</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       
 	<div class="article-category tagcloud">
 		<i class="icon-book icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="/categories/老实说//" class="article-tag-list-link color4">老实说</a>
+        			<a href="/categories/网络编程//" class="article-tag-list-link color5">网络编程</a>
         		</li>
       		
 		</ul>
@@ -291,7 +358,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2017/12/21/献给许许多多的忌日/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2017/12/29/HTTPS加密过程和TLS证书验证/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -305,18 +372,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2017/12/28/Objective-C中的复制忍者卡卡西-NSProxy/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          Objective-C中的复制忍者卡卡西---NSProxy
-        
-      </div>
-    </a>
   
-  
-    <a href="/2017/12/20/测试下把hexo搬到自己电脑上/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">测试下把hexo搬到自己电脑上</div>
+    <a href="/2017/12/28/Objective-C中的复制忍者卡卡西-NSProxy/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Objective-C中的复制忍者卡卡西---NSProxy</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -350,7 +408,7 @@
   
   <section id="comments">
 <!--高速版，加载速度快，使用前需测试页面的兼容性-->
-<div id="SOHUCS" sid="献给许许多多的忌日" style="padding: 0px 30px 0px 46px;"></div>
+<div id="SOHUCS" sid="HTTPS加密过程和TLS证书验证" style="padding: 0px 30px 0px 46px;"></div>
 <script>
   (function(){
     var appid = 'cysXi6RMd',

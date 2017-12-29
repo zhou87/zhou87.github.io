@@ -158,6 +158,94 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-HTTPS加密过程和TLS证书验证" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/12/29/HTTPS加密过程和TLS证书验证/">HTTPS加密过程和TLS证书验证</a>
+    </h1>
+  
+
+        
+        <a href="/2017/12/29/HTTPS加密过程和TLS证书验证/" class="archive-article-date">
+  	<time datetime="2017-12-29T05:57:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-29</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>大家都知道，苹果在<a href="https://developer.apple.com/wwdc/" target="_blank" rel="noopener">2016年WWDC</a>上宣布了关于应用需要强制使用<code>HTTPS</code>的规定。这也算是个好消息吧，虽然开发者们可能需要适配下<code>HTTPS</code>，但是我们的应用可算是披上一个安全的保护罩了。笔者不才，有些地方还是理解不到位，若有不正之处，还请耐心指出，轻喷~。</p>
+<h3 id="HTTPS加密过程"><a href="#HTTPS加密过程" class="headerlink" title="HTTPS加密过程"></a>HTTPS加密过程</h3><p>最近总结了下<code>HTTP</code>和<code>HTTPS</code>: 首先二者都是网络传输协议;<code>HTTPS</code>在传输过程中是可以通过加密来保护数据安全的，以免用户敏感信息被第三方获取。简单点讲， <code>HTTPS</code>是<code>HTTP</code>的升级版、安全版。下面我们就简单讲下HTTPS的加密过程，先看下图。<br>
+        
+          <a class="article-more-a" href="/2017/12/29/HTTPS加密过程和TLS证书验证/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">HTTPS/TLS</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/网络编程//" class="article-tag-list-link color5">网络编程</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/12/29/HTTPS加密过程和TLS证书验证/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-Objective-C中的复制忍者卡卡西-NSProxy" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -903,86 +991,6 @@
 
 
   
-    <article id="post-滑动视图子视图触摸时间延迟问题" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/11/滑动视图子视图触摸时间延迟问题/">滑动视图子视图触摸时间延迟问题</a>
-    </h1>
-  
-
-        
-        <a href="/2017/08/11/滑动视图子视图触摸时间延迟问题/" class="archive-article-date">
-  	<time datetime="2017-08-11T09:15:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-11</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="场景：一个按钮放在UIScrollView里-或者-UITableViewCell里时，点击按钮-发现按钮的高亮状态延时，如果迅速的触摸一下按钮-甚至不回看到按钮的高亮状态。"><a href="#场景：一个按钮放在UIScrollView里-或者-UITableViewCell里时，点击按钮-发现按钮的高亮状态延时，如果迅速的触摸一下按钮-甚至不回看到按钮的高亮状态。" class="headerlink" title="场景：一个按钮放在UIScrollView里 或者 UITableViewCell里时，点击按钮 发现按钮的高亮状态延时，如果迅速的触摸一下按钮 甚至不回看到按钮的高亮状态。"></a>场景：一个按钮放在UIScrollView里 或者 UITableViewCell里时，点击按钮 发现按钮的高亮状态延时，如果迅速的触摸一下按钮 甚至不回看到按钮的高亮状态。</h1><p>原因：<br>UIScrollView：<br>属性delaysContentTouches，布尔类型，默认值为YES。值为YES时，UIScrollView会在接收到手势时延迟150ms来判断该手势是否能够出发UIScrollView的滑动事件；值为NO时，UIScrollView会立马将接收到的手势分发到子视图上。<br>（注：仅仅设置这个是不够的，你会发现如果想要拖动scrollView而起点落在其他有手势识别的视图上时会拖不动）<br>方法- (BOOL)touchesShouldCancelInContentView:(UIView *)view，此方法的重载是帮助我们完美解决问题的重点，决定手势是否取消传递到view上，拖动ScrollView时触发。返回NO时，拖动手势将留在ScrollView上，返回YES则将手势传到view上。（若view是UIControl，则默认返回YES）</p>
-        
-          <a class="article-more-a" href="/2017/08/11/滑动视图子视图触摸时间延迟问题/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">iOS</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">手势延迟</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/08/11/滑动视图子视图触摸时间延迟问题/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -1105,11 +1113,11 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">iOS</a>
+                <a href="javascript:void(0)" class="js-tag color1">iOS App Store审核</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">iOS App Store审核</a>
+                <a href="javascript:void(0)" class="js-tag color5">HTTPS/TLS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1125,15 +1133,19 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">手势延迟</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">NSProxy</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">heox博客搭建</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">手势延迟</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">iOS</a>
               </li>
              
               <li class="article-tag-list-item">
