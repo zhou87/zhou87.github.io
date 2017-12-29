@@ -8,22 +8,23 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>HTTPS加密过程和TLS证书验证 | 周老实</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="前言大家都知道，苹果在2016年WWDC上宣布了关于应用需要强制使用HTTPS的规定。这也算是个好消息吧，虽然开发者们可能需要适配下HTTPS，但是我们的应用可算是披上一个安全的保护罩了。笔者不才，有些地方还是理解不到位，若有不正之处，还请耐心指出，轻喷~。 HTTPS加密过程最近总结了下HTTP和HTTPS: 首先二者都是网络传输协议;HTTPS在传输过程中是可以通过加密来保护数据安全的，以免用">
+  <meta name="description" content="前言大家都知道，苹果在2016年WWDC上宣布了关于应用需要强制使用HTTPS的规定。这也算是个好消息吧，虽然开发者们可能需要适配下HTTPS，但是我们的应用可算是披上一个安全的保护罩了。本篇文章就算是笔者在学习HTTPS过程中的一个记录吧。 HTTPS加密过程最近重新了解了下HTTP和HTTPS: 首先二者都是网络传输协议;HTTPS在传输过程中是可以通过加密来保护数据安全的，以免用户敏感信息被">
 <meta name="keywords" content="HTTPS&#x2F;TLS">
 <meta property="og:type" content="article">
 <meta property="og:title" content="HTTPS加密过程和TLS证书验证">
 <meta property="og:url" content="http://yoursite.com/2017/12/29/HTTPS加密过程和TLS证书验证/index.html">
 <meta property="og:site_name" content="周老实">
-<meta property="og:description" content="前言大家都知道，苹果在2016年WWDC上宣布了关于应用需要强制使用HTTPS的规定。这也算是个好消息吧，虽然开发者们可能需要适配下HTTPS，但是我们的应用可算是披上一个安全的保护罩了。笔者不才，有些地方还是理解不到位，若有不正之处，还请耐心指出，轻喷~。 HTTPS加密过程最近总结了下HTTP和HTTPS: 首先二者都是网络传输协议;HTTPS在传输过程中是可以通过加密来保护数据安全的，以免用">
+<meta property="og:description" content="前言大家都知道，苹果在2016年WWDC上宣布了关于应用需要强制使用HTTPS的规定。这也算是个好消息吧，虽然开发者们可能需要适配下HTTPS，但是我们的应用可算是披上一个安全的保护罩了。本篇文章就算是笔者在学习HTTPS过程中的一个记录吧。 HTTPS加密过程最近重新了解了下HTTP和HTTPS: 首先二者都是网络传输协议;HTTPS在传输过程中是可以通过加密来保护数据安全的，以免用户敏感信息被">
 <meta property="og:locale" content="zh-cn">
+<meta property="og:image" content="http://ooqxuxrxe.bkt.clouddn.com/HTTPS%E5%8A%A0%E5%AF%86%E8%BF%87%E7%A8%8B.001.jpeg">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2402164-be11eb2f83b02605.png">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2402164-db6c5a0d348fcc15.png">
 <meta property="og:image" content="http://ooqxuxrxe.bkt.clouddn.com/BACA45B95F7B1FEB75CE889445B8D3C6.jpg">
-<meta property="og:updated_time" content="2017-12-29T08:45:34.000Z">
+<meta property="og:updated_time" content="2017-12-29T09:48:17.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HTTPS加密过程和TLS证书验证">
-<meta name="twitter:description" content="前言大家都知道，苹果在2016年WWDC上宣布了关于应用需要强制使用HTTPS的规定。这也算是个好消息吧，虽然开发者们可能需要适配下HTTPS，但是我们的应用可算是披上一个安全的保护罩了。笔者不才，有些地方还是理解不到位，若有不正之处，还请耐心指出，轻喷~。 HTTPS加密过程最近总结了下HTTP和HTTPS: 首先二者都是网络传输协议;HTTPS在传输过程中是可以通过加密来保护数据安全的，以免用">
-<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/2402164-be11eb2f83b02605.png">
+<meta name="twitter:description" content="前言大家都知道，苹果在2016年WWDC上宣布了关于应用需要强制使用HTTPS的规定。这也算是个好消息吧，虽然开发者们可能需要适配下HTTPS，但是我们的应用可算是披上一个安全的保护罩了。本篇文章就算是笔者在学习HTTPS过程中的一个记录吧。 HTTPS加密过程最近重新了解了下HTTP和HTTPS: 首先二者都是网络传输协议;HTTPS在传输过程中是可以通过加密来保护数据安全的，以免用户敏感信息被">
+<meta name="twitter:image" content="http://ooqxuxrxe.bkt.clouddn.com/HTTPS%E5%8A%A0%E5%AF%86%E8%BF%87%E7%A8%8B.001.jpeg">
   
     <link rel="alternative" href="/atom.xml" title="周老实" type="application/atom+xml">
   
@@ -185,12 +186,13 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>大家都知道，苹果在<a href="https://developer.apple.com/wwdc/" target="_blank" rel="noopener">2016年WWDC</a>上宣布了关于应用需要强制使用<code>HTTPS</code>的规定。这也算是个好消息吧，虽然开发者们可能需要适配下<code>HTTPS</code>，但是我们的应用可算是披上一个安全的保护罩了。笔者不才，有些地方还是理解不到位，若有不正之处，还请耐心指出，轻喷~。</p>
-<h3 id="HTTPS加密过程"><a href="#HTTPS加密过程" class="headerlink" title="HTTPS加密过程"></a>HTTPS加密过程</h3><p>最近总结了下<code>HTTP</code>和<code>HTTPS</code>: 首先二者都是网络传输协议;<code>HTTPS</code>在传输过程中是可以通过加密来保护数据安全的，以免用户敏感信息被第三方获取。简单点讲， <code>HTTPS</code>是<code>HTTP</code>的升级版、安全版。下面我们就简单讲下HTTPS的加密过程，先看下图。<br><a id="more"></a></p>
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>大家都知道，苹果在<a href="https://developer.apple.com/wwdc/" target="_blank" rel="noopener">2016年WWDC</a>上宣布了关于应用需要强制使用<code>HTTPS</code>的规定。这也算是个好消息吧，虽然开发者们可能需要适配下<code>HTTPS</code>，但是我们的应用可算是披上一个安全的保护罩了。本篇文章就算是笔者在学习<code>HTTPS</code>过程中的一个记录吧。</p>
+<h3 id="HTTPS加密过程"><a href="#HTTPS加密过程" class="headerlink" title="HTTPS加密过程"></a>HTTPS加密过程</h3><p>最近重新了解了下<code>HTTP</code>和<code>HTTPS</code>: 首先二者都是网络传输协议;<code>HTTPS</code>在传输过程中是可以通过加密来保护数据安全的，以免用户敏感信息被第三方获取。 <code>HTTPS</code>是<code>HTTP</code>的升级版、安全版。下面我们就简单看下HTTPS的加密过程，先看下图。<br><a id="more"></a></p>
+<p><img src="http://ooqxuxrxe.bkt.clouddn.com/HTTPS%E5%8A%A0%E5%AF%86%E8%BF%87%E7%A8%8B.001.jpeg" alt=""></p>
 <ol>
-<li><p>客户端发起<code>HTTPS</code>请求<br> 这个没什么好说的，就是用户在浏览器里输入一个<code>HTTPS</code>网址，然后连接到服务端的443端口。</p>
+<li><p>客户端发起<code>HTTPS</code>请求<br>这个没什么好说的，就是用户在浏览器里输入一个<code>HTTPS</code>网址，然后连接到服务端的443端口。</p>
 </li>
-<li><p>服务端的配置<br> 采用<code>HTTPS</code>协议的服务器必须要有一套数字证书，可以自己制作，也可以向组织申请。区别就是自己颁发的证书需要客户端验证通过，才可以继续访问，而使用受信任的公司申请的证书则不会弹出提示页面。这套证书其实就是一对公钥和私钥。如果对公钥不太理解，可以想象成一把钥匙和一个锁头，只是世界上只有你一个人有这把钥匙，你可以把锁头给别人，别人可以用这个锁把重要的东西锁起来，然后发给你，因为只有你一个人有这把钥匙，所以只有你才能看到被这把锁锁起来的东西。</p>
+<li><p>服务端的配置<br>采用<code>HTTPS</code>协议的服务器必须要有一套数字证书，可以自己制作，也可以向组织申请。区别就是自己颁发的证书需要客户端验证通过，才可以继续访问，而使用受信任的公司申请的证书则不会弹出提示页面。这套证书其实就是一对公钥和私钥。如果对公钥不太理解，可以想象成一把钥匙和一个锁头，只是世界上只有你一个人有这把钥匙，你可以把锁头给别人，别人可以用这个锁把重要的东西锁起来，然后发给你，因为只有你一个人有这把钥匙，所以只有你才能看到被这把锁锁起来的东西。</p>
 </li>
 <li>传送证书<br> 这个证书其实就是公钥，只是包含了很多信息，如证书的颁发机构，过期时间等等。</li>
 <li>客户端解析证书<br> 这部分工作是由客户端的SSL/TLS来完成的，首先会验证公钥是否有效，比如颁发机构，过期时间等等，如果发现异常，则会弹出一个警示框，提示证书存在的问题。如果证书没有问题，那么就生成一个<strong><em>随机值</em></strong>。然后用证书（也就是公钥）对这个随机值进行加密。就好像上面说的，把随机值用锁头锁起来，这样除非有钥匙，不然看不到被锁住的内容。</li>
@@ -247,6 +249,14 @@
 <p>OCSP(Online Certificate StatusProtocol)即在线证书状态协议。除了离线文件，证书颁发者也会提供实时的查询接口，查询某个特定证书目前是否有效。实时查询的问题在于浏览器需要等待这个查询结束才能继续TLS握手，延迟会更大。</p>
 <p>以上是站点在证书颁发者的角度说明会提供的两种判断方式，实际情况下浏览器究竟会选择哪种方式判断，每个浏览器都会有自己的实现。下面是通过Chrome查看GitHub网站的证书信息：</p>
 <p><img src="http://ooqxuxrxe.bkt.clouddn.com/BACA45B95F7B1FEB75CE889445B8D3C6.jpg" alt="证书例子"></p>
+<p>到这里差不多了，有什么不对的地方，欢迎大家留言指出，一起学习进步！</p>
+<p>笔者不才，有些地方还是理解不到位，若有不正之处，还请耐心指出，轻喷~。</p>
+<blockquote>
+<p>参看文章</p>
+</blockquote>
+<ul>
+<li><a href="https://www.jianshu.com/p/24af67c40e8d" target="_blank" rel="noopener">TLS如何保证安全</a></li>
+</ul>
 
       
 
