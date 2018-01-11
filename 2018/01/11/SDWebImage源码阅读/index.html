@@ -17,7 +17,7 @@
 <meta property="og:description" content="前言SDWebImage 想必对于每一个iOS开发者来说，都不会陌生。每当我们的项目中需要给UIImageView设置网络图片的时候，我们基本上第一个想到就是这个强大的第三方库。我们可以手动导入静态库，也可以直接用CocoaPod管理，只要简单地输入pod &amp;#39;SDWebImage&amp;#39;即可导入，大家可以随意选择。虽然在项目中经常用到这个库，但是有时候我们可能只是知道用，却并没有去了解下">
 <meta property="og:locale" content="zh-cn">
 <meta property="og:image" content="http://ooqxuxrxe.bkt.clouddn.com/84CD78FF-BB3F-48CC-91A3-D279D0EC39A4.png">
-<meta property="og:updated_time" content="2018-01-11T06:59:22.000Z">
+<meta property="og:updated_time" content="2018-01-11T07:01:53.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SDWebImage源码阅读">
 <meta name="twitter:description" content="前言SDWebImage 想必对于每一个iOS开发者来说，都不会陌生。每当我们的项目中需要给UIImageView设置网络图片的时候，我们基本上第一个想到就是这个强大的第三方库。我们可以手动导入静态库，也可以直接用CocoaPod管理，只要简单地输入pod &amp;#39;SDWebImage&amp;#39;即可导入，大家可以随意选择。虽然在项目中经常用到这个库，但是有时候我们可能只是知道用，却并没有去了解下">
@@ -183,7 +183,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p><strong><em>SDWebImage</em></strong> 想必对于每一个iOS开发者来说，都不会陌生。每当我们的项目中需要给UIImageView设置网络图片的时候，我们基本上第一个想到就是这个强大的第三方库。我们可以手动导入静态库，也可以直接用CocoaPod管理，只要简单地输入<code>pod &#39;SDWebImage&#39;</code>即可导入，大家可以随意选择。<br>虽然在项目中经常用到这个库，但是有时候我们可能只是知道用，却并没有去了解下这个强大库实现原理，或者是写这个库的大佬代码思路、风格和各种技巧。这篇文章就是从<code>SDWebImage</code>一行行源码来分析大佬的神级操作。</p>
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p><strong><em>SDWebImage</em></strong> 想必对于每一个iOS开发者来说，都不会陌生。每当我们的项目中需要给UIImageView设置网络图片的时候，我们基本上第一个想到就是这个强大的第三方库。我们可以手动导入静态库，也可以直接用CocoaPod管理，只要简单地输入<code>pod &#39;SDWebImage&#39;</code>即可导入，大家可以随意选择。<br>虽然在项目中经常用到这个库，但是有时候我们可能只是知道用，却并没有去了解下这个强大库实现原理，或者是写这个库的大佬代码思路、风格和各种技巧。这篇文章就是从<code>SDWebImage</code>一行行源码来分析大佬的神级操作。<br><a id="more"></a></p>
 <h3 id="从sd-setImageWithURL开始"><a href="#从sd-setImageWithURL开始" class="headerlink" title="从sd_setImageWithURL开始"></a>从<code>sd_setImageWithURL</code>开始</h3><p>在我们将<code>SDWebImage</code>导入到项目中的时候，点开<code>core</code>文件夹可能会看到一大串文件，刚开始肯定觉得很头疼，这么多文件，这么多文件，我要看到什么时候去，畏难心涌上来了，很多同学就在这里倒下，把<code>Xcode</code>一关，然后干别的事去了…。其实这样很正常，不过我们可以整理下，其实<code>SDWebImage</code>真正核心的也就几个文件，我们可以把他们单独拿出来，比如这样<br><img src="http://ooqxuxrxe.bkt.clouddn.com/84CD78FF-BB3F-48CC-91A3-D279D0EC39A4.png" alt=""></p>
 <p>这样可能会看得舒服点。把文件整理好了，那我们就开始看下每个文件有什么用，干什么的了。我们先从最常用的方法开始：<code>sd_setImageWithURL</code></p>
 <p>我们随便布局一张图片，然后设置图片：</p>
