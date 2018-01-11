@@ -6,21 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>SDWebImage源码阅读 | 周老实</title>
+  <title>SDWebImage源码阅读(上) | 周老实</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="前言SDWebImage 想必对于每一个iOS开发者来说，都不会陌生。每当我们的项目中需要给UIImageView设置网络图片的时候，我们基本上第一个想到就是这个强大的第三方库。我们可以手动导入静态库，也可以直接用CocoaPod管理，只要简单地输入pod &amp;#39;SDWebImage&amp;#39;即可导入，大家可以随意选择。虽然在项目中经常用到这个库，但是有时候我们可能只是知道用，却并没有去了解下">
 <meta name="keywords" content="源码,SDWebImage">
 <meta property="og:type" content="article">
-<meta property="og:title" content="SDWebImage源码阅读">
+<meta property="og:title" content="SDWebImage源码阅读(上)">
 <meta property="og:url" content="http://yoursite.com/2018/01/11/SDWebImage源码阅读/index.html">
 <meta property="og:site_name" content="周老实">
 <meta property="og:description" content="前言SDWebImage 想必对于每一个iOS开发者来说，都不会陌生。每当我们的项目中需要给UIImageView设置网络图片的时候，我们基本上第一个想到就是这个强大的第三方库。我们可以手动导入静态库，也可以直接用CocoaPod管理，只要简单地输入pod &amp;#39;SDWebImage&amp;#39;即可导入，大家可以随意选择。虽然在项目中经常用到这个库，但是有时候我们可能只是知道用，却并没有去了解下">
 <meta property="og:locale" content="zh-cn">
 <meta property="og:image" content="https://raw.githubusercontent.com/rs/SDWebImage/master/SDWebImage_logo.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/rs/SDWebImage/master/Docs/SDWebImageSequenceDiagram.png">
 <meta property="og:image" content="http://ooqxuxrxe.bkt.clouddn.com/84CD78FF-BB3F-48CC-91A3-D279D0EC39A4.png">
-<meta property="og:updated_time" content="2018-01-11T07:56:54.000Z">
+<meta property="og:updated_time" content="2018-01-11T09:07:07.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="SDWebImage源码阅读">
+<meta name="twitter:title" content="SDWebImage源码阅读(上)">
 <meta name="twitter:description" content="前言SDWebImage 想必对于每一个iOS开发者来说，都不会陌生。每当我们的项目中需要给UIImageView设置网络图片的时候，我们基本上第一个想到就是这个强大的第三方库。我们可以手动导入静态库，也可以直接用CocoaPod管理，只要简单地输入pod &amp;#39;SDWebImage&amp;#39;即可导入，大家可以随意选择。虽然在项目中经常用到这个库，但是有时候我们可能只是知道用，却并没有去了解下">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/rs/SDWebImage/master/SDWebImage_logo.png">
   
@@ -171,7 +172,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      SDWebImage源码阅读
+      SDWebImage源码阅读(上)
     </h1>
   
 
@@ -185,6 +186,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p><img src="https://raw.githubusercontent.com/rs/SDWebImage/master/SDWebImage_logo.png" alt="SDWebImage"><br><strong><em>SDWebImage</em></strong> 想必对于每一个iOS开发者来说，都不会陌生。每当我们的项目中需要给UIImageView设置网络图片的时候，我们基本上第一个想到就是这个强大的第三方库。我们可以手动导入静态库，也可以直接用CocoaPod管理，只要简单地输入<code>pod &#39;SDWebImage&#39;</code>即可导入，大家可以随意选择。<br>虽然在项目中经常用到这个库，但是有时候我们可能只是知道用，却并没有去了解下这个强大库实现原理，或者是写这个库的大佬代码思路、风格和各种技巧。这篇文章就是从<code>SDWebImage</code>一行行源码来分析大佬的神级操作。</p>
+<h3 id="SDWebImage流程示意图"><a href="#SDWebImage流程示意图" class="headerlink" title="SDWebImage流程示意图"></a>SDWebImage流程示意图</h3><p><img src="https://raw.githubusercontent.com/rs/SDWebImage/master/Docs/SDWebImageSequenceDiagram.png" alt="SDWebImage流程示意图"></p>
 <h3 id="从sd-setImageWithURL开始"><a href="#从sd-setImageWithURL开始" class="headerlink" title="从sd_setImageWithURL开始"></a>从sd_setImageWithURL开始</h3><a id="more"></a>
 <p>在我们将<code>SDWebImage</code>导入到项目中的时候，点开<code>core</code>文件夹可能会看到一大串文件，刚开始肯定觉得很头疼，这么多文件，这么多文件，我要看到什么时候去，畏难心涌上来了，很多同学就在这里倒下，把<code>Xcode</code>一关，然后干别的事去了…。其实这样很正常，不过我们可以整理下，其实<code>SDWebImage</code>真正核心的也就几个文件，我们可以把他们单独拿出来，比如这样<br><img src="http://ooqxuxrxe.bkt.clouddn.com/84CD78FF-BB3F-48CC-91A3-D279D0EC39A4.png" alt=""></p>
 <p>这样可能会看得舒服点。把文件整理好了，那我们就开始看下每个文件有什么用，干什么的了。我们先从最常用的方法开始：<code>sd_setImageWithURL</code></p>
@@ -236,12 +238,22 @@
 <blockquote>
 <ol>
 <li>通过url对应的key去缓存里找有没有对应的图片；</li>
-<li><code>self.imageDownloadem</code>调用下载方法去下载图片。<br>然后要补充的几点是：</li>
+<li><code>self.imageDownloadem</code>调用下载方法去下载图片。</li>
 </ol>
-<ul>
-<li></li>
-</ul>
 </blockquote>
+<p>然后要补充的几点是：</p>
+<ul>
+<li><strong><em>SDWebImageCombinedOperation</em></strong> </li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">@interface SDWebImageCombinedOperation : NSObject &lt;SDWebImageOperation&gt;</span><br><span class="line"></span><br><span class="line">@property (assign, nonatomic, getter = isCancelled) BOOL cancelled;</span><br><span class="line">@property (copy, nonatomic, nullable) SDWebImageNoParamsBlock cancelBlock;</span><br><span class="line">@property (strong, nonatomic, nullable) NSOperation *cacheOperation;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation SDWebImageCombinedOperation</span><br><span class="line"></span><br><span class="line">- (void)setCancelBlock:(nullable SDWebImageNoParamsBlock)cancelBlock &#123;</span><br><span class="line">    // check if the operation is already cancelled, then we just call the cancelBlock</span><br><span class="line">    if (self.isCancelled) &#123;</span><br><span class="line">        if (cancelBlock) &#123;</span><br><span class="line">            cancelBlock();</span><br><span class="line">        &#125;</span><br><span class="line">        _cancelBlock = nil; // don&apos;t forget to nil the cancelBlock, otherwise we will get crashes</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        _cancelBlock = [cancelBlock copy];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)cancel &#123;</span><br><span class="line">    @synchronized(self) &#123;</span><br><span class="line">        self.cancelled = YES;</span><br><span class="line">        if (self.cacheOperation) &#123;</span><br><span class="line">            [self.cacheOperation cancel];</span><br><span class="line">            self.cacheOperation = nil;</span><br><span class="line">        &#125;</span><br><span class="line">        if (self.cancelBlock) &#123;</span><br><span class="line">            self.cancelBlock();</span><br><span class="line">            self.cancelBlock = nil;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<p>它有三个属性，一个是否取消的<code>Bool</code>属值，一个取消<code>`Bool</code>和一个缓存<code>operation</code>，很明显，我们可以通过它来取消下载<code>operation</code>。</p>
+<p>在上面的下载方法中，有一个<code>__block</code>修饰的<code>operation</code>和一个<code>__weak</code>修饰的w<code>eakOperation</code>，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">__block SDWebImageCombinedOperation *operation = [SDWebImageCombinedOperation new];</span><br><span class="line">__weak SDWebImageCombinedOperation *weakOperation = operation;</span><br></pre></td></tr></table></figure>
+<p>我们说下<strong><em>__block</em></strong> 和 <strong><em>__weak</em></strong>的区别:<br><code>__block</code>用于指明当前声明的变量被<code>block</code>捕获后，可以在<code>block</code>中改变变量的值。因为在<code>block</code>声明的同时会捕获该<code>block</code>所使用的全部自动变量的值，这些值在<code>block</code>中只有“使用权”而没有“修改权”。而用<code>__block</code>修饰的变量，则可以在<code>block</code>改变变量的值了。同时，<code>__block</code>并不是弱引用，如果有循环引用的话，我们需要在<code>block</code>内部手动释放，将其设置为<code>nil</code>。<br><code>__weak</code>是所有权修饰符，<code>__weak</code>本身是可以避免循环引用的，我们在<code>block</code>内部使用的时候，需要用<code>__strong</code>来强引用，防止变量提前释放掉了。</p>
+<h5 id="4-在缓存中查找图片-queryCacheOperationForKey"><a href="#4-在缓存中查找图片-queryCacheOperationForKey" class="headerlink" title="4.在缓存中查找图片:queryCacheOperationForKey"></a>4.在缓存中查找图片:queryCacheOperationForKey</h5><p>这个方法是<code>SDImageCache</code>里面定义的一个方法，我们开方法的实现:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line">- (nullable NSOperation *)queryCacheOperationForKey:(nullable NSString *)key done:(nullable SDCacheQueryCompletedBlock)doneBlock &#123;</span><br><span class="line">    //如果key为空，回调完成block,return</span><br><span class="line">    if (!key) &#123;</span><br><span class="line">        if (doneBlock) &#123;</span><br><span class="line">            doneBlock(nil, nil, SDImageCacheTypeNone);</span><br><span class="line">        &#125;</span><br><span class="line">        return nil;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // First check the in-memory cache...</span><br><span class="line">    //首先通过key在内存的缓存中查找有没有图片...</span><br><span class="line">    UIImage *image = [self imageFromMemoryCacheForKey:key];</span><br><span class="line">    //如果有内存缓存中有图片</span><br><span class="line">    if (image) &#123;</span><br><span class="line">        NSData *diskData = nil;</span><br><span class="line">        //如果gif图片(非动图)</span><br><span class="line">        if (image.images) &#123;</span><br><span class="line">            //通过key找到磁盘中图片的data</span><br><span class="line">            diskData = [self diskImageDataBySearchingAllPathsForKey:key];</span><br><span class="line">        &#125;</span><br><span class="line">        //执行完成block</span><br><span class="line">        if (doneBlock) &#123;</span><br><span class="line">            doneBlock(image, diskData, SDImageCacheTypeMemory);</span><br><span class="line">        &#125;</span><br><span class="line">        return nil;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //如果内存中没有，则在磁盘中查找，如果找到，则将其放在内存缓存中，并调用doneBlock</span><br><span class="line">    NSOperation *operation = [NSOperation new];</span><br><span class="line">    //在ioQueue中串行处理所有磁盘缓存</span><br><span class="line">    dispatch_async(self.ioQueue, ^&#123;</span><br><span class="line">        if (operation.isCancelled) &#123;</span><br><span class="line">            // do not call the completion if cancelled</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line">        //创建自动释放池，内存及时释放</span><br><span class="line">        @autoreleasepool &#123;</span><br><span class="line">            //根据key去磁盘中找到图片的data数据</span><br><span class="line">            NSData *diskData = [self diskImageDataBySearchingAllPathsForKey:key];</span><br><span class="line">            //根据图片的url的对应的key去磁盘缓存中查找图片</span><br><span class="line">            UIImage *diskImage = [self diskImageForKey:key];</span><br><span class="line">            //如果磁盘中有图片，并且设置了内存缓存机制，再将图片缓存在内存中</span><br><span class="line">            if (diskImage &amp;&amp; self.config.shouldCacheImagesInMemory) &#123;</span><br><span class="line">                NSUInteger cost = SDCacheCostForImage(diskImage);</span><br><span class="line">                //用NSCache将图片存储到内存中</span><br><span class="line">                [self.memCache setObject:diskImage forKey:key cost:cost];</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            if (doneBlock) &#123;</span><br><span class="line">                //主线程执行完成block</span><br><span class="line">                dispatch_async(dispatch_get_main_queue(), ^&#123;</span><br><span class="line">                    doneBlock(diskImage, diskData, SDImageCacheTypeDisk);</span><br><span class="line">                &#125;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    return operation;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>方法中用到了一个串行队列<code>self.ioQueue</code>，它的声明和初始化是这样的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@property (SDDispatchQueueSetterSementics, nonatomic, nullable) dispatch_queue_t ioQueue;</span><br><span class="line">// Create IO serial queue</span><br><span class="line">ioQueue = dispatch_queue_create(&quot;com.hackemist.SDWebImageCache&quot;, DISPATCH_QUEUE_SERIAL);</span><br></pre></td></tr></table></figure>
 
       
 
@@ -407,7 +419,7 @@
   
   <section id="comments">
 <!--高速版，加载速度快，使用前需测试页面的兼容性-->
-<div id="SOHUCS" sid="SDWebImage源码阅读" style="padding: 0px 30px 0px 46px;"></div>
+<div id="SOHUCS" sid="SDWebImage源码阅读(上)" style="padding: 0px 30px 0px 46px;"></div>
 <script>
   (function(){
     var appid = 'cysXi6RMd',
