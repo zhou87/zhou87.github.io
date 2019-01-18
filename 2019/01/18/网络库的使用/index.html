@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="周老实">
 <meta property="og:description" content="为日益衰退的记忆力做点微不足道的补救措施一套大佬们封装好的网络库用了快一年了，虽然业务来的时候匆匆忙忙依葫芦画瓢还以应付过关，但是真的遇到点复杂的逻辑就有点棘手了。所以秉着知其然，也要知其所以然的态度，准备对做业务的时候用到过的网络请求有关的方式方法做一个简单的总结，以便老年人不知道什么时候记忆失常的时候可以翻看下，重新拾起当时的点滴。 业务中是怎么使用网络请求的业务中的网络请求并不是直接用的第三">
 <meta property="og:locale" content="zh-cn">
-<meta property="og:updated_time" content="2019-01-18T09:50:58.534Z">
+<meta property="og:updated_time" content="2019-01-18T09:53:39.695Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="网络库的使用">
 <meta name="twitter:description" content="为日益衰退的记忆力做点微不足道的补救措施一套大佬们封装好的网络库用了快一年了，虽然业务来的时候匆匆忙忙依葫芦画瓢还以应付过关，但是真的遇到点复杂的逻辑就有点棘手了。所以秉着知其然，也要知其所以然的态度，准备对做业务的时候用到过的网络请求有关的方式方法做一个简单的总结，以便老年人不知道什么时候记忆失常的时候可以翻看下，重新拾起当时的点滴。 业务中是怎么使用网络请求的业务中的网络请求并不是直接用的第三">
@@ -184,7 +184,7 @@
         <h3 id="为日益衰退的记忆力做点微不足道的补救措施"><a href="#为日益衰退的记忆力做点微不足道的补救措施" class="headerlink" title="为日益衰退的记忆力做点微不足道的补救措施"></a>为日益衰退的记忆力做点微不足道的补救措施</h3><p>一套大佬们封装好的网络库用了快一年了，虽然业务来的时候匆匆忙忙依葫芦画瓢还以应付过关，但是真的遇到点复杂的逻辑就有点棘手了。<br>所以秉着知其然，也要知其所以然的态度，准备对做业务的时候用到过的网络请求有关的方式方法做一个简单的总结，以便老年人不知道什么时候记忆失常的时候可以翻看下，重新拾起当时的点滴。</p>
 <h3 id="业务中是怎么使用网络请求的"><a href="#业务中是怎么使用网络请求的" class="headerlink" title="业务中是怎么使用网络请求的"></a>业务中是怎么使用网络请求的</h3><p>业务中的网络请求并不是直接用的第三方类似<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">总得来看，业务中网络请求的调用方式细分的话应该有两种:</span><br><span class="line"></span><br><span class="line">* **在对应的API类里面写好调用接口的URL，在这个类里面写一个发送接口的方法，类似 ``` fetch()```，在```fetch()```里面做网络请求，并返回一个```JSON```类型的```Observable```**</span><br><span class="line"></span><br><span class="line">调用方式形如： ``` API(params).fetch()</span><br></pre></td></tr></table></figure></p>
 <p>api类实现：</p>
-<p>&lt;! – more –&gt;</p>
+<a id="more"></a>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">import UIKit</span><br><span class="line">import RxSwift</span><br><span class="line">import SCCModelKeeper</span><br><span class="line">import SCCSwiftyNetwork</span><br><span class="line"></span><br><span class="line">final class BindingAlipayApi: SCCStandardApi &#123;</span><br><span class="line"></span><br><span class="line">    var mobile = &quot;&quot;</span><br><span class="line">    var alipayUserId = &quot;&quot;</span><br><span class="line"></span><br><span class="line">    override func apiURL() -&gt; String! &#123;</span><br><span class="line">        return NSString.dst_leaseconsumerPath(&quot;XXXXXXXXXXXXXX&quot;)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    override func apiType() -&gt; HTTPMethod &#123;</span><br><span class="line">        return .post</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    func fetch() -&gt; Observable&lt;JSON&gt; &#123;</span><br><span class="line">        return apiURL()</span><br><span class="line">            .validatableParamters([&quot;mobile&quot;: (mobile, &#123;self.mobile.keep(&quot;mobile&quot;).notEmpty.errors&#125;),</span><br><span class="line">                                   &quot;alipayUserId&quot;: (alipayUserId, &#123;self.alipayUserId.keep(&quot;authCode&quot;).notEmpty.errors&#125;)])</span><br><span class="line">            .post()</span><br><span class="line">            .validData</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <ul>
 <li><strong>另一种方式其实对上一种方式的RX封装</strong></li>
@@ -228,7 +228,7 @@
 </blockquote>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public func modelsWithParams&lt;T: Mappable&gt;(_ params: Parameters = [:], modelType: T.Type, key: String? = nil) -&gt; Observable&lt;[T]?&gt; &#123;</span><br><span class="line">        return base</span><br><span class="line">            .rx</span><br><span class="line">            .jsonWithParams(params)</span><br><span class="line">            .map(valueForKey(key))</span><br><span class="line">            .map(=&gt;)</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 <p>后面这两种情况用的比较少，平时用的话基本上前面几种就够用了。<br>大体看上去其实第二种方式和第一种方式也没什么大的区别，好像也就是用第一种方式没有返回一个<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">形如：</span><br></pre></td></tr></table></figure></p>
-<p>func fetch() -&gt; Observable<userinfomodel?> {<br>    return apiURL()<br>        .parameters([“mobile”: mobile, “captcha”: captcha, “authCode”: authCode,”agent”: agent,”deviceId”: deviceId, “udid”: udid, “latitude”: latitude, “longitude”: longitude, “cityName”: cityName, “isForcedLogin”: isForcedLogin])<br>        .post()<br>        .validDataUrl<br>        .transform(to: UserInfoModel.self)<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">在```UserInfoModel```里面遵守协议```SCCTransformable```，协议方法:</span><br></pre></td></tr></table></figure></userinfomodel?></p>
+<p>func fetch() -&gt; Observable<userinfomodel?> {<br>    return apiURL()<br>        .parameters([“mobile”: mobile, “captcha”: captcha, “authCode”: authCode,”agent”: agent,”deviceId”: deviceId, “udid”: udid, “latitude”: latitude, “longitude”: longitude, “cityName”: cityName, “isForcedLogin”: isForcedLogin])<br>        .post()<br>        .validDataUrl<br>        .transform(to: UserInfoModel.self)<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">在```UserInfoModel```里面遵守协议```SCCTransformable```，协议方法:</span><br></pre></td></tr></table></figure></userinfomodel?></p>
 <p>public static func transform(json: [String : Any]?) -&gt; UserInfoModel? {<br>    guard let json = json else { return nil }<br>    return Mapper<userinfomodel>().map(JSON: json)<br>}</userinfomodel></p>
 <p>public static func transformArray(json: [[String : Any]]?) -&gt; [UserInfoModel] {<br>    guard let json = json else { return [] }<br>    return Mapper<userinfomodel>().mapArray(JSONArray: json)<br>}<br>```</userinfomodel></p>
 <p>流水账暂时先记到这里，下次尝试把网络库解析一遍。</p>
@@ -529,19 +529,11 @@ MathJax.Hub.Queue(function() {
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">iOS App Store审核</a>
+                <a href="javascript:void(0)" class="js-tag color3">阅读</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">回忆</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">HTTPS/TLS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">hexo博客搭建</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -553,19 +545,19 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">hexo博客搭建</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">HTTPS/TLS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">NSProxy</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">阅读</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">源码</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">SDWebImage</a>
+                <a href="javascript:void(0)" class="js-tag color4">-回忆</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -593,7 +585,15 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">-回忆</a>
+                <a href="javascript:void(0)" class="js-tag color1">iOS App Store审核</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">源码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">SDWebImage</a>
               </li>
             
             <div class="clearfix"></div>
