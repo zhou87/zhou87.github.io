@@ -9,14 +9,14 @@
   <title>SCCSwiftNetWork源码解析 | 周老实</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="前言上次罗列了一下在App里面用到的一些网络请求方式，概括的说应该是两总类型：一类是直接url各种语法糖链接起来拿到请求数据，另一类就是针对RX做了一层封装，用RX的方式调用。那么这里我们就来总结一下那些类似”post”、”vaildData”之类的关键字里面做了什么，其他的方法又是怎么封装的。 从一个网络请求说起先来看一个简单的网络请求吧： 123456789101112131415161718">
-<meta name="keywords" content="源码阅读,归纳总结">
+<meta name="keywords" content="归纳总结,源码阅读">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SCCSwiftNetWork源码解析">
 <meta property="og:url" content="http://yoursite.com/2019/01/22/SCCSwiftNetWork源码解析/index.html">
 <meta property="og:site_name" content="周老实">
 <meta property="og:description" content="前言上次罗列了一下在App里面用到的一些网络请求方式，概括的说应该是两总类型：一类是直接url各种语法糖链接起来拿到请求数据，另一类就是针对RX做了一层封装，用RX的方式调用。那么这里我们就来总结一下那些类似”post”、”vaildData”之类的关键字里面做了什么，其他的方法又是怎么封装的。 从一个网络请求说起先来看一个简单的网络请求吧： 123456789101112131415161718">
 <meta property="og:locale" content="zh-cn">
-<meta property="og:updated_time" content="2019-01-22T08:21:00.137Z">
+<meta property="og:updated_time" content="2019-01-22T11:49:57.420Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SCCSwiftNetWork源码解析">
 <meta name="twitter:description" content="前言上次罗列了一下在App里面用到的一些网络请求方式，概括的说应该是两总类型：一类是直接url各种语法糖链接起来拿到请求数据，另一类就是针对RX做了一层封装，用RX的方式调用。那么这里我们就来总结一下那些类似”post”、”vaildData”之类的关键字里面做了什么，其他的方法又是怎么封装的。 从一个网络请求说起先来看一个简单的网络请求吧： 123456789101112131415161718">
@@ -249,6 +249,17 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">BankResource()</span><br><span class="line">    .rx.jsonWithParams()</span><br><span class="line">    .subscribe(&#123; (event) in</span><br><span class="line">        switch event &#123;</span><br><span class="line">        case .next(_):</span><br><span class="line">            break</span><br><span class="line">        case .error(let error):</span><br><span class="line">            self.scc.toast(content: error.formatterDescription())</span><br><span class="line">            break</span><br><span class="line">        default: break</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">    .disposed(by: bag)</span><br></pre></td></tr></table></figure>
 <p>分析这个方法之前我们先看一个类<code>SCCApi</code>：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">open class SCCApi: NSObject, APIType &#123;</span><br><span class="line"></span><br><span class="line">    public lazy var url: SCCURL = &#123;</span><br><span class="line">        return SCCURL(url: self.apiURL())</span><br><span class="line">    &#125;()</span><br><span class="line"></span><br><span class="line">    public lazy var method: HTTPMethod = &#123;</span><br><span class="line">        return self.apiType()</span><br><span class="line">    &#125;()</span><br><span class="line"></span><br><span class="line">    open func apiURL() -&gt; String! &#123;</span><br><span class="line">        assertionFailure(&quot;Should be overrided by subclass.&quot;)</span><br><span class="line">        return &quot;&quot;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    open func apiType() -&gt; HTTPMethod &#123;</span><br><span class="line">        return .get</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    open func composeJSONWithPropertyParams() -&gt; Observable&lt;JSON&gt; &#123;</span><br><span class="line">        return observableData.json</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    open func composeJSONWithParams(_ params: Parameters = [:]) -&gt; Observable&lt;JSON&gt; &#123;</span><br><span class="line">        return url.request(method: method, parameters: params, headers: headers).json</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">postfix operator =&gt;</span><br><span class="line"></span><br><span class="line">public postfix func =&gt; &lt;T: Mappable&gt;(object: Any?) -&gt; T? &#123;</span><br><span class="line"> </span><br><span class="line">    return Mapper().map(JSONObject: object)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public postfix func =&gt; &lt;T: Mappable&gt;(object: Any?) -&gt; [T]? &#123;</span><br><span class="line"></span><br><span class="line">    return Mapper().mapArray(JSONObject: object)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到，这个类有两个属性：<code>url</code>,<code>method</code>;四个方法：<code>apiURL()</code>，<code>apiType()</code>，<code>composeJSONWithPropertyParams()</code>，<code>composeJSONWithParams(params:)</code>,刚看的时候可能会想<code>HTTPMethod</code>，<code>observableData</code>这些都是哪里来的，从没见过。嗯，别忘了它还遵守一个协议：<code>APIType</code>，我们看看里面都有些什么：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">public protocol APIType &#123;</span><br><span class="line">    var url: SCCURL &#123; get &#125;</span><br><span class="line">    var method: HTTPMethod &#123; get &#125;</span><br><span class="line">    var headers: HTTPHeaders &#123; get &#125;</span><br><span class="line">    var parameters: Parameters &#123; get &#125;</span><br><span class="line">    var observableData: Observable&lt;(Any, String)&gt; &#123; get &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public extension APIType &#123;</span><br><span class="line"></span><br><span class="line">    var method: HTTPMethod &#123; return .get &#125;</span><br><span class="line">    var headers: HTTPHeaders &#123;</span><br><span class="line">        return RequestCommonConfiguration.shared.headers ?? [:]</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    var parameters: Parameters &#123;</span><br><span class="line">        var parameters: Parameters = [:]</span><br><span class="line">        let mirror = Mirror(reflecting: self)</span><br><span class="line">        mirror.children.forEach &#123; parameters[$0.label!] = $0.value &#125;</span><br><span class="line">        return parameters</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    var observableData: Observable&lt;(Any, String)&gt; &#123;</span><br><span class="line">        return url.request(method: method, parameters: parameters, headers: headers)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们刚才疑惑的<code>observableData</code>在这里好像找到了，他是一个Observable&lt;(Any,String)&gt;,在扩展里面默认是根据默认参数调用了之前提到的网络请求方法。而<code>HTTPMethod</code>是一个<code>Alamofire</code>请求方式的类型别名:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public typealias Parameters = Alamofire.Parameters</span><br><span class="line">public typealias HTTPHeaders = Alamofire.HTTPHeaders</span><br><span class="line">public typealias HTTPMethod = Alamofire.HTTPMethod</span><br></pre></td></tr></table></figure>
+<p>还有<code>url</code>，<code>headers</code>，<code>parameters</code>这几个属性，可以留意一下<code>parameters</code>这个属性，它里面有用到<code>Mirror</code>(反射),这个很有意思。<code>Mirror(reflecting: self)</code>能够反射出这个实例的类型(<code>subjectType</code>)、属性集合(<code>children</code>)、对象展示类型(<code>displayStyle</code>)。这和<code>OC</code>里面<code>runtime</code>很类似，我们可以动态获取一个实例的属性了，正如上面代码里的一样。再倒回去看<code>SCCApi</code>，后面两个比较长的方法也就是将请求回来的数据做一次JSON(这里的json方法是老方法，应该用vaildData)解析，然后返回一个Observable<json>.这里有一个新版本的<code>SCCApi</code>:<code>SCCStandarApi</code>:</json></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">/// For compatibility with older version</span><br><span class="line">open class SCCStandardApi: SCCApi &#123;</span><br><span class="line"></span><br><span class="line">    open override func composeJSONWithPropertyParams() -&gt; Observable&lt;JSON&gt; &#123;</span><br><span class="line">        return observableData.validData</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    open override func composeJSONWithParams(_ params: Parameters) -&gt; Observable&lt;JSON&gt; &#123;</span><br><span class="line">        return url.request(method: method, parameters: params, headers: headers).validData</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>最后终于到了RX封装的方法了：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">extension Reactive where Base: SCCApi &#123;</span><br><span class="line"></span><br><span class="line">    public func jsonWithPropertyParams() -&gt; Observable&lt;JSON&gt; &#123;</span><br><span class="line">        return self.base.composeJSONWithPropertyParams()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public func jsonWithParams(_ params: Parameters = [:]) -&gt; Observable&lt;JSON&gt; &#123;</span><br><span class="line">        return self.base.composeJSONWithParams(params)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">extension Reactive where Base: SCCApi &#123;</span><br><span class="line"></span><br><span class="line">    public func modelWithPropertyParams&lt;T: Mappable&gt;(_ modelType: T.Type, key: String? = nil) -&gt; Observable&lt;T?&gt; &#123;</span><br><span class="line">        return base</span><br><span class="line">            .rx</span><br><span class="line">            .jsonWithPropertyParams()</span><br><span class="line">            .map(valueForKey(key))</span><br><span class="line">            .map(=&gt;)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public func modelWithParams&lt;T: Mappable&gt;(_ params: Parameters = [:], modelType: T.Type, key: String? = nil) -&gt; Observable&lt;T?&gt; &#123;</span><br><span class="line">        return base</span><br><span class="line">            .rx</span><br><span class="line">            .jsonWithParams(params)</span><br><span class="line">            .map(valueForKey(key))</span><br><span class="line">            .map(=&gt;)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public func modelsWithPropertyParams&lt;T: Mappable&gt;(_ modelType: T.Type, key: String? = nil) -&gt; Observable&lt;[T]?&gt; &#123;</span><br><span class="line">        return base</span><br><span class="line">            .rx</span><br><span class="line">            .jsonWithPropertyParams()</span><br><span class="line">            .map(valueForKey(key))</span><br><span class="line">            .map(=&gt;)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public func modelsWithParams&lt;T: Mappable&gt;(_ params: Parameters = [:], modelType: T.Type, key: String? = nil) -&gt; Observable&lt;[T]?&gt; &#123;</span><br><span class="line">        return base</span><br><span class="line">            .rx</span><br><span class="line">            .jsonWithParams(params)</span><br><span class="line">            .map(valueForKey(key))</span><br><span class="line">            .map(=&gt;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这些方法分为两组，一组是返回Observable<json>，一类是返回一个泛型model。第一个方法不带参数，获取api的属性作为参数进行网络请求。第二个方法需要传入参数。<br>下面一组方法也是在将数据转为JSON之后再通过一层Mapper的转化，转化为model。Mapper方法是接入的第三方库<code>ObjectMapper</code>,这里就不展开讲了，下次有机会也对这个库做个总结。</json></p>
+<h3 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h3><p>总体下来，这里对网络库的封装主要还是体现在对Rx的支持，这也更契合现在swift和RX结合使用的理念。还有就是对数据的校验和错误处理都比较严谨。这都是值得学习的地方。</p>
+<p>这次SCCSwiftNetWork的总结就先到这里吧，有很多不到位的地方，也可能有很多理解或者是笔误的地方，请不吝赐教。谢谢！</p>
 
       
 
@@ -293,11 +304,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">源码阅读</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">归纳总结</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">归纳总结</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">源码阅读</a>
         		</li>
       		
 		</ul>
@@ -546,7 +557,7 @@ MathJax.Hub.Queue(function() {
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">hexo博客搭建</a>
+                <a href="javascript:void(0)" class="js-tag color3">回忆</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -554,11 +565,11 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">回忆</a>
+                <a href="javascript:void(0)" class="js-tag color4">hexo博客搭建</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">iOS App Store审核</a>
+                <a href="javascript:void(0)" class="js-tag color5">HTTPS/TLS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -570,11 +581,23 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">NSProxy</a>
+                <a href="javascript:void(0)" class="js-tag color5">归纳总结</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">HTTPS/TLS</a>
+                <a href="javascript:void(0)" class="js-tag color5">源码阅读</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">源码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">SDWebImage</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">iOS App Store审核</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -598,19 +621,7 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">源码阅读</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">归纳总结</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">源码</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">SDWebImage</a>
+                <a href="javascript:void(0)" class="js-tag color3">NSProxy</a>
               </li>
             
             <div class="clearfix"></div>
