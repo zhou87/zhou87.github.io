@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="周老实">
 <meta property="og:description" content="前言上次罗列了一下在App里面用到的一些网络请求方式，概括的说应该是两总类型：一类是直接url各种语法糖链接起来拿到请求数据，另一类就是针对RX做了一层封装，用RX的方式调用。那么这里我们就来总结一下那些类似”post”、”vaildData”之类的关键字里面做了什么，其他的方法又是怎么封装的。 从一个网络请求说起先来看一个简单的网络请求吧： 123456789101112131415161718">
 <meta property="og:locale" content="zh-cn">
-<meta property="og:updated_time" content="2019-01-22T05:46:18.160Z">
+<meta property="og:updated_time" content="2019-01-22T05:48:57.727Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SCCSwiftNetWork源码解析">
 <meta name="twitter:description" content="前言上次罗列了一下在App里面用到的一些网络请求方式，概括的说应该是两总类型：一类是直接url各种语法糖链接起来拿到请求数据，另一类就是针对RX做了一层封装，用RX的方式调用。那么这里我们就来总结一下那些类似”post”、”vaildData”之类的关键字里面做了什么，其他的方法又是怎么封装的。 从一个网络请求说起先来看一个简单的网络请求吧： 123456789101112131415161718">
@@ -187,94 +187,20 @@
 <a id="more"></a>
 <p>这里的url根据类型推断应该是一个String类型，后面直接.headers,很明显是对String做了扩展。点进去看就知道，在Alamofire里面有对String做了一个扩展：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">extension String: URLConvertible &#123;</span><br><span class="line">    public func asURL() throws -&gt; URL &#123;</span><br><span class="line">        guard let url = URL(string: self) else &#123; throw AFError.invalidURL(url: self) &#125;</span><br><span class="line">        return url</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>然后，<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure></p>
-<p>extension URLConvertible {</p>
-<pre><code>public func timeout(_ timeout: TimeInterval) -&gt; SCCSwiftyNetwork.SCCURL
-
-public func validatableParamters(_ params: SCCModelKeeper.SCCValidatableParameters) -&gt; SCCSwiftyNetwork.SCCURL
-
-public func parameters(_ params: Parameters) -&gt; SCCSwiftyNetwork.SCCURL
-
-public func headers(_ headers: HTTPHeaders) -&gt; SCCSwiftyNetwork.SCCURL
-
-public func download(to path: String) -&gt; RxSwift.Observable&lt;String&gt;
-</code></pre><p>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">这样我们就能直接拿一个```String```做上面那些操作了，比如```timeout```是设置网络超时时间，```validatableParamters```是对传入的参数做一些数据结构校验，也是大佬们封装好的，```parameters```显而易见是上传参数，```headers```请求头，```download```是一个将数据下载到本地的方法。但是，有没有注意到这些扩展方法里面都返回的是一个```SCCURL```，那这个```SCCURL```又是什么呢？</span><br><span class="line"></span><br><span class="line">点开```SCCURL```类你会发现，原来他也是扩展自```URLConvertible```，那么他的实例照样可以```.headers```、</span><br><span class="line">```.parameters```了。正如你看到的，前面这些都是在配置请求前的参数之类的，那么这些准备做好了是不是要开始发送网络请求了。没错，```SCCURL```里面就扩展了发送网络请求的方法：</span><br></pre></td></tr></table></figure></p>
-<p>public extension SCCURL {</p>
-<pre><code>func get(encoding: ParameterEncoding = URLEncoding.default) -&gt; Observable&lt;(Any, String)&gt; {
-    return request(method: .get, encoding: encoding)
-}
-
-func post(encoding: ParameterEncoding = URLEncoding.default) -&gt; Observable&lt;(Any, String)&gt; {
-    return request(method: .post, encoding: encoding)
-}
-
-...
-
-func request(method: HTTPMethod, encoding: ParameterEncoding) -&gt; Observable&lt;(Any, String)&gt; {
-    return request(method: method, parameters: parameters, headers: headers, timeout: timeout, encoding: encoding)
-}
-...
-</code></pre><p>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">这里的扩展应该涵盖了大部分的请求方式，主流的请求方式应该还是</span><br><span class="line">```get```,```post```，正如例子中用到的```post```。最后，所有的请求都会归纳到方法，不妨把这个方法直接贴出来：</span><br></pre></td></tr></table></figure></p>
-<p>// Instance member cannot be uesed as default parameter<br>    func request(method: HTTPMethod,<br>             parameters: Parameters?,<br>                headers: HTTPHeaders?,<br>                timeout: TimeInterval? = nil,<br>               encoding: ParameterEncoding = URLEncoding.default,<br>               useCache: Bool = false) -&gt; Observable&lt;(Any, String)&gt; {</p>
-<pre><code>    var headers = headers
-    let url = (try? self.asURL())?.absoluteString ?? &quot;&quot;
-    return Observable&lt;(Any, String)&gt;.create { observer in
-        /// 一个判断是否有缓存的Bool值
-        var hasCache = false
-        /// 判断是否有缓存，如果有直接取缓存的数据返回
-        if useCache, let value = NSKeyedUnarchiver.unarchiveObject(withFile: self.cacheKey) {
-            observer.onNext((value, url))
-            hasCache = true
-        }
-
-        if var commonHeader = RequestCommonConfiguration.shared.headers {
-            /// 更新请求headers
-            headers?.forEach({ commonHeader[$0] = $1 })
-            headers = commonHeader
-        }
-
-        // Configure timeout for EscapedDog Dalao
-        /// 如果有设置超时时间，根据超时时间得到一个sessionManager
-        let manager: SessionManager
-        if let timeout = timeout, timeout &gt; 0 {
-            if let cachedManager = customManagers[timeout] {
-                manager = cachedManager
-            } else {
-                manager = configureManager(with: timeout)
-                // Retain manager
-                customManagers[timeout] = manager
-            }
-        } else {
-            manager = defaultManager
-        }
-
-        let task = manager.request(self, method: method, parameters: parameters, encoding:encoding, headers: headers)
-            .responseJSON { response in
-                /// 如果抛出错误，上报错误
-                if let error = response.result.error {
-                    SCCValidateResultReporter.request(url: url, errors: [], error: &quot;\(error.code()) \(error.formatterDescription())&quot;)
-                    observer.onError(error)
-                    return
-                }
-
-                if let value = response.result.value {
-                    /// 如果使用缓存的话，在之前没有缓存的情况下将数据写入缓存,有则不写
-                    if useCache {
-                        _ = NSKeyedArchiver.archiveRootObject(value, toFile: self.cacheKey)
-                        if hasCache {
-                            observer.onCompleted()
-                            return
-                        }
-                    }
-                    /// 如果不使用缓存，将返回的数据和url构成一个元组返回
-                    observer.onNext((value, url))
-                }
-                observer.onCompleted()
-        }
-        return Disposables.create(with: task.cancel)
-    }
-}
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">可以看到，这个方法发送了一个请求，返回了一个```(Any, String)```类型的的```observable```。说下几个值得注意的点：</span><br><span class="line"></span><br><span class="line">&gt;* **缓存处理**</span><br><span class="line"></span><br><span class="line">在传入参数中有个```useCache```(不过外部好像并没有用到过),如果使用缓存的话，那么会先根据```url```创建一个```cacheKey```尝试获取本地有没有缓存上次请求的数据，如果有的话，```observer```直接将得到的缓存发送出去，标记```hasCache=true```。在请求成功后，同样是使用缓存的情况下根据```url```创建的```cacheKey```将请求回来的数据写入缓存，已有缓存的话，```observer```发送一个```completed```事件。</span><br></pre></td></tr></table></figure>
+<p>然后，SCCSwiftNetWork里面又对URLConvertible做了一个扩展:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">extension URLConvertible &#123;</span><br><span class="line"></span><br><span class="line">    public func timeout(_ timeout: TimeInterval) -&gt; SCCSwiftyNetwork.SCCURL</span><br><span class="line"></span><br><span class="line">    public func validatableParamters(_ params: SCCModelKeeper.SCCValidatableParameters) -&gt; SCCSwiftyNetwork.SCCURL</span><br><span class="line"></span><br><span class="line">    public func parameters(_ params: Parameters) -&gt; SCCSwiftyNetwork.SCCURL</span><br><span class="line"></span><br><span class="line">    public func headers(_ headers: HTTPHeaders) -&gt; SCCSwiftyNetwork.SCCURL</span><br><span class="line"></span><br><span class="line">    public func download(to path: String) -&gt; RxSwift.Observable&lt;String&gt;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样我们就能直接拿一个String做上面那些操作了，比如timeout是设置网络超时时间，validatableParamters是对传入的参数做一些数据结构校验，也是大佬们封装好的，parameters显而易见是上传参数，headers请求头，download是一个将数据下载到本地的方法。但是，有没有注意到这些扩展方法里面都返回的是一个SCCURL，那这个SCCURL又是什么呢？</p>
+<p>点开SCCURL类你会发现，原来他也是扩展自URLConvertible，那么他的实例照样可以.headers、<br>.parameters了。正如你看到的，前面这些都是在配置请求前的参数之类的，那么这些准备做好了是不是要开始发送网络请求了。没错，SCCURL里面就扩展了发送网络请求的方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">public extension SCCURL &#123;</span><br><span class="line">    </span><br><span class="line">    func get(encoding: ParameterEncoding = URLEncoding.default) -&gt; Observable&lt;(Any, String)&gt; &#123;</span><br><span class="line">        return request(method: .get, encoding: encoding)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    func post(encoding: ParameterEncoding = URLEncoding.default) -&gt; Observable&lt;(Any, String)&gt; &#123;</span><br><span class="line">        return request(method: .post, encoding: encoding)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    ...</span><br><span class="line">        </span><br><span class="line">    func request(method: HTTPMethod, encoding: ParameterEncoding) -&gt; Observable&lt;(Any, String)&gt; &#123;</span><br><span class="line">        return request(method: method, parameters: parameters, headers: headers, timeout: timeout, encoding: encoding)</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里的扩展应该涵盖了大部分的请求方式，主流的请求方式应该还是<br>get,post，正如例子中用到的post。最后，所有的请求都会归纳到方法，不妨把这个方法直接贴出来：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line">// Instance member cannot be uesed as default parameter</span><br><span class="line">    func request(method: HTTPMethod,</span><br><span class="line">             parameters: Parameters?,</span><br><span class="line">                headers: HTTPHeaders?,</span><br><span class="line">                timeout: TimeInterval? = nil,</span><br><span class="line">               encoding: ParameterEncoding = URLEncoding.default,</span><br><span class="line">               useCache: Bool = false) -&gt; Observable&lt;(Any, String)&gt; &#123;</span><br><span class="line">        </span><br><span class="line">        var headers = headers</span><br><span class="line">        let url = (try? self.asURL())?.absoluteString ?? &quot;&quot;</span><br><span class="line">        return Observable&lt;(Any, String)&gt;.create &#123; observer in</span><br><span class="line">            /// 一个判断是否有缓存的Bool值</span><br><span class="line">            var hasCache = false</span><br><span class="line">            /// 判断是否有缓存，如果有直接取缓存的数据返回</span><br><span class="line">            if useCache, let value = NSKeyedUnarchiver.unarchiveObject(withFile: self.cacheKey) &#123;</span><br><span class="line">                observer.onNext((value, url))</span><br><span class="line">                hasCache = true</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            if var commonHeader = RequestCommonConfiguration.shared.headers &#123;</span><br><span class="line">                /// 更新请求headers</span><br><span class="line">                headers?.forEach(&#123; commonHeader[$0] = $1 &#125;)</span><br><span class="line">                headers = commonHeader</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            // Configure timeout for EscapedDog Dalao</span><br><span class="line">            /// 如果有设置超时时间，根据超时时间得到一个sessionManager</span><br><span class="line">            let manager: SessionManager</span><br><span class="line">            if let timeout = timeout, timeout &gt; 0 &#123;</span><br><span class="line">                if let cachedManager = customManagers[timeout] &#123;</span><br><span class="line">                    manager = cachedManager</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    manager = configureManager(with: timeout)</span><br><span class="line">                    // Retain manager</span><br><span class="line">                    customManagers[timeout] = manager</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                manager = defaultManager</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            let task = manager.request(self, method: method, parameters: parameters, encoding:encoding, headers: headers)</span><br><span class="line">                .responseJSON &#123; response in</span><br><span class="line">                    /// 如果抛出错误，上报错误</span><br><span class="line">                    if let error = response.result.error &#123;</span><br><span class="line">                        SCCValidateResultReporter.request(url: url, errors: [], error: &quot;\(error.code()) \(error.formatterDescription())&quot;)</span><br><span class="line">                        observer.onError(error)</span><br><span class="line">                        return</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                    if let value = response.result.value &#123;</span><br><span class="line">                        /// 如果使用缓存的话，在之前没有缓存的情况下将数据写入缓存,有则不写</span><br><span class="line">                        if useCache &#123;</span><br><span class="line">                            _ = NSKeyedArchiver.archiveRootObject(value, toFile: self.cacheKey)</span><br><span class="line">                            if hasCache &#123;</span><br><span class="line">                                observer.onCompleted()</span><br><span class="line">                                return</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;</span><br><span class="line">                        /// 如果不使用缓存，将返回的数据和url构成一个元组返回</span><br><span class="line">                        observer.onNext((value, url))</span><br><span class="line">                    &#125;</span><br><span class="line">                    observer.onCompleted()</span><br><span class="line">            &#125;</span><br><span class="line">            return Disposables.create(with: task.cancel)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到，这个方法发送了一个请求，返回了一个(Any, String)类型的的observable。说下几个值得注意的点：</p>
+<blockquote>
+<ul>
+<li><strong>缓存处理</strong></li>
+</ul>
+</blockquote>
+<p>在传入参数中有个<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure></p>
 <p>private extension URLConvertible {<br>    var cacheKey: String {<br>        let url = try? asURL()<br>        assert(url != nil, “Invalid URL”)<br>        let cachePath = NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true)[0]<br>        let fileName = url!.absoluteString.replacingOccurrences(of: “/“, with: “-“)<br>        return “(cachePath)/(fileName)”<br>    }<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&gt;* **默认headers**</span><br><span class="line"></span><br><span class="line">为了方便服务端获取更多的有关App的信息，单独写了一个类</span><br><span class="line">```RequestCommonConfiguration```。这是一个单例，里面为</span><br><span class="line">```headers```写死了一些默认的App的基本数据，类似```Appversion```、</span><br><span class="line">```AppName```等等。发送请求前，再对外面传进来的```headers```做了一次拼接。</span><br><span class="line"></span><br><span class="line">&gt;* **根据timeout创建SessionManager**</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">```customManager```是一个```[TimeInterval:SessionManager]```键值对，根据不同的</span><br><span class="line">```timeout```时间维护不同的```SessionManager```。这里为什么需要根据```timeout```来维护不同的```session```而不用一个全局的</span><br><span class="line">```session```，大概可以理解为如果公用一个```session```的话那当前一个请求还没有真正发出去的时候，下一个请求来了我们改变了```session```的```timeout```那么会影响到前一个请求。</span><br><span class="line"></span><br><span class="line">&gt;* **上报错误**</span><br></pre></td></tr></table></figure></p>
 <p>SCCValidateResultReporter.request(url: url, errors: [], error: “(error.code()) (error.formatterDescription())”)<br>```<br>是一个封装好的将错误上报到一个错误统计平台，便于App的错误分析。</p>
 
@@ -586,7 +512,15 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">NSProxy</a>
+                <a href="javascript:void(0)" class="js-tag color5">HTTPS/TLS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Java基础</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -599,18 +533,6 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">源码阅读</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">HTTPS/TLS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">源码</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">SDWebImage</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -630,15 +552,19 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Java</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Java基础</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">CocoaPods</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">NSProxy</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">源码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">SDWebImage</a>
               </li>
             
             <div class="clearfix"></div>
