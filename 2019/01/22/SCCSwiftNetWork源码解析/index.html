@@ -6,16 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>红楼遗梦 | 周老实</title>
+  <title>SCCSwiftNetWork源码解析 | 周老实</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="article">
-<meta property="og:title" content="红楼遗梦">
-<meta property="og:url" content="http://yoursite.com/2017/10/30/红楼遗梦/index.html">
+  <meta name="description" content="前言上次罗列了一下在App里面用到的一些网络请求方式，概括的说应该是两总类型：一类是直接1234### 从一个网络请求说起先来看一个简单的网络请求吧： let url = “https://www.baidu.com/“ (这里是需要发送请求的url) let params = [    “name”:”tangeche”,    “phone”:”12312312”,    “token”:”Y">
+<meta name="keywords" content="归纳总结,源码阅读">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SCCSwiftNetWork源码解析">
+<meta property="og:url" content="http://yoursite.com/2019/01/22/SCCSwiftNetWork源码解析/index.html">
 <meta property="og:site_name" content="周老实">
+<meta property="og:description" content="前言上次罗列了一下在App里面用到的一些网络请求方式，概括的说应该是两总类型：一类是直接1234### 从一个网络请求说起先来看一个简单的网络请求吧： let url = “https://www.baidu.com/“ (这里是需要发送请求的url) let params = [    “name”:”tangeche”,    “phone”:”12312312”,    “token”:”Y">
 <meta property="og:locale" content="zh-cn">
-<meta property="og:updated_time" content="2017-12-20T12:29:33.000Z">
+<meta property="og:updated_time" content="2019-01-22T03:34:17.130Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="红楼遗梦">
+<meta name="twitter:title" content="SCCSwiftNetWork源码解析">
+<meta name="twitter:description" content="前言上次罗列了一下在App里面用到的一些网络请求方式，概括的说应该是两总类型：一类是直接1234### 从一个网络请求说起先来看一个简单的网络请求吧： let url = “https://www.baidu.com/“ (这里是需要发送请求的url) let params = [    “name”:”tangeche”,    “phone”:”12312312”,    “token”:”Y">
   
     <link rel="alternative" href="/atom.xml" title="周老实" type="application/atom+xml">
   
@@ -157,27 +161,121 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-红楼遗梦" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-SCCSwiftNetWork源码解析" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      红楼遗梦
+      SCCSwiftNetWork源码解析
     </h1>
   
 
         
-        <a href="/2017/10/30/红楼遗梦/" class="archive-article-date">
-  	<time datetime="2017-10-30T03:28:28.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-30</time>
+        <a href="/2019/01/22/SCCSwiftNetWork源码解析/" class="archive-article-date">
+  	<time datetime="2019-01-22T01:00:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-01-22</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>上次罗列了一下在App里面用到的一些网络请求方式，概括的说应该是两总类型：一类是直接<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 从一个网络请求说起</span><br><span class="line"></span><br><span class="line">先来看一个简单的网络请求吧：</span><br></pre></td></tr></table></figure></p>
+<p>let url = “<a href="https://www.baidu.com/" target="_blank" rel="noopener">https://www.baidu.com/</a>“ (这里是需要发送请求的url)</p>
+<p>let params = [<br>    “name”:”tangeche”,<br>    “phone”:”12312312”,<br>    “token”:”YEHodfIOU”,<br>    “code”: “123456”]</p>
+<p>url<br>    .headers([“Content-Type” : “application/json”])<br>    .timeout(5)<br>    .parameters(params)<br>    .post(encoding: SCCParamterEncoding.jsonRaw)<br>    .validData<br>    .subscribe(onNext: { (json) in<br>        print(json)<br>    }, onError: { (error) in<br>        print(error)<br>    })<br>    .disposed(by: bag)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">这里的```url```根据类型推断应该是一个```string```类型，后面直接```.headers```,很明显是对```String```做了扩展。点进去看就知道，在```Alamofire```里面有对```String```做了一个扩展：</span><br></pre></td></tr></table></figure></p>
+<p>extension String: URLConvertible {<br>    public func asURL() throws -&gt; URL {<br>        guard let url = URL(string: self) else { throw AFError.invalidURL(url: self) }<br>        return url<br>    }<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">然后，```SCCSwiftNetWork```里面又对```URLConvertible```做了一个扩展:</span><br></pre></td></tr></table></figure></p>
+<p>extension URLConvertible {</p>
+<pre><code>public func timeout(_ timeout: TimeInterval) -&gt; SCCSwiftyNetwork.SCCURL
+
+public func validatableParamters(_ params: SCCModelKeeper.SCCValidatableParameters) -&gt; SCCSwiftyNetwork.SCCURL
+
+public func parameters(_ params: Parameters) -&gt; SCCSwiftyNetwork.SCCURL
+
+public func headers(_ headers: HTTPHeaders) -&gt; SCCSwiftyNetwork.SCCURL
+
+public func download(to path: String) -&gt; RxSwift.Observable&lt;String&gt;
+</code></pre><p>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">这样我们就能直接拿一个```String```做上面那些操作了，比如```timeout```是设置网络超时时间，```validatableParamters```是对传入的参数做一些数据结构校验，也是大佬们封装好的，```parameters```显而易见是上传参数，```headers```请求头，```download```是一个将数据下载到本地的方法。但是，有没有注意到这些扩展方法里面都返回的是一个```SCCURL```，那这个```SCCURL```又是什么呢？</span><br><span class="line"></span><br><span class="line">点开```SCCURL```类你会发现，原来他也是扩展自```URLConvertible```，那么他的实例照样可以```.headers```、</span><br><span class="line">```.parameters```了。正如你看到的，前面这些都是在配置请求前的参数之类的，那么这些准备做好了是不是要开始发送网络请求了。没错，```SCCURL```里面就扩展了发送网络请求的方法：</span><br></pre></td></tr></table></figure></p>
+<p>public extension SCCURL {</p>
+<pre><code>func get(encoding: ParameterEncoding = URLEncoding.default) -&gt; Observable&lt;(Any, String)&gt; {
+    return request(method: .get, encoding: encoding)
+}
+
+func post(encoding: ParameterEncoding = URLEncoding.default) -&gt; Observable&lt;(Any, String)&gt; {
+    return request(method: .post, encoding: encoding)
+}
+
+...
+
+func request(method: HTTPMethod, encoding: ParameterEncoding) -&gt; Observable&lt;(Any, String)&gt; {
+    return request(method: method, parameters: parameters, headers: headers, timeout: timeout, encoding: encoding)
+}
+...
+</code></pre><p>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">这里的扩展应该涵盖了大部分的请求方式，主流的请求方式应该还是</span><br><span class="line">```get```,```post```，正如例子中用到的```post```。最后，所有的请求都会归纳到方法，不妨把这个方法直接贴出来：</span><br></pre></td></tr></table></figure></p>
+<p>// Instance member cannot be uesed as default parameter<br>    func request(method: HTTPMethod,<br>             parameters: Parameters?,<br>                headers: HTTPHeaders?,<br>                timeout: TimeInterval? = nil,<br>               encoding: ParameterEncoding = URLEncoding.default,<br>               useCache: Bool = false) -&gt; Observable&lt;(Any, String)&gt; {</p>
+<pre><code>    var headers = headers
+    let url = (try? self.asURL())?.absoluteString ?? &quot;&quot;
+    return Observable&lt;(Any, String)&gt;.create { observer in
+        /// 一个判断是否有缓存的Bool值
+        var hasCache = false
+        /// 判断是否有缓存，如果有直接取缓存的数据返回
+        if useCache, let value = NSKeyedUnarchiver.unarchiveObject(withFile: self.cacheKey) {
+            observer.onNext((value, url))
+            hasCache = true
+        }
+
+        if var commonHeader = RequestCommonConfiguration.shared.headers {
+            /// 更新请求headers
+            headers?.forEach({ commonHeader[$0] = $1 })
+            headers = commonHeader
+        }
+
+        // Configure timeout for EscapedDog Dalao
+        /// 如果有设置超时时间，根据超时时间得到一个sessionManager
+        let manager: SessionManager
+        if let timeout = timeout, timeout &gt; 0 {
+            if let cachedManager = customManagers[timeout] {
+                manager = cachedManager
+            } else {
+                manager = configureManager(with: timeout)
+                // Retain manager
+                customManagers[timeout] = manager
+            }
+        } else {
+            manager = defaultManager
+        }
+
+        let task = manager.request(self, method: method, parameters: parameters, encoding:encoding, headers: headers)
+            .responseJSON { response in
+                /// 如果抛出错误，上报错误
+                if let error = response.result.error {
+                    SCCValidateResultReporter.request(url: url, errors: [], error: &quot;\(error.code()) \(error.formatterDescription())&quot;)
+                    observer.onError(error)
+                    return
+                }
+
+                if let value = response.result.value {
+                    /// 如果使用缓存的话，在之前没有缓存的情况下将数据写入缓存,有则不写
+                    if useCache {
+                        _ = NSKeyedArchiver.archiveRootObject(value, toFile: self.cacheKey)
+                        if hasCache {
+                            observer.onCompleted()
+                            return
+                        }
+                    }
+                    /// 如果不使用缓存，将返回的数据和url构成一个元组返回
+                    observer.onNext((value, url))
+                }
+                observer.onCompleted()
+        }
+        return Disposables.create(with: task.cancel)
+    }
+}
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">可以看到，这个方法发送了一个请求，返回了一个```(Any, String)```类型的的```observable```。说下几个值得注意的点：</span><br><span class="line"></span><br><span class="line">&gt;* **缓存处理**</span><br><span class="line"></span><br><span class="line">在传入参数中有个```useCache```(不过外部好像并没有用到过),如果使用缓存的话，那么会先根据```url```创建一个```cacheKey```尝试获取本地有没有缓存上次请求的数据，如果有的话，```observer```直接将得到的缓存发送出去，标记```hasCache=true```。在请求成功后，同样是使用缓存的情况下根据```url```创建的```cacheKey```将请求回来的数据写入缓存，已有缓存的话，```observer```发送一个```completed```事件。</span><br></pre></td></tr></table></figure>
+<p>private extension URLConvertible {<br>    var cacheKey: String {<br>        let url = try? asURL()<br>        assert(url != nil, “Invalid URL”)<br>        let cachePath = NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true)[0]<br>        let fileName = url!.absoluteString.replacingOccurrences(of: “/“, with: “-“)<br>        return “(cachePath)/(fileName)”<br>    }<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&gt;* **默认headers**</span><br><span class="line"></span><br><span class="line">为了方便服务端获取更多的有关App的信息，单独写了一个类</span><br><span class="line">```RequestCommonConfiguration```。这是一个单例，里面为</span><br><span class="line">```headers```写死了一些默认的App的基本数据，类似```Appversion```、</span><br><span class="line">```AppName```等等。发送请求前，再对外面传进来的```headers```做了一次拼接。</span><br><span class="line"></span><br><span class="line">&gt;* **根据timeout创建SessionManager**</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">```customManager```是一个```[TimeInterval:SessionManager]```键值对，根据不同的</span><br><span class="line">```timeout```时间维护不同的```SessionManager```。这里为什么需要根据```timeout```来维护不同的```session```而不用一个全局的</span><br><span class="line">```session```，大概可以理解为如果公用一个```session```的话那当前一个请求还没有真正发出去的时候，下一个请求来了我们改变了```session```的```timeout```那么会影响到前一个请求。</span><br><span class="line"></span><br><span class="line">&gt;* **上报错误**</span><br></pre></td></tr></table></figure></p>
+<p>SCCValidateResultReporter.request(url: url, errors: [], error: “(error.code()) (error.formatterDescription())”)<br>```<br>是一个封装好的将错误上报到一个错误统计平台，便于App的错误分析。</p>
+
       
 
       
@@ -216,13 +314,28 @@
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">归纳总结</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">源码阅读</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       
 	<div class="article-category tagcloud">
 		<i class="icon-book icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="/categories/老实说//" class="article-tag-list-link color4">老实说</a>
+        			<a href="/categories/iOS//" class="article-tag-list-link color4">iOS</a>
         		</li>
       		
 		</ul>
@@ -277,7 +390,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2017/10/30/红楼遗梦/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/01/22/SCCSwiftNetWork源码解析/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -291,18 +404,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2017/10/30/The-time-gone/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          The time has gone
-        
-      </div>
-    </a>
   
-  
-    <a href="/2017/10/27/Java学习笔记-基础语法/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Java学习笔记-基础语法</div>
+    <a href="/2019/01/18/网络库的使用/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">网络库的使用</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -336,7 +440,7 @@
   
   <section id="comments">
 <!--高速版，加载速度快，使用前需测试页面的兼容性-->
-<div id="SOHUCS" sid="红楼遗梦" style="padding: 0px 30px 0px 46px;"></div>
+<div id="SOHUCS" sid="SCCSwiftNetWork源码解析" style="padding: 0px 30px 0px 46px;"></div>
 <script>
   (function(){
     var appid = 'cysXi6RMd',
