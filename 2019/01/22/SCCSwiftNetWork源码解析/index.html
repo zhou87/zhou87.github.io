@@ -8,18 +8,18 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>SCCSwiftNetWork源码解析 | 周老实</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="前言上次罗列了一下在App里面用到的一些网络请求方式，概括的说应该是两总类型：一类是直接1234### 从一个网络请求说起先来看一个简单的网络请求吧： let url = “https://www.baidu.com/“ (这里是需要发送请求的url) let params = [    “name”:”tangeche”,    “phone”:”12312312”,    “token”:”Y">
+  <meta name="description" content="前言上次罗列了一下在App里面用到的一些网络请求方式，概括的说应该是两总类型：一类是直接url各种语法糖链接起来拿到请求数据，另一类就是针对RX做了一层封装，用RX的方式调用。那么这里我们就来总结一下那些类似”post”、”vaildData”之类的关键字里面做了什么，其他的方法又是怎么封装的。 从一个网络请求说起先来看一个简单的网络请求吧： 123456789101112131415161718">
 <meta name="keywords" content="归纳总结,源码阅读">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SCCSwiftNetWork源码解析">
 <meta property="og:url" content="http://yoursite.com/2019/01/22/SCCSwiftNetWork源码解析/index.html">
 <meta property="og:site_name" content="周老实">
-<meta property="og:description" content="前言上次罗列了一下在App里面用到的一些网络请求方式，概括的说应该是两总类型：一类是直接1234### 从一个网络请求说起先来看一个简单的网络请求吧： let url = “https://www.baidu.com/“ (这里是需要发送请求的url) let params = [    “name”:”tangeche”,    “phone”:”12312312”,    “token”:”Y">
+<meta property="og:description" content="前言上次罗列了一下在App里面用到的一些网络请求方式，概括的说应该是两总类型：一类是直接url各种语法糖链接起来拿到请求数据，另一类就是针对RX做了一层封装，用RX的方式调用。那么这里我们就来总结一下那些类似”post”、”vaildData”之类的关键字里面做了什么，其他的方法又是怎么封装的。 从一个网络请求说起先来看一个简单的网络请求吧： 123456789101112131415161718">
 <meta property="og:locale" content="zh-cn">
-<meta property="og:updated_time" content="2019-01-22T03:36:29.620Z">
+<meta property="og:updated_time" content="2019-01-22T03:40:39.396Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SCCSwiftNetWork源码解析">
-<meta name="twitter:description" content="前言上次罗列了一下在App里面用到的一些网络请求方式，概括的说应该是两总类型：一类是直接1234### 从一个网络请求说起先来看一个简单的网络请求吧： let url = “https://www.baidu.com/“ (这里是需要发送请求的url) let params = [    “name”:”tangeche”,    “phone”:”12312312”,    “token”:”Y">
+<meta name="twitter:description" content="前言上次罗列了一下在App里面用到的一些网络请求方式，概括的说应该是两总类型：一类是直接url各种语法糖链接起来拿到请求数据，另一类就是针对RX做了一层封装，用RX的方式调用。那么这里我们就来总结一下那些类似”post”、”vaildData”之类的关键字里面做了什么，其他的方法又是怎么封装的。 从一个网络请求说起先来看一个简单的网络请求吧： 123456789101112131415161718">
   
     <link rel="alternative" href="/atom.xml" title="周老实" type="application/atom+xml">
   
@@ -181,10 +181,11 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>上次罗列了一下在App里面用到的一些网络请求方式，概括的说应该是两总类型：一类是直接<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 从一个网络请求说起</span><br><span class="line"></span><br><span class="line">先来看一个简单的网络请求吧：</span><br></pre></td></tr></table></figure></p>
-<p>let url = “<a href="https://www.baidu.com/" target="_blank" rel="noopener">https://www.baidu.com/</a>“ (这里是需要发送请求的url)</p>
-<p>let params = [<br>    “name”:”tangeche”,<br>    “phone”:”12312312”,<br>    “token”:”YEHodfIOU”,<br>    “code”: “123456”]</p>
-<p>url<br>    .headers([“Content-Type” : “application/json”])<br>    .timeout(5)<br>    .parameters(params)<br>    .post(encoding: SCCParamterEncoding.jsonRaw)<br>    .validData<br>    .subscribe(onNext: { (json) in<br>        print(json)<br>    }, onError: { (error) in<br>        print(error)<br>    })<br>    .disposed(by: bag)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&lt;!-- more --&gt;</span><br><span class="line">这里的```url```根据类型推断应该是一个```string```类型，后面直接```.headers```,很明显是对```String```做了扩展。点进去看就知道，在```Alamofire```里面有对```String```做了一个扩展：</span><br></pre></td></tr></table></figure></p>
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>上次罗列了一下在App里面用到的一些网络请求方式，概括的说应该是两总类型：一类是直接url各种语法糖链接起来拿到请求数据，另一类就是针对RX做了一层封装，用RX的方式调用。那么这里我们就来总结一下那些类似”post”、”vaildData”之类的关键字里面做了什么，其他的方法又是怎么封装的。</p>
+<h3 id="从一个网络请求说起"><a href="#从一个网络请求说起" class="headerlink" title="从一个网络请求说起"></a>从一个网络请求说起</h3><p>先来看一个简单的网络请求吧：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">let url = &quot;https://www.baidu.com/&quot; (这里是需要发送请求的url)</span><br><span class="line">        </span><br><span class="line">let params = [</span><br><span class="line">    &quot;name&quot;:&quot;tangeche&quot;,</span><br><span class="line">    &quot;phone&quot;:&quot;12312312&quot;,</span><br><span class="line">    &quot;token&quot;:&quot;YEHodfIOU&quot;,</span><br><span class="line">    &quot;code&quot;: &quot;123456&quot;]</span><br><span class="line">    </span><br><span class="line">url</span><br><span class="line">    .headers([&quot;Content-Type&quot; : &quot;application/json&quot;])</span><br><span class="line">    .timeout(5)</span><br><span class="line">    .parameters(params)</span><br><span class="line">    .post(encoding: SCCParamterEncoding.jsonRaw)</span><br><span class="line">    .validData</span><br><span class="line">    .subscribe(onNext: &#123; (json) in</span><br><span class="line">        print(json)</span><br><span class="line">    &#125;, onError: &#123; (error) in</span><br><span class="line">        print(error)</span><br><span class="line">    &#125;)</span><br><span class="line">    .disposed(by: bag)</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>这里的<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure></p>
 <p>extension String: URLConvertible {<br>    public func asURL() throws -&gt; URL {<br>        guard let url = URL(string: self) else { throw AFError.invalidURL(url: self) }<br>        return url<br>    }<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">然后，```SCCSwiftNetWork```里面又对```URLConvertible```做了一个扩展:</span><br></pre></td></tr></table></figure></p>
 <p>extension URLConvertible {</p>
 <pre><code>public func timeout(_ timeout: TimeInterval) -&gt; SCCSwiftyNetwork.SCCURL
@@ -572,10 +573,6 @@ MathJax.Hub.Queue(function() {
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">iOS App Store审核</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">阅读</a>
               </li>
              
@@ -584,15 +581,11 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">HTTPS/TLS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">hexo博客搭建</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">NSProxy</a>
+                <a href="javascript:void(0)" class="js-tag color1">iOS App Store审核</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -601,6 +594,10 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">Java基础</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">HTTPS/TLS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -616,11 +613,7 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">源码</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">SDWebImage</a>
+                <a href="javascript:void(0)" class="js-tag color3">NSProxy</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -637,6 +630,14 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">CocoaPods</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">源码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">SDWebImage</a>
               </li>
             
             <div class="clearfix"></div>
