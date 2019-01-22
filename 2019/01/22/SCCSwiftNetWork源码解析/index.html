@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="周老实">
 <meta property="og:description" content="前言上次罗列了一下在App里面用到的一些网络请求方式，概括的说应该是两总类型：一类是直接url各种语法糖链接起来拿到请求数据，另一类就是针对RX做了一层封装，用RX的方式调用。那么这里我们就来总结一下那些类似”post”、”vaildData”之类的关键字里面做了什么，其他的方法又是怎么封装的。 从一个网络请求说起先来看一个简单的网络请求吧： 123456789101112131415161718">
 <meta property="og:locale" content="zh-cn">
-<meta property="og:updated_time" content="2019-01-22T05:44:10.796Z">
+<meta property="og:updated_time" content="2019-01-22T05:46:18.160Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SCCSwiftNetWork源码解析">
 <meta name="twitter:description" content="前言上次罗列了一下在App里面用到的一些网络请求方式，概括的说应该是两总类型：一类是直接url各种语法糖链接起来拿到请求数据，另一类就是针对RX做了一层封装，用RX的方式调用。那么这里我们就来总结一下那些类似”post”、”vaildData”之类的关键字里面做了什么，其他的方法又是怎么封装的。 从一个网络请求说起先来看一个简单的网络请求吧： 123456789101112131415161718">
@@ -185,8 +185,9 @@
 <h3 id="从一个网络请求说起"><a href="#从一个网络请求说起" class="headerlink" title="从一个网络请求说起"></a>从一个网络请求说起</h3><p>先来看一个简单的网络请求吧：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">let url = &quot;https://www.baidu.com/&quot; (这里是需要发送请求的url)</span><br><span class="line">        </span><br><span class="line">let params = [</span><br><span class="line">    &quot;name&quot;:&quot;tangeche&quot;,</span><br><span class="line">    &quot;phone&quot;:&quot;12312312&quot;,</span><br><span class="line">    &quot;token&quot;:&quot;YEHodfIOU&quot;,</span><br><span class="line">    &quot;code&quot;: &quot;123456&quot;]</span><br><span class="line">    </span><br><span class="line">url</span><br><span class="line">    .headers([&quot;Content-Type&quot; : &quot;application/json&quot;])</span><br><span class="line">    .timeout(5)</span><br><span class="line">    .parameters(params)</span><br><span class="line">    .post(encoding: SCCParamterEncoding.jsonRaw)</span><br><span class="line">    .validData</span><br><span class="line">    .subscribe(onNext: &#123; (json) in</span><br><span class="line">        print(json)</span><br><span class="line">    &#125;, onError: &#123; (error) in</span><br><span class="line">        print(error)</span><br><span class="line">    &#125;)</span><br><span class="line">    .disposed(by: bag)</span><br></pre></td></tr></table></figure>
 <a id="more"></a>
-<p>这里的url根据类型推断应该是一个<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure></p>
-<p>extension String: URLConvertible {<br>    public func asURL() throws -&gt; URL {<br>        guard let url = URL(string: self) else { throw AFError.invalidURL(url: self) }<br>        return url<br>    }<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">然后，```SCCSwiftNetWork```里面又对```URLConvertible```做了一个扩展:</span><br></pre></td></tr></table></figure></p>
+<p>这里的url根据类型推断应该是一个String类型，后面直接.headers,很明显是对String做了扩展。点进去看就知道，在Alamofire里面有对String做了一个扩展：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">extension String: URLConvertible &#123;</span><br><span class="line">    public func asURL() throws -&gt; URL &#123;</span><br><span class="line">        guard let url = URL(string: self) else &#123; throw AFError.invalidURL(url: self) &#125;</span><br><span class="line">        return url</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后，<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure></p>
 <p>extension URLConvertible {</p>
 <pre><code>public func timeout(_ timeout: TimeInterval) -&gt; SCCSwiftyNetwork.SCCURL
 
@@ -573,15 +574,11 @@ MathJax.Hub.Queue(function() {
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">iOS App Store审核</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">阅读</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">hexo博客搭建</a>
+                <a href="javascript:void(0)" class="js-tag color1">iOS App Store审核</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -589,15 +586,11 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Java</a>
+                <a href="javascript:void(0)" class="js-tag color3">NSProxy</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Java基础</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">HTTPS/TLS</a>
+                <a href="javascript:void(0)" class="js-tag color4">hexo博客搭建</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -609,11 +602,23 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">HTTPS/TLS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">源码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">SDWebImage</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">-回忆</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">NSProxy</a>
+                <a href="javascript:void(0)" class="js-tag color4">heox博客搭建</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -625,19 +630,15 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">heox博客搭建</a>
+                <a href="javascript:void(0)" class="js-tag color5">Java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Java基础</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">CocoaPods</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">源码</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">SDWebImage</a>
               </li>
             
             <div class="clearfix"></div>
