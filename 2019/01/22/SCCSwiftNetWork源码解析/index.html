@@ -9,14 +9,14 @@
   <title>SCCSwiftNetWork源码解析 | 周老实</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="前言上次罗列了一下在App里面用到的一些网络请求方式，概括的说应该是两总类型：一类是直接url各种语法糖链接起来拿到请求数据，另一类就是针对RX做了一层封装，用RX的方式调用。那么这里我们就来总结一下那些类似”post”、”vaildData”之类的关键字里面做了什么，其他的方法又是怎么封装的。 从一个网络请求说起先来看一个简单的网络请求吧： 123456789101112131415161718">
-<meta name="keywords" content="归纳总结,源码阅读">
+<meta name="keywords" content="源码阅读,归纳总结">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SCCSwiftNetWork源码解析">
 <meta property="og:url" content="http://yoursite.com/2019/01/22/SCCSwiftNetWork源码解析/index.html">
 <meta property="og:site_name" content="周老实">
 <meta property="og:description" content="前言上次罗列了一下在App里面用到的一些网络请求方式，概括的说应该是两总类型：一类是直接url各种语法糖链接起来拿到请求数据，另一类就是针对RX做了一层封装，用RX的方式调用。那么这里我们就来总结一下那些类似”post”、”vaildData”之类的关键字里面做了什么，其他的方法又是怎么封装的。 从一个网络请求说起先来看一个简单的网络请求吧： 123456789101112131415161718">
 <meta property="og:locale" content="zh-cn">
-<meta property="og:updated_time" content="2019-01-22T05:54:09.375Z">
+<meta property="og:updated_time" content="2019-01-22T08:21:00.137Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SCCSwiftNetWork源码解析">
 <meta name="twitter:description" content="前言上次罗列了一下在App里面用到的一些网络请求方式，概括的说应该是两总类型：一类是直接url各种语法糖链接起来拿到请求数据，另一类就是针对RX做了一层封装，用RX的方式调用。那么这里我们就来总结一下那些类似”post”、”vaildData”之类的关键字里面做了什么，其他的方法又是怎么封装的。 从一个网络请求说起先来看一个简单的网络请求吧： 123456789101112131415161718">
@@ -216,12 +216,40 @@
 <p>customManager是一个[TimeInterval:SessionManager]键值对，根据不同的<br>timeout时间维护不同的SessionManager。这里为什么需要根据timeout来维护不同的session而不用一个全局的<br>session，大概可以理解为如果公用一个session的话那当前一个请求还没有真正发出去的时候，下一个请求来了我们改变了session的timeout那么会影响到前一个请求。</p>
 <blockquote>
 <ul>
-<li><strong>上报错误</strong></li>
+<li><strong>错误上报</strong></li>
 </ul>
 </blockquote>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SCCValidateResultReporter.request(url: url, errors: [], error: &quot;\(error.code()) \(error.formatterDescription())&quot;)</span><br></pre></td></tr></table></figure>
 <p>是一个封装好的将错误上报到一个错误统计平台，便于App的错误分析。</p>
-<h3 id="解析数据"><a href="#解析数据" class="headerlink" title="解析数据"></a>解析数据</h3>
+<h3 id="解析数据"><a href="#解析数据" class="headerlink" title="解析数据"></a>解析数据</h3><p>请求发出去了，数据也拿到了，那么接下来就是解析数据了。前面我们已经知道网络请求回来返回的是一个(Any, String)类型的Observable,在数据解析文件里面对这个类型的Observable做这么几个方法的扩展：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public extension Observable where Element == (Any, String) &#123;</span><br><span class="line"></span><br><span class="line">    var validDataUrl: Observable&lt;(JSON, String)&gt; &#123;</span><br><span class="line">        return flatMap(parse)</span><br><span class="line">    &#125;</span><br><span class="line">       </span><br><span class="line">    var validData: Observable&lt;JSON&gt; &#123;</span><br><span class="line">        return map&#123; $0.0 &#125;</span><br><span class="line">            .flatMap(parseOnlyObject)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<ul>
+<li><strong>validDataUrl</strong></li>
+</ul>
+</blockquote>
+<p>可以看到这里的validDataUrl属性是将Observable&lt;(Any,String)&gt;转化为了Observable&lt;(JSON,String)&gt;,通过一个parse方法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">private func parse(object: (Any, String)) -&gt; Observable&lt;(JSON, String)&gt; &#123;</span><br><span class="line">    let json = JSON(object.0)</span><br><span class="line">    guard let _ = json.dictionary else &#123;</span><br><span class="line">        let error = SCCError.invalidFormat(message: Message.invalidFormat, object: object.0)</span><br><span class="line">        SCCValidateResultReporter.request(url: object.1, errors: [], error: &quot;\(error.code()) \(error.formatterDescription())&quot;)</span><br><span class="line">        return .error(error)</span><br><span class="line">    &#125;</span><br><span class="line">    return handleJSON(json: json, url: object.1)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里还看不出来对数据做了怎么的操作，只是将Any类型的数据转化为了JSON，如果有dictionary值则继续处理，否则发送一个错误事件并将错误上报。那我们再看看handleJSON这个方法是怎么实现的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">private func handleJSON(returnKey: String = Key.data, json: JSON, url: String) -&gt; Observable&lt;(JSON, String)&gt; &#123;</span><br><span class="line">    /// 如果返回&apos;success&apos;字段为true</span><br><span class="line">    if check(json: json[Key.success]) &#123;</span><br><span class="line">        if returnKey.isEmpty &#123;</span><br><span class="line">            return .just((json, url))</span><br><span class="line">        &#125;</span><br><span class="line">        return .just((json[returnKey], url))</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        </span><br><span class="line">        let error = handleError(json: json)</span><br><span class="line">        SCCValidateResultReporter.request(url: url, errors: [], error: &quot;\(error.code()) \(error.formatterDescription())&quot;)</span><br><span class="line">        return .error(error)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个方法先对传进来的json的success字段做一次校验，如果为false的话直接发送错误事件并上报。如果为ture的话，这里的returnKey这个参数应该是一个取服务端对应key里面的数据，目前默认约定好的应该是data(Key是一个结构体，里面有很多静态属性，data = “data”)里面的数据。这个最好应该是跟服务端约定好的事，可以不一定是data。目前看项目里面别的地方好像都没有传入这个参数，不过加一个这个参数可以保证灵活性吧，万一哪天一个新来的服务端大佬不熟悉这个规则，将data变为Data那还是有一定的补救的余地，不过这中情况也是服务端可以直接修复的，也不需要客户端来补救。</p>
+<blockquote>
+<ul>
+<li><strong>validData</strong></li>
+</ul>
+</blockquote>
+<p>对应的，validData是将Observable&lt;(Any,String)&gt;转化为Observable<json>，这里先用map将(Any,String)转化为Any,再flatMap调用parseOnlyObject：</json></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">private func parseOnlyObject(object: Any) -&gt; Observable&lt;JSON&gt; &#123;</span><br><span class="line">    let json = JSON(object)</span><br><span class="line">    guard let _ = json.dictionary else &#123;</span><br><span class="line">        return .error(SCCError.invalidFormat(message: Message.invalidFormat, object: object))</span><br><span class="line">    &#125;</span><br><span class="line">    return handleJSON(json: json)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里和上面和类似，就不用过多笔墨了。可以看一下handleError这个方法怎么实现的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">func handleError(json: JSON) -&gt; SCCError &#123;</span><br><span class="line">    </span><br><span class="line">    let code = json[Key.code].intValue</span><br><span class="line">    if ErrorCode.notLogin.rawValue == code || ErrorCode.tokenLost.rawValue == code &#123;</span><br><span class="line">        NotificationCenter.default.post(name: .SCCNotLogin, object: nil)</span><br><span class="line">    &#125;</span><br><span class="line">    let traceId = json[Key.traceId].stringValue</span><br><span class="line">    var message = &quot;\(json[Key.msg].stringValue)\n\(traceId)&quot;</span><br><span class="line">    if !traceId.isEmpty, let topVC = UIViewController.applicationTopVC() &#123;</span><br><span class="line">        SCCModulor.sharedInstance().moduleName(&quot;wirelessToast&quot;, openWithParams: [&quot;icon&quot;: &quot;qrcode&quot;, &quot;text&quot;: message, &quot;qrcodeText&quot;: traceId, &quot;vc&quot;: topVC, &quot;duration&quot;: &quot;2000&quot;], callback:nil)</span><br><span class="line">        //已经弹过toast，防止上层业务二次弹出，将message置空，ui toast层做判断拦截</span><br><span class="line">        message = &quot;&quot;</span><br><span class="line">    &#125;</span><br><span class="line">    let error = SCCError.business(errorCode: code,</span><br><span class="line">                                  message: message,</span><br><span class="line">                                  object: json[Key.data])</span><br><span class="line">    return error</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>SCCError是一个对App网络错误类别统一归类的的类，这里的业务逻辑是如果是未登录或者token丢失的错误的话会发送一个未登录通知。另一个逻辑是在有traceId的情况会找到当前App的topVC弹一个带有二维码的toast。这个找topVc的方法值得学习下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">extension UIViewController &#123;</span><br><span class="line">    </span><br><span class="line">    static func applicationTopVC() -&gt; UIViewController? &#123;</span><br><span class="line">        var window: UIWindow? = UIApplication.shared.keyWindow</span><br><span class="line">        if window?.windowLevel != UIWindowLevelNormal &#123;</span><br><span class="line">            let windows = UIApplication.shared.windows</span><br><span class="line">            for tmpWin: UIWindow in windows &#123;</span><br><span class="line">                if tmpWin.windowLevel == UIWindowLevelNormal &#123;</span><br><span class="line">                    window = tmpWin</span><br><span class="line">                    break</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        for frontView: UIView? in window?.subviews ?? [UIView?]() &#123;</span><br><span class="line">            var nextResponder = frontView?.next</span><br><span class="line">            if let lenderClass = objc_getClass(&quot;UILayoutContainerView&quot;) as? UIView &#123;</span><br><span class="line">                </span><br><span class="line">                if let isMember = frontView?.isMember(of: lenderClass.classForCoder), !isMember &#123;</span><br><span class="line">                    let arr = frontView?.value(forKey: &quot;subviewCache&quot;) as? [Any]</span><br><span class="line">                    if (arr?.count ?? 0) &gt; 0 &#123;</span><br><span class="line">                        let v = arr?[0] as? UIView</span><br><span class="line">                        nextResponder = v?.next</span><br><span class="line">                    &#125; else &#123;</span><br><span class="line">                        nextResponder = frontView?.subviews[0].next</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">       </span><br><span class="line">            if (nextResponder is UITabBarController) &#123;</span><br><span class="line">                let tabbar = nextResponder as? UITabBarController</span><br><span class="line">                if let selectedIndex = tabbar?.selectedIndex &#123;</span><br><span class="line">                    let vc = tabbar?.viewControllers?[selectedIndex]</span><br><span class="line">                    guard let nav = vc as? UINavigationController else &#123;</span><br><span class="line">                        return vc</span><br><span class="line">                    &#125;</span><br><span class="line">                    return nav.childViewControllers.last</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; else if (nextResponder is UINavigationController) &#123;</span><br><span class="line">                let nav = nextResponder as? UINavigationController</span><br><span class="line">                return nav?.viewControllers.last</span><br><span class="line">            &#125; else if (nextResponder is UIViewController) &#123;</span><br><span class="line">                let vc = nextResponder as? UIViewController</span><br><span class="line">                return vc</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return nil</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>到此，第一类请求方式差不多就过完了，接下来我们主要看看怎么对这些方法进行RX方法的封装。</p>
+<h3 id="API-RX"><a href="#API-RX" class="headerlink" title="API+RX"></a>API+RX</h3><p>跟第一类方式一样，先看一个简单的网络请求：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">BankResource()</span><br><span class="line">    .rx.jsonWithParams()</span><br><span class="line">    .subscribe(&#123; (event) in</span><br><span class="line">        switch event &#123;</span><br><span class="line">        case .next(_):</span><br><span class="line">            break</span><br><span class="line">        case .error(let error):</span><br><span class="line">            self.scc.toast(content: error.formatterDescription())</span><br><span class="line">            break</span><br><span class="line">        default: break</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">    .disposed(by: bag)</span><br></pre></td></tr></table></figure>
+<p>分析这个方法之前我们先看一个类<code>SCCApi</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">open class SCCApi: NSObject, APIType &#123;</span><br><span class="line"></span><br><span class="line">    public lazy var url: SCCURL = &#123;</span><br><span class="line">        return SCCURL(url: self.apiURL())</span><br><span class="line">    &#125;()</span><br><span class="line"></span><br><span class="line">    public lazy var method: HTTPMethod = &#123;</span><br><span class="line">        return self.apiType()</span><br><span class="line">    &#125;()</span><br><span class="line"></span><br><span class="line">    open func apiURL() -&gt; String! &#123;</span><br><span class="line">        assertionFailure(&quot;Should be overrided by subclass.&quot;)</span><br><span class="line">        return &quot;&quot;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    open func apiType() -&gt; HTTPMethod &#123;</span><br><span class="line">        return .get</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    open func composeJSONWithPropertyParams() -&gt; Observable&lt;JSON&gt; &#123;</span><br><span class="line">        return observableData.json</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    open func composeJSONWithParams(_ params: Parameters = [:]) -&gt; Observable&lt;JSON&gt; &#123;</span><br><span class="line">        return url.request(method: method, parameters: params, headers: headers).json</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">postfix operator =&gt;</span><br><span class="line"></span><br><span class="line">public postfix func =&gt; &lt;T: Mappable&gt;(object: Any?) -&gt; T? &#123;</span><br><span class="line"> </span><br><span class="line">    return Mapper().map(JSONObject: object)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public postfix func =&gt; &lt;T: Mappable&gt;(object: Any?) -&gt; [T]? &#123;</span><br><span class="line"></span><br><span class="line">    return Mapper().mapArray(JSONObject: object)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
       
 
       
@@ -265,11 +293,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">归纳总结</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">源码阅读</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">源码阅读</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">归纳总结</a>
         		</li>
       		
 		</ul>
@@ -518,6 +546,10 @@ MathJax.Hub.Queue(function() {
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">hexo博客搭建</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">阅读</a>
               </li>
              
@@ -530,10 +562,6 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">hexo博客搭建</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Java</a>
               </li>
              
@@ -542,11 +570,7 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">归纳总结</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">源码阅读</a>
+                <a href="javascript:void(0)" class="js-tag color3">NSProxy</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -555,18 +579,6 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">-回忆</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">NSProxy</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">源码</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">SDWebImage</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -583,6 +595,22 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">CocoaPods</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">源码阅读</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">归纳总结</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">源码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">SDWebImage</a>
               </li>
             
             <div class="clearfix"></div>
