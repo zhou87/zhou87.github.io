@@ -9,14 +9,14 @@
   <title>SCCSwiftNetWork是怎么封装的 | 周老实</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="前言上次罗列了一下在App里面用到的一些网络请求方式，概括的说应该是两总类型：一类是直接url各种语法糖链接起来拿到请求数据，另一类就是针对RX做了一层封装，用RX的方式调用。那么这里我们就来总结一下那些类似&amp;quot;post&amp;quot;、&amp;quot;vaildData&amp;quot;之类的关键字里面做了什么，其他的方法又是怎么封装的。 从一个网络请求说起先来看一个简单的网络请求吧： 1234567">
-<meta name="keywords" content="归纳总结,源码阅读">
+<meta name="keywords" content="源码阅读,归纳总结">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SCCSwiftNetWork是怎么封装的">
 <meta property="og:url" content="http://yoursite.com/2019/01/22/SCCSwiftNetWork源码解析/index.html">
 <meta property="og:site_name" content="周老实">
 <meta property="og:description" content="前言上次罗列了一下在App里面用到的一些网络请求方式，概括的说应该是两总类型：一类是直接url各种语法糖链接起来拿到请求数据，另一类就是针对RX做了一层封装，用RX的方式调用。那么这里我们就来总结一下那些类似&amp;quot;post&amp;quot;、&amp;quot;vaildData&amp;quot;之类的关键字里面做了什么，其他的方法又是怎么封装的。 从一个网络请求说起先来看一个简单的网络请求吧： 1234567">
 <meta property="og:locale" content="zh-cn">
-<meta property="og:updated_time" content="2019-01-22T12:00:14.092Z">
+<meta property="og:updated_time" content="2019-01-22T12:27:26.938Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SCCSwiftNetWork是怎么封装的">
 <meta name="twitter:description" content="前言上次罗列了一下在App里面用到的一些网络请求方式，概括的说应该是两总类型：一类是直接url各种语法糖链接起来拿到请求数据，另一类就是针对RX做了一层封装，用RX的方式调用。那么这里我们就来总结一下那些类似&amp;quot;post&amp;quot;、&amp;quot;vaildData&amp;quot;之类的关键字里面做了什么，其他的方法又是怎么封装的。 从一个网络请求说起先来看一个简单的网络请求吧： 1234567">
@@ -181,7 +181,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>上次罗列了一下在<code>App</code>里面用到的一些网络请求方式，概括的说应该是两总类型：一类是直接<code>url</code>各种语法糖链接起来拿到请求数据，另一类就是针对RX做了一层封装，用<code>RX</code>的方式调用。那么这里我们就来总结一下那些类似<code>&quot;post&quot;</code>、<code>&quot;vaildData&quot;</code>之类的关键字里面做了什么，其他的方法又是怎么封装的。</p>
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>上次罗列了一下在<code>App</code>里面用到的一些网络请求方式，概括的说应该是两总类型：一类是直接<code>url</code>各种语法糖链接起来拿到请求数据，另一类就是针对<code>RX</code>做了一层封装，用<code>RX</code>的方式调用。那么这里我们就来总结一下那些类似<code>&quot;post&quot;</code>、<code>&quot;vaildData&quot;</code>之类的关键字里面做了什么，其他的方法又是怎么封装的。</p>
 <h3 id="从一个网络请求说起"><a href="#从一个网络请求说起" class="headerlink" title="从一个网络请求说起"></a>从一个网络请求说起</h3><p>先来看一个简单的网络请求吧：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">let url = &quot;https://www.baidu.com/&quot; (这里是需要发送请求的url)</span><br><span class="line">        </span><br><span class="line">let params = [</span><br><span class="line">    &quot;name&quot;:&quot;tangeche&quot;,</span><br><span class="line">    &quot;phone&quot;:&quot;12312312&quot;,</span><br><span class="line">    &quot;token&quot;:&quot;YEHodfIOU&quot;,</span><br><span class="line">    &quot;code&quot;: &quot;123456&quot;]</span><br><span class="line">    </span><br><span class="line">url</span><br><span class="line">    .headers([&quot;Content-Type&quot; : &quot;application/json&quot;])</span><br><span class="line">    .timeout(5)</span><br><span class="line">    .parameters(params)</span><br><span class="line">    .post(encoding: SCCParamterEncoding.jsonRaw)</span><br><span class="line">    .validData</span><br><span class="line">    .subscribe(onNext: &#123; (json) in</span><br><span class="line">        print(json)</span><br><span class="line">    &#125;, onError: &#123; (error) in</span><br><span class="line">        print(error)</span><br><span class="line">    &#125;)</span><br><span class="line">    .disposed(by: bag)</span><br></pre></td></tr></table></figure>
 <a id="more"></a>
@@ -304,11 +304,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">归纳总结</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">源码阅读</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">源码阅读</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">归纳总结</a>
         		</li>
       		
 		</ul>
@@ -557,7 +557,7 @@ MathJax.Hub.Queue(function() {
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">回忆</a>
+                <a href="javascript:void(0)" class="js-tag color1">iOS App Store审核</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -565,11 +565,11 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">hexo博客搭建</a>
+                <a href="javascript:void(0)" class="js-tag color3">回忆</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">iOS App Store审核</a>
+                <a href="javascript:void(0)" class="js-tag color5">HTTPS/TLS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -581,15 +581,7 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">HTTPS/TLS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">归纳总结</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">源码阅读</a>
+                <a href="javascript:void(0)" class="js-tag color4">hexo博客搭建</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -605,19 +597,27 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">heox博客搭建</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">源码阅读</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">归纳总结</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">CocoaPods</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">手势延迟</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">iOS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">heox博客搭建</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">CocoaPods</a>
               </li>
             
             <div class="clearfix"></div>
