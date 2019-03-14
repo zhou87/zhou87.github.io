@@ -179,7 +179,31 @@
     <div class="article-entry" itemprop="articleBody">
       
         <h3 id="记录下第一次购买vutrl搭建ss"><a href="#记录下第一次购买vutrl搭建ss" class="headerlink" title="记录下第一次购买vutrl搭建ss"></a>记录下第一次购买vutrl搭建ss</h3><p>好像作为一个合格的程序员，翻墙好像是一个必备技能，所以也就有<code>Google</code>程序员歧视百度程序员这么一说。不管是为了不<code>被歧视</code>也好，或者是本着尝试下新知识的目的，我们也来尝试下怎么去搭建个梯子。这里我们选择的方式是<a href="https://my.vultr.com/" target="_blank" rel="noopener">vultr</a>,购买很简单，支付宝付好钱后选择服务器（一般是5美元）他自己会自动建好服务器。这个步骤就不多赘述，也可以参看<a href="https://www.vultrblog.com/vultr-ss.html" target="_blank" rel="noopener">这篇文章</a>，我主要记录下VPS建好之后，我们该怎么去链接VPS，搭建ss。</p>
-<h3 id="连接VPS"><a href="#连接VPS" class="headerlink" title="连接VPS"></a>连接VPS</h3><p>服务器搭建好之后我们就可以拿到一个IP地址了，我们可以在终端通过ssh连上服务器，只需执行：<br><code>ssh root@111.111.111.111</code></p>
+<h3 id="连接VPS-amp-配置SS"><a href="#连接VPS-amp-配置SS" class="headerlink" title="连接VPS&amp;配置SS"></a>连接VPS&amp;配置SS</h3><p>服务器搭建好之后我们就可以拿到一个IP地址了，我们可以在终端通过ssh连上服务器，只需执行：</p>
+<p><code>ssh root@111.111.111.111</code><br>会让你输入密码，当然密码就是在创建服务器的时候已经有了，直接复制粘贴就行。之后就会自动连接了，如果成功连上的话应该是这样的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"> ~ $ ssh root@155.138.134.216</span><br><span class="line">root@155.138.134.216&apos;s password:</span><br><span class="line">Last failed login: Thu Mar 14 01:12:53 UTC 2019 from 185.42.64.216 on ssh:notty</span><br><span class="line">There were 296 failed login attempts since the last successful login.</span><br><span class="line">Last login: Wed Mar 13 13:24:29 2019 from 183.129.130.102</span><br><span class="line">[root@toronto ~]#</span><br></pre></td></tr></table></figure>
+<p>这样我们就可以在远程的vps干点啥事情了，接下来需要安装依赖包：</p>
+<p><code>curl &quot;https://bootstrap.pypa.io/get-pip.py&quot; -o &quot;get-pip.py&quot;</code></p>
+<p>然后用<code>python</code>安装<code>pip</code>:</p>
+<p><code>python get-pip.py</code></p>
+<p>然后就是安装<code>shadowsocks</code>:</p>
+<p><code>pip install shadowsocks</code></p>
+<p>安装好ss之后，我们需要配置下ss的配置文件，将我们的ip地址和密码、端口、加密方式等信息填上去。</p>
+<p><code>vi /etc/shadowsocks.json</code></p>
+<p>刚打开这个文件是空的，我们改成这样差不多：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">&quot;server&quot;: &quot;0.0.0.0&quot;,</span><br><span class="line">&quot;server_port&quot;: &quot;8000&quot;,</span><br><span class="line">&quot;password&quot;: &quot;12345678&quot;,</span><br><span class="line">&quot;method&quot;: &quot;aes-256-cfb&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>很好理解，server是服务器的IP地址，端口也可以随意写，密码是你连ss的密码，根据自己喜好设置，加密方式一般选择这种。这里需要注意下value尽量都要用引号，不然会报错。这个是一个人用，但让想跟小伙伴分享下梯子也可以配置多用户，互不干扰，比如这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">&quot;server&quot;: &quot;0.0.0.0&quot;,</span><br><span class="line">&quot;port_password&quot;: &#123;</span><br><span class="line">&quot;8381&quot;: &quot;password1&quot;,</span><br><span class="line">&quot;8382&quot;: &quot;password2&quot;,</span><br><span class="line">&quot;8383&quot;: &quot;password3&quot;,</span><br><span class="line">&quot;8384&quot;: &quot;password4&quot;</span><br><span class="line">&#125;,</span><br><span class="line">&quot;timeout&quot;: 300,</span><br><span class="line">&quot;method&quot;: &quot;aes-256-cfb&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>保存，退出。</p>
+<p>然后还需要配置下防火墙：</p>
+<p><code>systemctl stop firewalld.service</code></p>
+<p>启动SS服务：</p>
+<p><code>ssserver -c /etc/shadowsocks.json -d start</code></p>
+<p>启动成功的话，应该可以看到：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@toronto ~]# ssserver -c /etc/shadowsocks.json -d start</span><br><span class="line">INFO: loading config from /etc/shadowsocks.json</span><br><span class="line">2019-03-14 01:19:39 INFO     loading libcrypto from libcrypto.so.10</span><br><span class="line">started</span><br></pre></td></tr></table></figure>
+<p>关闭SS服务:</p>
+<p><code>ssserver -c /etc/shadowsocks.json -d stop</code></p>
+<h3 id="客户端连接SS"><a href="#客户端连接SS" class="headerlink" title="客户端连接SS"></a>客户端连接SS</h3><p><a href="https://github.com/search?q=shadowsocks" target="_blank" rel="noopener">shadowsocks</a>可以在github上下载。安装好之后，打开shadowsocks选择服务器配置，按照刚才配置的ss输入服务器的配置信息，点击确定，然后服务器选择刚才添加的服务器。关于PAC自动模式和全局模式、手动模式，根据自己喜好随意切换。好了，搭个梯子好像也就这些，冲浪愉快~</p>
 
       
 
@@ -397,11 +421,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">归纳总结</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">源码阅读</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">源码阅读</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">归纳总结</a>
         		</li>
       		
 		</ul>
@@ -494,11 +518,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">归纳总结</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">源码阅读</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">源码阅读</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">归纳总结</a>
         		</li>
       		
 		</ul>
@@ -1194,11 +1218,11 @@ MathJax.Hub.Queue(function() {
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">阅读</a>
+                <a href="javascript:void(0)" class="js-tag color3">回忆</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">回忆</a>
+                <a href="javascript:void(0)" class="js-tag color3">阅读</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1222,31 +1246,15 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">NSProxy</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">源码</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">SDWebImage</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">归纳总结</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">源码阅读</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">vultr</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">ss</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">NSProxy</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1262,6 +1270,14 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">源码阅读</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">归纳总结</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Cocoapods</a>
               </li>
              
@@ -1271,6 +1287,14 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">CocoaPods</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">源码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">SDWebImage</a>
               </li>
             
             <div class="clearfix"></div>
