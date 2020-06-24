@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
-<head>
+<head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="utf-8">
   
   <meta name="renderer" content="webkit">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>Objective-C中的复制忍者卡卡西---NSProxy | 周老实</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -42,7 +42,7 @@
   
 
 </head>
-
+</html>
 <body>
   <div id="container" q-class="show:isCtnShow">
     <canvas id="anm-canvas" class="anm-canvas"></canvas>
@@ -186,8 +186,8 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>是不是曾经在别人面前夸下海口：<code>Objective-C</code>中所有的类的基类都是<code>NSObject</code>;我之前也一直也这么以为的，但是认真看了下官方文档：</p>
-<p><img src="/图片测试/A14B3BD8-1FB4-4F2B-BB4E-B259CA3B4DD7.png" alt=""></p>
-<p>啪啪，好响，好疼~（看来英文水平也很重要啊……）<br>不卖关子了，我们今天要讨论的就是<code>NSProxy</code>。它是跟<code>NSObject</code>属于同一级别的类，是个抽象类，只是实现了<code>&lt;NSObject&gt;</code>的协议;<br><a id="more"></a><br><img src="/图片测试/A9761DE2-782E-4900-A364-C2C008FEDE96.png" alt=""></p>
+<p><img src="/图片测试/A14B3BD8-1FB4-4F2B-BB4E-B259CA3B4DD7.png" alt></p>
+<p>啪啪，好响，好疼~（看来英文水平也很重要啊……）<br>不卖关子了，我们今天要讨论的就是<code>NSProxy</code>。它是跟<code>NSObject</code>属于同一级别的类，是个抽象类，只是实现了<code>&lt;NSObject&gt;</code>的协议;<br><a id="more"></a><br><img src="/图片测试/A9761DE2-782E-4900-A364-C2C008FEDE96.png" alt></p>
 <p>按照官方的定义：<code>NSProxy</code>是一个为对象定义接口的抽象父类，并且为其它对象或者一些不存在的对象扮演了替身角色。通常，给proxy的消息被转发给实际对象或者导致proxy加载（转化它为）实际对象。<code>NSProxy</code>的子类能被用来实现透明的分布式消息(例如:NSDistantObject)或者延缓要花费昂贵代价创建的对象的实现。</p>
 <p>下面我们看看<code>NSProxy</code>是怎么复制别的类（几乎所有类）的：</p>
 <p>我们先创建一个类继承自<code>NSProxy</code>:</p>
@@ -199,7 +199,7 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#import "Wood.h"</span><br><span class="line"></span><br><span class="line"><span class="meta">@implementation</span> Wood</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)boom&#123;</span><br><span class="line"></span><br><span class="line">    NSLog(@<span class="string">"变!木头!..."</span>);</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>调用：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//初始化一个木头</span></span><br><span class="line">Wood *wood = [[Wood alloc] init];</span><br><span class="line"><span class="comment">//初始化一个帕克</span></span><br><span class="line">Parker_Dog  *paker = [[Parker_Dog alloc] init];</span><br><span class="line"><span class="comment">//初始化一个卡卡西</span></span><br><span class="line">KakashiProxy *proxy = [KakashiProxy alloc];</span><br><span class="line"></span><br><span class="line"><span class="comment">//变木头</span></span><br><span class="line">[proxy changeObj:wood];</span><br><span class="line"><span class="comment">//调用木头的方法</span></span><br><span class="line">[proxy performSelector:<span class="meta">@selector</span>(boom) withObject:nil];</span><br><span class="line"></span><br><span class="line"><span class="comment">//变帕克</span></span><br><span class="line">[proxy changeObj:paker];</span><br><span class="line"><span class="comment">//调用帕克的方法</span></span><br><span class="line">[proxy performSelector:<span class="meta">@selector</span>(bite) withObject:nil];</span><br></pre></td></tr></table></figure>
-<p>控制台输出:<br><img src="/图片测试/4CBD3398-72E0-4E8B-AB41-045CFC4468FA.png" alt=""></p>
+<p>控制台输出:<br><img src="/图片测试/4CBD3398-72E0-4E8B-AB41-045CFC4468FA.png" alt></p>
 <p>这样，我们通过<code>proxy</code>这个类实现了复制<code>wood</code>和<code>paker</code>，可以分别调用各个类的方法了。</p>
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>其实也不能叫复制吧，大家也可以看到，这个实现其实就是利用了<code>runtime</code>的消息转发机制。这篇文章就算是对<code>NSProxy</code>的一个简单认识吧，还有些<code>NSProxy</code>的高级用法可能笔者还没有学习到，还要继续努力，有时间需要深入研究下这个特殊的类。</p>
 <blockquote>
@@ -407,7 +407,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2019 周老实
+    		&copy; 2020 周老实
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -515,10 +515,6 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">HTTPS/TLS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">hexo博客搭建</a>
               </li>
              
@@ -527,39 +523,15 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Java</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Java基础</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">NSProxy</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">回忆</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">源码</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">SDWebImage</a>
+                <a href="javascript:void(0)" class="js-tag color5">HTTPS/TLS</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">heox博客搭建</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">vultr</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">ss</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -571,6 +543,18 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">vultr</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">ss</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">CocoaPods</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">源码阅读</a>
               </li>
              
@@ -579,15 +563,31 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">CocoaPods</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Cocoapods</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">记录</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">回忆</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Java基础</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">源码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">SDWebImage</a>
               </li>
             
             <div class="clearfix"></div>
@@ -647,11 +647,11 @@ MathJax.Hub.Queue(function() {
             </li>
           
             <li class="search-li">
-              <a href="http://blog.devtang.com/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>唐巧的技术博客</a>
+              <a href="https://coolshell.cn/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>耳朵耗子</a>
             </li>
           
             <li class="search-li">
-              <a href="http://mrpeak.cn/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>MrPeak</a>
+              <a href="http://blog.devtang.com/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>唐巧的技术博客</a>
             </li>
           
             <li class="search-li">
@@ -683,14 +683,6 @@ MathJax.Hub.Queue(function() {
             </li>
           
             <li class="search-li">
-              <a href="http://www.jianshu.com/u/c1442ed9959c" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>戴仓鼠</a>
-            </li>
-          
-            <li class="search-li">
-              <a href="http://www.jianshu.com/u/3e54419b722d" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>Delpan</a>
-            </li>
-          
-            <li class="search-li">
               <a href="http://sindrilin.com/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>sindrilin的小巢</a>
             </li>
           
@@ -699,19 +691,7 @@ MathJax.Hub.Queue(function() {
             </li>
           
             <li class="search-li">
-              <a href="https://coolshell.cn/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>耳朵耗子</a>
-            </li>
-          
-            <li class="search-li">
               <a href="https://blog.cnbluebox.com/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>刘坤</a>
-            </li>
-          
-            <li class="search-li">
-              <a href="https://www.gfzj.us/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>gf&amp;zjの盗梦空间</a>
-            </li>
-          
-            <li class="search-li">
-              <a href="http://tutuge.me/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>土土哥的技术博客</a>
             </li>
           
         </ul>
@@ -722,7 +702,7 @@ MathJax.Hub.Queue(function() {
     
     	<section class="tools-section tools-section-me" q-show="aboutme">
   	  	
-  	  		<div class="aboutme-wrap" id="js-aboutme">毕业于杭州电子科技大学，&lt;/br&gt;&lt;/br&gt;2015年3月份开始接触iOS开发，并一直在学习路上的iOS鶸。</div>
+  	  		<div class="aboutme-wrap" id="js-aboutme">毕业于杭州电子科技大学，&lt;/br&gt;&lt;/br&gt; 中年iOS开发。</div>
   	  	
     	</section>
     

@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
-<head>
+<head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="utf-8">
   
   <meta name="renderer" content="webkit">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>Java学习笔记-基础语法 | 周老实</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -41,7 +41,7 @@
   
 
 </head>
-
+</html>
 <body>
   <div id="container" q-class="show:isCtnShow">
     <canvas id="anm-canvas" class="anm-canvas"></canvas>
@@ -360,7 +360,7 @@
 <li><p>程序执行过程：</p>
 </li>
 </ul>
-<p><img src="/图片测试/幻灯片22.JPG" alt=""><br>(code segment:代码区；data segment:数据区；stack:栈区；heap:堆区。)</p>
+<p><img src="/图片测试/幻灯片22.JPG" alt><br>(code segment:代码区；data segment:数据区；stack:栈区；heap:堆区。)</p>
 <blockquote>
 <p><strong>5.Java基本数据类型</strong></p>
 </blockquote>
@@ -504,7 +504,7 @@
 </li>
 </ul>
 <p>   编译器报错：</p>
-<p>   <img src="/图片测试/TestConvertError.jpg" alt=""></p>
+<p>   <img src="/图片测试/TestConvertError.jpg" alt></p>
 <p>   参考写法：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestCovert</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    		<span class="keyword">int</span> i = <span class="number">1</span>,j;</span><br><span class="line">    		<span class="keyword">float</span> f1 = <span class="number">0.1f</span>;</span><br><span class="line">    		<span class="keyword">float</span> f2 = <span class="number">123</span>;</span><br><span class="line">    		<span class="keyword">long</span> l1 = <span class="number">12345678</span>,l2 = <span class="number">88888888L</span>;</span><br><span class="line">    		<span class="keyword">double</span> d1 = <span class="number">2e20</span>,d2 = <span class="number">124</span>;</span><br><span class="line">    		<span class="keyword">byte</span> b1 = <span class="number">1</span>,b2 = <span class="number">2</span>,b3 = <span class="number">127</span>;</span><br><span class="line">    		j = <span class="number">1</span>;</span><br><span class="line">    		j = j + <span class="number">10</span>;</span><br><span class="line">    		i = i / <span class="number">10</span>;</span><br><span class="line">    		i = (<span class="keyword">int</span>)(i * <span class="number">0.1</span>);</span><br><span class="line">    		<span class="keyword">char</span> c1 = <span class="string">'a'</span>,c2 = <span class="number">125</span>;</span><br><span class="line">    		<span class="keyword">byte</span> b = (<span class="keyword">byte</span>)(b1 - b2);</span><br><span class="line">    		<span class="keyword">char</span> c = (<span class="keyword">char</span>)(c1 + c2 - <span class="number">1</span>);</span><br><span class="line">    		<span class="keyword">float</span> f3 = f1 + f2;</span><br><span class="line">    		<span class="keyword">float</span> f4 = (<span class="keyword">float</span>)(f1 + f2*<span class="number">0.1</span>);</span><br><span class="line">    		<span class="keyword">double</span> d = d1 * i + j;</span><br><span class="line">    		<span class="keyword">float</span> f = (<span class="keyword">float</span>)(d1*<span class="number">5</span> + d2);</span><br><span class="line">    </span><br><span class="line">    		System.out.println(<span class="string">"c1 is "</span> + c1);</span><br><span class="line">    		System.out.println(<span class="string">"b is "</span> + b);</span><br><span class="line">    		System.out.println(<span class="string">"c is "</span> + c);</span><br><span class="line">    		System.out.println(<span class="string">"f3 is "</span> + f3);</span><br><span class="line">    		System.out.println(<span class="string">"f4 is "</span> + f4);</span><br><span class="line">    		System.out.println(<span class="string">"d is "</span> + d);</span><br><span class="line">    		System.out.println(<span class="string">"f is "</span> + f);</span><br><span class="line">    </span><br><span class="line">    	&#125;</span><br><span class="line">          </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <blockquote>
 <p><strong>6.程序格式</strong></p>
@@ -724,7 +724,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2019 周老实
+    		&copy; 2020 周老实
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -832,10 +832,6 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">HTTPS/TLS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">hexo博客搭建</a>
               </li>
              
@@ -844,39 +840,15 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Java</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Java基础</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">NSProxy</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">回忆</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">源码</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">SDWebImage</a>
+                <a href="javascript:void(0)" class="js-tag color5">HTTPS/TLS</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">heox博客搭建</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">vultr</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">ss</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -888,6 +860,18 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">vultr</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">ss</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">CocoaPods</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">源码阅读</a>
               </li>
              
@@ -896,15 +880,31 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">CocoaPods</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Cocoapods</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">记录</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">回忆</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Java基础</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">源码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">SDWebImage</a>
               </li>
             
             <div class="clearfix"></div>
@@ -964,11 +964,11 @@ MathJax.Hub.Queue(function() {
             </li>
           
             <li class="search-li">
-              <a href="http://blog.devtang.com/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>唐巧的技术博客</a>
+              <a href="https://coolshell.cn/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>耳朵耗子</a>
             </li>
           
             <li class="search-li">
-              <a href="http://mrpeak.cn/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>MrPeak</a>
+              <a href="http://blog.devtang.com/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>唐巧的技术博客</a>
             </li>
           
             <li class="search-li">
@@ -1000,14 +1000,6 @@ MathJax.Hub.Queue(function() {
             </li>
           
             <li class="search-li">
-              <a href="http://www.jianshu.com/u/c1442ed9959c" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>戴仓鼠</a>
-            </li>
-          
-            <li class="search-li">
-              <a href="http://www.jianshu.com/u/3e54419b722d" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>Delpan</a>
-            </li>
-          
-            <li class="search-li">
               <a href="http://sindrilin.com/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>sindrilin的小巢</a>
             </li>
           
@@ -1016,19 +1008,7 @@ MathJax.Hub.Queue(function() {
             </li>
           
             <li class="search-li">
-              <a href="https://coolshell.cn/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>耳朵耗子</a>
-            </li>
-          
-            <li class="search-li">
               <a href="https://blog.cnbluebox.com/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>刘坤</a>
-            </li>
-          
-            <li class="search-li">
-              <a href="https://www.gfzj.us/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>gf&amp;zjの盗梦空间</a>
-            </li>
-          
-            <li class="search-li">
-              <a href="http://tutuge.me/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>土土哥的技术博客</a>
             </li>
           
         </ul>
@@ -1039,7 +1019,7 @@ MathJax.Hub.Queue(function() {
     
     	<section class="tools-section tools-section-me" q-show="aboutme">
   	  	
-  	  		<div class="aboutme-wrap" id="js-aboutme">毕业于杭州电子科技大学，&lt;/br&gt;&lt;/br&gt;2015年3月份开始接触iOS开发，并一直在学习路上的iOS鶸。</div>
+  	  		<div class="aboutme-wrap" id="js-aboutme">毕业于杭州电子科技大学，&lt;/br&gt;&lt;/br&gt; 中年iOS开发。</div>
   	  	
     	</section>
     
