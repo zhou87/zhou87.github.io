@@ -456,13 +456,6 @@
     </div>
     <!-- 不蒜子  -->
     
-    <div class="busuanzi-container">
-    
-     
-    <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
-    
-    </div>
-    
 </footer>
     </div>
     <!-- toc -->
@@ -1074,8 +1067,6 @@ jsonContent:
     
     <!-- busuanzi  -->
     
-    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-    
     <!-- CNZZ  -->
     
     </div>
@@ -1085,15 +1076,14 @@ jsonContent:
 </html>
 
 
-ite('<script src="/lib/jquery.min.js">\x3C/script>')
+ console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
         }
     </script>
     <script src="/scripts/main.js"></script>
     <!-- algolia -->
     
     <!-- busuanzi  -->
-    
-    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
     
     <!-- CNZZ  -->
     
