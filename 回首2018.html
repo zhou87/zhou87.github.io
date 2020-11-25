@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <!-- title -->
+
+
+
+
+<!-- keywords -->
+
+
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="author" content="周老实">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="周老实">
+    
+    <meta name="keywords" content="hexo,hexo-theme,hexo-blog">
+    
+    <meta name="description" content>
+    <meta name="description" content="前言匆匆的一段时间过后稍稍停下来回望之前走过的路，发现来到这里的这段时光应该算是工作以来比较忙碌也最充实的。看上去忙碌的样子是从一个散兵游勇的公司来到一个业务高速发展与迭代、开发流程极其规范的办公环境的适应与学习能力不足导致的；充实是因为周围的同学都是如此的优秀，各有各的优点与长处，都是我学习的榜样。 回想到去年年初的那个决定，一份月薪比现在高5K的offer和大搜车的offer，老生常谈地来说当">
+<meta name="keywords" content="回忆">
+<meta property="og:type" content="website">
+<meta property="og:title" content="回首2018">
+<meta property="og:url" content="http://yoursite.com/回首2018.html">
+<meta property="og:site_name" content="周老实">
+<meta property="og:description" content="前言匆匆的一段时间过后稍稍停下来回望之前走过的路，发现来到这里的这段时光应该算是工作以来比较忙碌也最充实的。看上去忙碌的样子是从一个散兵游勇的公司来到一个业务高速发展与迭代、开发流程极其规范的办公环境的适应与学习能力不足导致的；充实是因为周围的同学都是如此的优秀，各有各的优点与长处，都是我学习的榜样。 回想到去年年初的那个决定，一份月薪比现在高5K的offer和大搜车的offer，老生常谈地来说当">
+<meta property="og:locale" content="zh-cn">
+<meta property="og:updated_time" content="2019-01-24T00:57:28.791Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="回首2018">
+<meta name="twitter:description" content="前言匆匆的一段时间过后稍稍停下来回望之前走过的路，发现来到这里的这段时光应该算是工作以来比较忙碌也最充实的。看上去忙碌的样子是从一个散兵游勇的公司来到一个业务高速发展与迭代、开发流程极其规范的办公环境的适应与学习能力不足导致的；充实是因为周围的同学都是如此的优秀，各有各的优点与长处，都是我学习的榜样。 回想到去年年初的那个决定，一份月薪比现在高5K的offer和大搜车的offer，老生常谈地来说当">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>回首2018 · fi3ework&#39;s Studio</title>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s infinite;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href="/css/style.css?v=20180824" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="stylesheet" href="/css/mobile.css?v=20180824" media="(max-width: 980px)">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+(function( w ){
+	"use strict";
+	// rel=preload support test
+	if( !w.loadCSS ){
+		w.loadCSS = function(){};
+	}
+	// define on the loadCSS obj
+	var rp = loadCSS.relpreload = {};
+	// rel=preload feature support test
+	// runs once and returns a function for compat purposes
+	rp.support = (function(){
+		var ret;
+		try {
+			ret = w.document.createElement( "link" ).relList.supports( "preload" );
+		} catch (e) {
+			ret = false;
+		}
+		return function(){
+			return ret;
+		};
+	})();
+
+	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+	// then change that media back to its intended value on load
+	rp.bindMediaToggle = function( link ){
+		// remember existing media attr for ultimate state, or default to 'all'
+		var finalMedia = link.media || "all";
+
+		function enableStylesheet(){
+			link.media = finalMedia;
+		}
+
+		// bind load handlers to enable media
+		if( link.addEventListener ){
+			link.addEventListener( "load", enableStylesheet );
+		} else if( link.attachEvent ){
+			link.attachEvent( "onload", enableStylesheet );
+		}
+
+		// Set rel and non-applicable media type to start an async request
+		// note: timeout allows this to happen async to let rendering continue in IE
+		setTimeout(function(){
+			link.rel = "stylesheet";
+			link.media = "only x";
+		});
+		// also enable media after 3 seconds,
+		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+		setTimeout( enableStylesheet, 3000 );
+	};
+
+	// loop through link elements in DOM
+	rp.poly = function(){
+		// double check this to prevent external calls from running
+		if( rp.support() ){
+			return;
+		}
+		var links = w.document.getElementsByTagName( "link" );
+		for( var i = 0; i < links.length; i++ ){
+			var link = links[ i ];
+			// qualify links to those with rel=preload and as=style attrs
+			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+				// prevent rerunning on link
+				link.setAttribute( "data-loadcss", true );
+				// bind listeners to toggle media back
+				rp.bindMediaToggle( link );
+			}
+		}
+	};
+
+	// if unsupported, run the polyfill
+	if( !rp.support() ){
+		// run once at least
+		rp.poly();
+
+		// rerun poly on an interval until onload
+		var run = w.setInterval( rp.poly, 500 );
+		if( w.addEventListener ){
+			w.addEventListener( "load", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		} else if( w.attachEvent ){
+			w.attachEvent( "onload", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		}
+	}
+
+
+	// commonjs
+	if( typeof exports !== "undefined" ){
+		exports.loadCSS = loadCSS;
+	}
+	else {
+		w.loadCSS = loadCSS;
+	}
+}( typeof global !== "undefined" ? global : this ) );
+</script>
+
+    <link rel="icon" href="/assets/favicon.ico">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script">
+    <link rel="preload" href="/scripts/main.js" as="script">
+    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin>
+    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin>
+    
+    <!-- fancybox -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+</head>
+
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <a class="home-link" href=/>fi3ework's Studio.</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro" style="
+
+
+
+
+
+
+">
+    
+    <!-- 主页  -->
+            
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+    </div>
+</div>
+        <script>
+ 
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  function asyncErr(){
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
+    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+
+  var asyncLoadWithFallBack = function(arr, success, reject) {
+      var currReject = function(){
+        reject()
+        arr.shift()
+        if(arr.length)
+          async(arr[0], success, currReject)
+        }
+
+      async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack([
+    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
+    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
+    "/lib/webfontloader.min.js"
+  ], asyncCb, asyncErr)
+</script>        
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>匆匆的一段时间过后稍稍停下来回望之前走过的路，发现来到这里的这段时光应该算是工作以来比较忙碌也最充实的。看上去忙碌的样子是从一个散兵游勇的公司来到一个业务高速发展与迭代、开发流程极其规范的办公环境的适应与学习能力不足导致的；充实是因为周围的同学都是如此的优秀，各有各的优点与长处，都是我学习的榜样。</p>
+<p>回想到去年年初的那个决定，一份月薪比现在高5K的offer和大搜车的offer，老生常谈地来说当时就是被现实与梦想交织在一起的折磨撕扯得欲哭无泪。最后，还是义无反顾地反对家里的意见，选择来到了大搜车，目前来看，这个决定没有错。</p>
+<p>来到大搜车做开发跟之前公司完全不一样，语言从OC转换到Swift+OC混编，再加上稍有点难理解的RX，让我这个一直闭门造车的非正规军焦头烂额。刚开始慢慢熟悉Swift的语法，对于RX的内容我只能边写业务边依葫芦画瓢照着样子写，能实现就行，其实并不理解，想着写完这个业务再来总结一下吧。可是好像几乎都是这个需求刚刚做完，立马就无缝衔接上了下一个需求，然后好不容易一个周末又想好好放松下这个无处安放的灵魂，所以做总结这个无比艰巨的任务就这样一拖再拖。还好周边坐着轩老板和斌辉两位大佬，在很多业务和技术上的问题基本上都能从他们那里得到解决。很佩服轩老板的沟通和业务能力，也很佩服斌辉年纪轻轻在技术上就能有这么深厚和广泛的沉淀，自叹不如。当然还有其他的很多大佬，平时可能没有很多交集，他们也很优秀同样也都很努力。其实很多时候都很想找你们搬个凳子坐着讨论一些东西，无论技术、工作、生活，或者是爱好、信仰，只是脸皮太薄，加上最近一两年的极度自卑感，始终都没有开口。<br><a id="more"></a></p>
+<h3 id="收获与期望"><a href="#收获与期望" class="headerlink" title="收获与期望"></a>收获与期望</h3><p>今年来到到搜车在技术上最大的收获就是swift和RN了，swift也算是苹果力推的一门语言，虽说在swift刚发布的那一两年我有写过一点点swift的代码，但是在平时开发一点不用的情况下，转身就忘光了。对于RN，之前也自学过一点前端的知识，再加上公司有一套完善的脚手架，所以感觉上手还不算太难。虽说在这两个技术栈上写了快一年的业务了，但还远远称不上很熟练，所以在接下来的一段空闲时间准备好好整理、阅读平时用的比较多的库，总结平时掉坑比较多的点。</p>
+<p>还记得在去年的总结上写了一个在github上收获100个start的目标，现在看来可能这个头都还没有开始。应该是囿于我的技术浅薄和思维僵硬，所以这个目标一直都胎死腹中。其实我也一直想做一个属于自己的工具或者平台性的东西，能为很多人提供解决方案，那应该是一件十分令人愉悦的事情。所以我想在今后的工作中若有机会，在能力范围之内，能更多地参与到这类项目的开发中去。</p>
+<h3 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h3><p>一份收获一份耕耘，就像之前亮哥对我说过的一句话，凡事都得靠自己。确实，很多时候也只有自己才能拯救自己，很多事情都要自己去做才能达到期望。所以在没有达到期望之前，要不停地朝着目标努力。</p>
+<p>Stay hungry, stay foolish!</p>
+<p>祝好，以上！</p>
+
+    </article>
+    <!-- license  -->
+    
+        <div class="license-wrapper">
+            <p>原文作者：<a href="http://yoursite.com">周老实</a>
+            <p>原文链接：<a href="http://yoursite.com/回首2018.html">http://yoursite.com/回首2018.html</a>
+            <p>发表日期：<a href="http://yoursite.com/回首2018.html">December 27th 2018, 4:56:10 pm</a>
+            <p>更新日期：<a href="http://yoursite.com/回首2018.html">January 24th 2019, 8:57:28 am</a>
+            <p>版权声明：本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
+        </div>
+    
+    <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+        </li>
+        <li class="previous">
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!-- gitalk评论 -->
+
+    <!-- utteranc评论 -->
+
+    <!-- partial('_partial/comment/changyan') -->
+    <!--PC版-->
+
+
+    
+    
+
+    <!-- 评论 -->
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:12345@qq.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/fi3ework" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+            
+                <span class="iconfont-archer wechat" title=wechat>
+                  
+                  <img class="profile-qr" src="/assets/example_qr.png" />
+                </span>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+    <div class="busuanzi-container">
+    
+     
+    <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+    
+    </div>
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 24
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2020 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/06</span><a class="archive-post-title" href= "/2020/07/06/A-half-of-2020/" >A half of 2020</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/29</span><a class="archive-post-title" href= "/2020/06/29/WWDC 2020/" >WWDC 2020</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2019 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/14</span><a class="archive-post-title" href= "/2019/03/14/vultr搭建ss/" >vultr搭建ss</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/13</span><a class="archive-post-title" href= "/2019/03/13/记录下Cocoapods怎么创建私有podspec/" >记录下Cocoapods怎么创建私有podspec</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/22</span><a class="archive-post-title" href= "/2019/01/22/SCCSwiftNetWork源码解析/" >SCCSwiftNetWork是怎么封装的</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/18</span><a class="archive-post-title" href= "/2019/01/18/网络库的使用/" >网络库的使用</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/2017回顾/" >2017回顾</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/11</span><a class="archive-post-title" href= "/2018/01/11/SDWebImage源码阅读/" >SDWebImage源码阅读(上)</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2017 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/29</span><a class="archive-post-title" href= "/2017/12/29/HTTPS加密过程和TLS证书验证/" >HTTPS加密过程和TLS证书验证</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/28</span><a class="archive-post-title" href= "/2017/12/28/Objective-C中的复制忍者卡卡西-NSProxy/" >Objective-C中的复制忍者卡卡西---NSProxy</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/21</span><a class="archive-post-title" href= "/2017/12/21/献给许许多多的忌日/" >献给许许多多的忌日</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/20</span><a class="archive-post-title" href= "/2017/12/20/测试下把hexo搬到自己电脑上/" >测试下把hexo搬到自己电脑上</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/20</span><a class="archive-post-title" href= "/2017/11/20/圣杯传奇/" >圣杯传奇</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/08</span><a class="archive-post-title" href= "/2017/11/08/AppStore审核记录/" >AppStore审核记录</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/02</span><a class="archive-post-title" href= "/2017/11/02/记一次CocoaPods的安装/" >记一次CocoaPods的安装</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/30</span><a class="archive-post-title" href= "/2017/10/30/The-time-gone/" >The time has gone</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/30</span><a class="archive-post-title" href= "/2017/10/30/红楼遗梦/" >红楼遗梦</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/27</span><a class="archive-post-title" href= "/2017/10/27/Java学习笔记-基础语法/" >Java学习笔记-基础语法</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/11</span><a class="archive-post-title" href= "/2017/08/11/滑动视图子视图触摸时间延迟问题/" >滑动视图子视图触摸时间延迟问题</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/02</span><a class="archive-post-title" href= "/2017/05/02/2017-像个书虫/" >2017 像个书虫</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/21</span><a class="archive-post-title" href= "/2017/04/21/Hexo 图片测试/" >Hexo 图片测试</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/20</span><a class="archive-post-title" href= "/2017/04/20/无奈之相册/" >无奈之相册</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/17</span><a class="archive-post-title" href= "/2017/04/17/折腾Hexo过程中的一些坑/" >折腾Hexo过程中的一些坑</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/17</span><a class="archive-post-title" href= "/2017/04/17/PostName/" >测试下Hexo</a>
+        </li>
+    
+    </div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="阅读"><span class="iconfont-archer">&#xe606;</span>阅读</span>
+    
+        <span class="sidebar-tag-name" data-tags="hexo博客搭建"><span class="iconfont-archer">&#xe606;</span>hexo博客搭建</span>
+    
+        <span class="sidebar-tag-name" data-tags="总结"><span class="iconfont-archer">&#xe606;</span>总结</span>
+    
+        <span class="sidebar-tag-name" data-tags="随笔"><span class="iconfont-archer">&#xe606;</span>随笔</span>
+    
+        <span class="sidebar-tag-name" data-tags="iOS App Store审核"><span class="iconfont-archer">&#xe606;</span>iOS App Store审核</span>
+    
+        <span class="sidebar-tag-name" data-tags="NSProxy"><span class="iconfont-archer">&#xe606;</span>NSProxy</span>
+    
+        <span class="sidebar-tag-name" data-tags="HTTPS/TLS"><span class="iconfont-archer">&#xe606;</span>HTTPS/TLS</span>
+    
+        <span class="sidebar-tag-name" data-tags="WWDC"><span class="iconfont-archer">&#xe606;</span>WWDC</span>
+    
+        <span class="sidebar-tag-name" data-tags="vultr"><span class="iconfont-archer">&#xe606;</span>vultr</span>
+    
+        <span class="sidebar-tag-name" data-tags="ss"><span class="iconfont-archer">&#xe606;</span>ss</span>
+    
+        <span class="sidebar-tag-name" data-tags="heox博客搭建"><span class="iconfont-archer">&#xe606;</span>heox博客搭建</span>
+    
+        <span class="sidebar-tag-name" data-tags="手势延迟"><span class="iconfont-archer">&#xe606;</span>手势延迟</span>
+    
+        <span class="sidebar-tag-name" data-tags="iOS"><span class="iconfont-archer">&#xe606;</span>iOS</span>
+    
+        <span class="sidebar-tag-name" data-tags="CocoaPods"><span class="iconfont-archer">&#xe606;</span>CocoaPods</span>
+    
+        <span class="sidebar-tag-name" data-tags="源码阅读"><span class="iconfont-archer">&#xe606;</span>源码阅读</span>
+    
+        <span class="sidebar-tag-name" data-tags="归纳总结"><span class="iconfont-archer">&#xe606;</span>归纳总结</span>
+    
+        <span class="sidebar-tag-name" data-tags="Cocoapods"><span class="iconfont-archer">&#xe606;</span>Cocoapods</span>
+    
+        <span class="sidebar-tag-name" data-tags="记录"><span class="iconfont-archer">&#xe606;</span>记录</span>
+    
+        <span class="sidebar-tag-name" data-tags="Java"><span class="iconfont-archer">&#xe606;</span>Java</span>
+    
+        <span class="sidebar-tag-name" data-tags="Java基础"><span class="iconfont-archer">&#xe606;</span>Java基础</span>
+    
+        <span class="sidebar-tag-name" data-tags="回忆"><span class="iconfont-archer">&#xe606;</span>回忆</span>
+    
+        <span class="sidebar-tag-name" data-tags="源码"><span class="iconfont-archer">&#xe606;</span>源码</span>
+    
+        <span class="sidebar-tag-name" data-tags="SDWebImage"><span class="iconfont-archer">&#xe606;</span>SDWebImage</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br/>
+    1、请确保node版本大于6.2<br/>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="老实说"><span class="iconfont-archer">&#xe60a;</span>老实说</span>
+    
+        <span class="sidebar-category-name" data-categories="iOS"><span class="iconfont-archer">&#xe60a;</span>iOS</span>
+    
+        <span class="sidebar-category-name" data-categories="网络编程"><span class="iconfont-archer">&#xe60a;</span>网络编程</span>
+    
+        <span class="sidebar-category-name" data-categories="科学上网"><span class="iconfont-archer">&#xe60a;</span>科学上网</span>
+    
+        <span class="sidebar-category-name" data-categories="hexo"><span class="iconfont-archer">&#xe60a;</span>hexo</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: "/",
+        author: "周老实"
+    }
+</script>
+    <!-- CDN failover -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ === 'undefined')
+        {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
+        }
+    </script>
+    <script src="/scripts/main.js"></script>
+    <!-- algolia -->
+    
+    <!-- busuanzi  -->
+    
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <!-- CNZZ  -->
+    
+    </div>
+    <!-- async load share.js -->
+     
+    </body>
+</html>
+
+
