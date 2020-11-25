@@ -1,0 +1,1558 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <!-- title -->
+
+
+
+
+<!-- keywords -->
+
+
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="author" content="周老实">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="周老实">
+    
+    <meta name="keywords" content="hexo,hexo-theme,hexo-blog">
+    
+    <meta name="description" content>
+    <meta property="og:type" content="website">
+<meta property="og:title" content="周老实">
+<meta property="og:url" content="http://yoursite.com/index.html">
+<meta property="og:site_name" content="周老实">
+<meta property="og:locale" content="zh-cn">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="周老实">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>fi3ework&#39;s Studio</title>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s infinite;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href="/css/style.css?v=20180824" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="stylesheet" href="/css/mobile.css?v=20180824" media="(max-width: 980px)">
+    
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+(function( w ){
+	"use strict";
+	// rel=preload support test
+	if( !w.loadCSS ){
+		w.loadCSS = function(){};
+	}
+	// define on the loadCSS obj
+	var rp = loadCSS.relpreload = {};
+	// rel=preload feature support test
+	// runs once and returns a function for compat purposes
+	rp.support = (function(){
+		var ret;
+		try {
+			ret = w.document.createElement( "link" ).relList.supports( "preload" );
+		} catch (e) {
+			ret = false;
+		}
+		return function(){
+			return ret;
+		};
+	})();
+
+	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+	// then change that media back to its intended value on load
+	rp.bindMediaToggle = function( link ){
+		// remember existing media attr for ultimate state, or default to 'all'
+		var finalMedia = link.media || "all";
+
+		function enableStylesheet(){
+			link.media = finalMedia;
+		}
+
+		// bind load handlers to enable media
+		if( link.addEventListener ){
+			link.addEventListener( "load", enableStylesheet );
+		} else if( link.attachEvent ){
+			link.attachEvent( "onload", enableStylesheet );
+		}
+
+		// Set rel and non-applicable media type to start an async request
+		// note: timeout allows this to happen async to let rendering continue in IE
+		setTimeout(function(){
+			link.rel = "stylesheet";
+			link.media = "only x";
+		});
+		// also enable media after 3 seconds,
+		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+		setTimeout( enableStylesheet, 3000 );
+	};
+
+	// loop through link elements in DOM
+	rp.poly = function(){
+		// double check this to prevent external calls from running
+		if( rp.support() ){
+			return;
+		}
+		var links = w.document.getElementsByTagName( "link" );
+		for( var i = 0; i < links.length; i++ ){
+			var link = links[ i ];
+			// qualify links to those with rel=preload and as=style attrs
+			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+				// prevent rerunning on link
+				link.setAttribute( "data-loadcss", true );
+				// bind listeners to toggle media back
+				rp.bindMediaToggle( link );
+			}
+		}
+	};
+
+	// if unsupported, run the polyfill
+	if( !rp.support() ){
+		// run once at least
+		rp.poly();
+
+		// rerun poly on an interval until onload
+		var run = w.setInterval( rp.poly, 500 );
+		if( w.addEventListener ){
+			w.addEventListener( "load", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		} else if( w.attachEvent ){
+			w.attachEvent( "onload", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		}
+	}
+
+
+	// commonjs
+	if( typeof exports !== "undefined" ){
+		exports.loadCSS = loadCSS;
+	}
+	else {
+		w.loadCSS = loadCSS;
+	}
+}( typeof global !== "undefined" ? global : this ) );
+</script>
+
+    <link rel="icon" href="/assets/favicon.ico">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script">
+    <link rel="preload" href="/scripts/main.js" as="script">
+    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin>
+    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin>
+    
+    <!-- fancybox -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+</head>
+
+    
+        <body class="home-body">
+    
+    
+<header class="header index-header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <a class="home-link" href=/>周老实的博客.</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro" style="
+
+
+
+
+
+
+
+height:50vh;
+">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 文章页  -->
+            
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/index-bg.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            周老实的博客.
+            <!-- 文章页  -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+                胡乱写点
+            
+            <!-- 文章页  -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+    </div>
+</div>
+        <script>
+ 
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  function asyncErr(){
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
+    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+
+  var asyncLoadWithFallBack = function(arr, success, reject) {
+      var currReject = function(){
+        reject()
+        arr.shift()
+        if(arr.length)
+          async(arr[0], success, currReject)
+        }
+
+      async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack([
+    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
+    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
+    "/lib/webfontloader.min.js"
+  ], asyncCb, asyncErr)
+</script>        
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+        <div class="container container-unloaded">
+            <main class="main index-page">
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2020/07/06/A-half-of-2020/" >
+            
+                <span>A half of 2020</span>
+        </a>
+        <div class="abstract-content">
+            <p>转眼2020已经过去一半，恰如”白驹过隙，光阴似箭“。<br>年初的时候，有很多目标和计划，现在回过头去看看，貌似还停留在开始的样子，仿佛时间没有走过一样。这两天手头上的业务少了点，写业务代码的时间少了，在空闲的时候翻看起了一直关注的几个大佬的博客。好久没有看他们的博客，不禁有点上头停不下来，一直翻到他们博客的最开始的第一篇。觉得能这样坚持十几年记录自己的生活和成长也是件很酷的事情，不说带来了多少名誉上的影响，就只对自己来说也是一件非常了不起的作品。反过来看看自己，工作这么长时间了，没干出一点名堂，什么也没有留下，反而落了个郁郁寡欢的性子，不觉又自惭形秽了起来。</p>
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/07/06</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "总结">总结</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "随笔">随笔</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2020/06/29/WWDC 2020/" >
+            
+                <span>WWDC 2020</span>
+        </a>
+        <div class="abstract-content">
+            <p><img src="/图片测试/wwdc2020-1.jpg" alt></p>
+<h3 id="看与不看"><a href="#看与不看" class="headerlink" title="看与不看"></a>看与不看</h3><p>   一年一度的<code>WWDC</code>在昨天（6.23）凌晨一点如期进行着。年纪大了，没有之前熬夜看的劲头，跟同事心照不宣地约到第二天上午看新闻或者是回放。早上七点醒来，迫不及待地点开小破站看起了回放。<br>
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/06/29</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "WWDC">WWDC</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2019/03/14/vultr搭建ss/" >
+            
+                <span>vultr搭建ss</span>
+        </a>
+        <div class="abstract-content">
+            <h3 id="记录下第一次购买vutrl搭建ss"><a href="#记录下第一次购买vutrl搭建ss" class="headerlink" title="记录下第一次购买vutrl搭建ss"></a>记录下第一次购买vutrl搭建ss</h3><p>好像作为一个合格的程序员，翻墙好像是一个必备技能，所以也就有<code>Google</code>程序员歧视百度程序员这么一说。不管是为了不<code>被歧视</code>也好，或者是本着尝试下新知识的目的，我们也来尝试下怎么去搭建个梯子。这里我们选择的方式是<a href="https://my.vultr.com/" target="_blank" rel="noopener">vultr</a>,购买很简单，支付宝付好钱后选择服务器（一般是5美元）他自己会自动建好服务器。这个步骤就不多赘述，也可以参看<a href="https://www.vultrblog.com/vultr-ss.html" target="_blank" rel="noopener">这篇文章</a>，我主要记录下VPS建好之后，我们该怎么去链接VPS，搭建ss。</p>
+<h3 id="连接VPS-amp-配置SS"><a href="#连接VPS-amp-配置SS" class="headerlink" title="连接VPS&amp;配置SS"></a>连接VPS&amp;配置SS</h3><p>服务器搭建好之后我们就可以拿到一个IP地址了，我们可以在终端通过ssh连上服务器，只需执行：</p>
+<p><code>ssh root@155.138.134.216</code><br>
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/03/14</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "vultr">vultr</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "ss">ss</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2019/03/13/记录下Cocoapods怎么创建私有podspec/" >
+            
+                <span>记录下Cocoapods怎么创建私有podspec</span>
+        </a>
+        <div class="abstract-content">
+            <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p><code>Cocoapods</code>相信大家都不陌生，应该是目前非常主流的iOS的包管理工具了，这样也省去了我们手动导入第三方库的麻烦。当然，这个库使用起来也很简单，<code>pod init</code>,<code>pod install</code>,<code>pod update</code>,基本上三板斧完全可以应付日常开发，如此简洁，让<code>iOS</code>开发者们青睐也是情有可原的。但是，如果你是个有点追求的开发，平时肯定会去写点自己的小东西，发布到各大平台为广大开发者们使用。这是就需要用到<code>cocoapods</code>来创建自己的库了，其实也没有什么高大上的地方，只要多用两次基本上就会了。</p>
+<p>下面就简单记录下怎么建自己的私有仓库。</p>
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/03/13</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Cocoapods">Cocoapods</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "记录">记录</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2019/01/22/SCCSwiftNetWork源码解析/" >
+            
+                <span>SCCSwiftNetWork是怎么封装的</span>
+        </a>
+        <div class="abstract-content">
+            <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>上次罗列了一下在<code>App</code>里面用到的一些网络请求方式，概括的说应该是两总类型：一类是直接<code>url</code>各种语法糖链接起来拿到请求数据，另一类就是针对<code>RX</code>做了一层封装，用<code>RX</code>的方式调用。那么这里我们就来总结一下那些类似<code>&quot;post&quot;</code>、<code>&quot;vaildData&quot;</code>之类的关键字里面做了什么，其他的方法又是怎么封装的。</p>
+<h3 id="从一个网络请求说起"><a href="#从一个网络请求说起" class="headerlink" title="从一个网络请求说起"></a>从一个网络请求说起</h3><p>先来看一个简单的网络请求吧：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">let url = &quot;https://www.baidu.com/&quot; (这里是需要发送请求的url)</span><br><span class="line">        </span><br><span class="line">let params = [</span><br><span class="line">    &quot;name&quot;:&quot;tangeche&quot;,</span><br><span class="line">    &quot;phone&quot;:&quot;12312312&quot;,</span><br><span class="line">    &quot;token&quot;:&quot;YEHodfIOU&quot;,</span><br><span class="line">    &quot;code&quot;: &quot;123456&quot;]</span><br><span class="line">    </span><br><span class="line">url</span><br><span class="line">    .headers([&quot;Content-Type&quot; : &quot;application/json&quot;])</span><br><span class="line">    .timeout(5)</span><br><span class="line">    .parameters(params)</span><br><span class="line">    .post(encoding: SCCParamterEncoding.jsonRaw)</span><br><span class="line">    .validData</span><br><span class="line">    .subscribe(onNext: &#123; (json) in</span><br><span class="line">        print(json)</span><br><span class="line">    &#125;, onError: &#123; (error) in</span><br><span class="line">        print(error)</span><br><span class="line">    &#125;)</span><br><span class="line">    .disposed(by: bag)</span><br></pre></td></tr></table></figure>
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/01/22</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "源码阅读">源码阅读</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "归纳总结">归纳总结</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2019/01/18/网络库的使用/" >
+            
+                <span>网络库的使用</span>
+        </a>
+        <div class="abstract-content">
+            <h3 id="为日益衰退的记忆力做点微不足道的补救措施"><a href="#为日益衰退的记忆力做点微不足道的补救措施" class="headerlink" title="为日益衰退的记忆力做点微不足道的补救措施"></a>为日益衰退的记忆力做点微不足道的补救措施</h3><p>一套大佬们封装好的网络库用了快一年了，虽然业务来的时候匆匆忙忙依葫芦画瓢还以应付过关，但是真的遇到点复杂的逻辑就有点棘手了。<br>所以秉着知其然，也要知其所以然的态度，准备对做业务的时候用到过的网络请求有关的方式方法做一个简单的总结，以便老年人不知道什么时候记忆失常的时候可以翻看下，重新拾起当时的点滴。</p>
+<h3 id="业务中是怎么使用网络请求的"><a href="#业务中是怎么使用网络请求的" class="headerlink" title="业务中是怎么使用网络请求的"></a>业务中是怎么使用网络请求的</h3><p>业务中的网络请求并不是直接用的第三方类似Alamofire库，而是对Alamofire又做了一层二次封装。里面封装的逻辑大致看过一两遍，凭着老年人的理解和记忆能力，好像也并不是一遍两遍就能理解得通的，咱也不能将此归咎于封装库的大佬代码逻辑能力太强，即使封装得再简单点我这木鱼脑袋也是理解不来的。</p>
+<p>总得来看，业务中网络请求的调用方式细分的话应该有两种:</p>
+<ul>
+<li>**在对应的API类里面写好调用接口的URL，在这个类里面写一个发送接口的方法，类似 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">调用方式形如： ``` API(params).fetch()</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p>api类实现：</p>
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/01/18</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "源码阅读">源码阅读</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "归纳总结">归纳总结</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2018/01/17/2017回顾/" >
+            
+                <span>2017回顾</span>
+        </a>
+        <div class="abstract-content">
+            <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>   其实一直不敢承认2017就这么过去了，但是，事实就是她已经离你而去，而且你永远都不可能再拥有她，想有也只能是回忆或者是在梦里吧。<br>   有时候，停下来想想，上次从家里坐着绿皮火车来杭州打工不就是上个月的事吗；又有时候，好像几个月没有一起去看个电影了吧。<br>   人有时候就是个复杂的矛盾的个体。</p>
+<h3 id="工作"><a href="#工作" class="headerlink" title="工作"></a>工作</h3><p>   岁月是把杀猪刀，黑了木耳，紫了葡萄，软了香蕉。掐指一算，距离毕业离校也有2个半年头了（虽然我不是很怀念在学校的日子，但是还是习惯拿毕业做个对比），也预示着在这家创业小作坊打了2年零6个月的卡，而且现在还在这里上班，至少我在写这篇文章的时候还是在这家小作坊里敲下的键盘。其实也不是对这家公司恋恋不舍，只是短时间内没有更好的（一不小心说出了心里话，耿直boy）。其实在今年之前，我觉得在这家公司还是挺不错的，虽然工资低了点，但是技术团队还是挺完整的，大家关系也不错，至少有组织的感觉。相比现在公司的状况，肯定好了不少。<br>    自从2016年10月份公司重组后，我们技术小组在不知情的情况下留在了现在这家小作坊，之后，大家都慢慢都走了，到了今年年初，11个小伙伴走的就剩下我和负责后台的技术总监了。老板见这情况找我约谈，最后结果给我的条件是稍微提了点薪，让我考虑下要不要留下来。我还是说要出去面试几家试试，没有合适的就留下。3月份，2个礼拜面了4家，确实不理想，也确实留下来了，其中一个原因也跟我在这上班步行10分钟就到了有关。<br>
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/01/17</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "回忆">回忆</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2018/01/11/SDWebImage源码阅读/" >
+            
+                <span>SDWebImage源码阅读(上)</span>
+        </a>
+        <div class="abstract-content">
+            <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p><img src="https://raw.githubusercontent.com/rs/SDWebImage/master/SDWebImage_logo.png" alt="SDWebImage"><br><strong><em>SDWebImage</em></strong> 想必对于每一个iOS开发者来说，都不会陌生。每当我们的项目中需要给UIImageView设置网络图片的时候，我们基本上第一个想到就是这个强大的第三方库。我们可以手动导入静态库，也可以直接用CocoaPod管理，只要简单地输入<code>pod &#39;SDWebImage&#39;</code>即可导入，大家可以随意选择。<br>虽然在项目中经常用到这个库，但是有时候我们可能只是知道用，却并没有去了解下这个强大库实现原理，或者是写这个库的大佬代码思路、风格和各种技巧。这篇文章就是从<code>SDWebImage</code>一行行源码来分析大佬的神级操作。</p>
+<h3 id="SDWebImage流程示意图"><a href="#SDWebImage流程示意图" class="headerlink" title="SDWebImage流程示意图"></a>SDWebImage流程示意图</h3><p><img src="http://ooqxuxrxe.bkt.clouddn.com/SDWebImageSequenceDiagram.png" alt="SDWebImage流程示意图"><br>
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/01/11</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "源码">源码</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "SDWebImage">SDWebImage</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2017/12/29/HTTPS加密过程和TLS证书验证/" >
+            
+                <span>HTTPS加密过程和TLS证书验证</span>
+        </a>
+        <div class="abstract-content">
+            <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>大家都知道，苹果在<a href="https://developer.apple.com/wwdc/" target="_blank" rel="noopener">2016年WWDC</a>上宣布了关于应用需要强制使用<code>HTTPS</code>的规定。这也算是个好消息吧，虽然开发者们可能需要适配下<code>HTTPS</code>，但是我们的应用可算是披上一个安全的保护罩了。本篇文章就算是笔者在学习<code>HTTPS</code>过程中的一个记录吧。</p>
+<h3 id="HTTPS加密过程"><a href="#HTTPS加密过程" class="headerlink" title="HTTPS加密过程"></a>HTTPS加密过程</h3><p>最近重新了解了下<code>HTTP</code>和<code>HTTPS</code>: 首先二者都是网络传输协议;<code>HTTPS</code>在传输过程中是可以通过加密来保护数据安全的，以免用户敏感信息被第三方获取。 可以说<code>HTTPS</code>是<code>HTTP</code>的升级版、安全版。下面我们就简单看下HTTPS的加密过程，先看下图。<br>
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2017/12/29</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "HTTPS/TLS">HTTPS/TLS</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2017/12/28/Objective-C中的复制忍者卡卡西-NSProxy/" >
+            
+                <span>Objective-C中的复制忍者卡卡西---NSProxy</span>
+        </a>
+        <div class="abstract-content">
+            <p>是不是曾经在别人面前夸下海口：<code>Objective-C</code>中所有的类的基类都是<code>NSObject</code>;我之前也一直也这么以为的，但是认真看了下官方文档：</p>
+<p><img src="/图片测试/A14B3BD8-1FB4-4F2B-BB4E-B259CA3B4DD7.png" alt></p>
+<p>啪啪，好响，好疼~（看来英文水平也很重要啊……）<br>不卖关子了，我们今天要讨论的就是<code>NSProxy</code>。它是跟<code>NSObject</code>属于同一级别的类，是个抽象类，只是实现了<code>&lt;NSObject&gt;</code>的协议;<br>
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2017/12/28</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "NSProxy">NSProxy</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    <!-- paginator  -->
+    
+    <nav class="page-nav">
+        <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">NEXT ></a>
+    </nav>
+    
+</main>
+            <!-- profile -->
+            
+            <div class="profile">
+    <img class="profile-avatar" alt="avatar" src= http://ctc.qzs.qq.com/music/photo/album/82/albumpic_35182_0.jpg >
+    <div class="profile-name">zhou</div>
+    
+    <div class="profile-signature">
+        放平心态，尽力就好
+    </div>
+    
+    
+    <div class="profile-social">
+        
+    
+        
+            
+                <a href="mailto:brightzhou123@foxmail.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/fi3ework" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+            
+                <span class="iconfont-archer wechat" title=wechat>
+                  
+                  <img class="profile-qr" src="/assets/example_qr.png" />
+                </span>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+    </div>
+    
+    
+        <div class="friends">
+            <div>FRIENDS</div>
+            
+                
+                    <span>
+                        <a href= https://onevcat.com/#blog target="_black">onevat</a>
+                    </span>
+                
+            
+                
+                    <span>
+                        <a href= http://blog.ibireme.com/ target="_black">一只魔法师的工坊</a>
+                    </span>
+                
+            
+                
+                    <span>
+                        <a href= https://coolshell.cn/ target="_black">耳朵耗子</a>
+                    </span>
+                
+            
+                
+                    <span>
+                        <a href= http://blog.devtang.com/ target="_black">唐巧的技术博客</a>
+                    </span>
+                
+            
+                
+                    <span>
+                        <a href= http://blog.sunnyxx.com/ target="_black">sunnyxx的技术博客</a>
+                    </span>
+                
+            
+                
+                    <span>
+                        <a href= http://www.starming.com/ target="_black">戴铭</a>
+                    </span>
+                
+            
+                
+                    <span>
+                        <a href= http://yulingtianxia.com/ target="_black">玉令天下的博客</a>
+                    </span>
+                
+            
+                
+                    <span>
+                        <a href= http://limboy.me/ target="_black">Limboy 无网不利</a>
+                    </span>
+                
+            
+                
+                    <span>
+                        <a href= https://casatwy.com/category/blog.html target="_black">Casa</a>
+                    </span>
+                
+            
+                
+                    <span>
+                        <a href= http://litten.me/ target="_black">Litten</a>
+                    </span>
+                
+            
+                
+                    <span>
+                        <a href= http://blog.cnbang.net/ target="_black">bang</a>
+                    </span>
+                
+            
+                
+                    <span>
+                        <a href= http://sindrilin.com/ target="_black">sindrilin的小巢</a>
+                    </span>
+                
+            
+                
+                    <span>
+                        <a href= http://liuyanwei.jumppo.com/index.html target="_black">刘彦伟的技术博客</a>
+                    </span>
+                
+            
+                
+                    <span>
+                        <a href= https://blog.cnbluebox.com/ target="_black">刘坤</a>
+                    </span>
+                
+            
+        </div>
+    
+    
+        <div class="about-me">
+            <a href = "/about" >ABOUT ME</a>
+        </div>
+    
+</div>
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:brightzhou123@foxmail.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/fi3ework" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+            
+                <span class="iconfont-archer wechat" title=wechat>
+                  
+                  <img class="profile-qr" src="/assets/example_qr.png" />
+                </span>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+    <div class="busuanzi-container">
+    
+     
+    <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+    
+    </div>
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 24
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2020 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/06</span><a class="archive-post-title" href= "/2020/07/06/A-half-of-2020/" >A half of 2020</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/29</span><a class="archive-post-title" href= "/2020/06/29/WWDC 2020/" >WWDC 2020</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2019 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/14</span><a class="archive-post-title" href= "/2019/03/14/vultr搭建ss/" >vultr搭建ss</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/13</span><a class="archive-post-title" href= "/2019/03/13/记录下Cocoapods怎么创建私有podspec/" >记录下Cocoapods怎么创建私有podspec</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/22</span><a class="archive-post-title" href= "/2019/01/22/SCCSwiftNetWork源码解析/" >SCCSwiftNetWork是怎么封装的</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/18</span><a class="archive-post-title" href= "/2019/01/18/网络库的使用/" >网络库的使用</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/2017回顾/" >2017回顾</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/11</span><a class="archive-post-title" href= "/2018/01/11/SDWebImage源码阅读/" >SDWebImage源码阅读(上)</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2017 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/29</span><a class="archive-post-title" href= "/2017/12/29/HTTPS加密过程和TLS证书验证/" >HTTPS加密过程和TLS证书验证</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/28</span><a class="archive-post-title" href= "/2017/12/28/Objective-C中的复制忍者卡卡西-NSProxy/" >Objective-C中的复制忍者卡卡西---NSProxy</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/21</span><a class="archive-post-title" href= "/2017/12/21/献给许许多多的忌日/" >献给许许多多的忌日</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/20</span><a class="archive-post-title" href= "/2017/12/20/测试下把hexo搬到自己电脑上/" >测试下把hexo搬到自己电脑上</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/20</span><a class="archive-post-title" href= "/2017/11/20/圣杯传奇/" >圣杯传奇</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/08</span><a class="archive-post-title" href= "/2017/11/08/AppStore审核记录/" >AppStore审核记录</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/02</span><a class="archive-post-title" href= "/2017/11/02/记一次CocoaPods的安装/" >记一次CocoaPods的安装</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/30</span><a class="archive-post-title" href= "/2017/10/30/The-time-gone/" >The time has gone</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/30</span><a class="archive-post-title" href= "/2017/10/30/红楼遗梦/" >红楼遗梦</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/27</span><a class="archive-post-title" href= "/2017/10/27/Java学习笔记-基础语法/" >Java学习笔记-基础语法</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/11</span><a class="archive-post-title" href= "/2017/08/11/滑动视图子视图触摸时间延迟问题/" >滑动视图子视图触摸时间延迟问题</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/02</span><a class="archive-post-title" href= "/2017/05/02/2017-像个书虫/" >2017 像个书虫</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/21</span><a class="archive-post-title" href= "/2017/04/21/Hexo 图片测试/" >Hexo 图片测试</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/20</span><a class="archive-post-title" href= "/2017/04/20/无奈之相册/" >无奈之相册</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/17</span><a class="archive-post-title" href= "/2017/04/17/折腾Hexo过程中的一些坑/" >折腾Hexo过程中的一些坑</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/17</span><a class="archive-post-title" href= "/2017/04/17/PostName/" >测试下Hexo</a>
+        </li>
+    
+    </div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="阅读"><span class="iconfont-archer">&#xe606;</span>阅读</span>
+    
+        <span class="sidebar-tag-name" data-tags="hexo博客搭建"><span class="iconfont-archer">&#xe606;</span>hexo博客搭建</span>
+    
+        <span class="sidebar-tag-name" data-tags="总结"><span class="iconfont-archer">&#xe606;</span>总结</span>
+    
+        <span class="sidebar-tag-name" data-tags="随笔"><span class="iconfont-archer">&#xe606;</span>随笔</span>
+    
+        <span class="sidebar-tag-name" data-tags="iOS App Store审核"><span class="iconfont-archer">&#xe606;</span>iOS App Store审核</span>
+    
+        <span class="sidebar-tag-name" data-tags="NSProxy"><span class="iconfont-archer">&#xe606;</span>NSProxy</span>
+    
+        <span class="sidebar-tag-name" data-tags="HTTPS/TLS"><span class="iconfont-archer">&#xe606;</span>HTTPS/TLS</span>
+    
+        <span class="sidebar-tag-name" data-tags="WWDC"><span class="iconfont-archer">&#xe606;</span>WWDC</span>
+    
+        <span class="sidebar-tag-name" data-tags="vultr"><span class="iconfont-archer">&#xe606;</span>vultr</span>
+    
+        <span class="sidebar-tag-name" data-tags="ss"><span class="iconfont-archer">&#xe606;</span>ss</span>
+    
+        <span class="sidebar-tag-name" data-tags="heox博客搭建"><span class="iconfont-archer">&#xe606;</span>heox博客搭建</span>
+    
+        <span class="sidebar-tag-name" data-tags="手势延迟"><span class="iconfont-archer">&#xe606;</span>手势延迟</span>
+    
+        <span class="sidebar-tag-name" data-tags="iOS"><span class="iconfont-archer">&#xe606;</span>iOS</span>
+    
+        <span class="sidebar-tag-name" data-tags="CocoaPods"><span class="iconfont-archer">&#xe606;</span>CocoaPods</span>
+    
+        <span class="sidebar-tag-name" data-tags="源码阅读"><span class="iconfont-archer">&#xe606;</span>源码阅读</span>
+    
+        <span class="sidebar-tag-name" data-tags="归纳总结"><span class="iconfont-archer">&#xe606;</span>归纳总结</span>
+    
+        <span class="sidebar-tag-name" data-tags="Cocoapods"><span class="iconfont-archer">&#xe606;</span>Cocoapods</span>
+    
+        <span class="sidebar-tag-name" data-tags="记录"><span class="iconfont-archer">&#xe606;</span>记录</span>
+    
+        <span class="sidebar-tag-name" data-tags="Java"><span class="iconfont-archer">&#xe606;</span>Java</span>
+    
+        <span class="sidebar-tag-name" data-tags="Java基础"><span class="iconfont-archer">&#xe606;</span>Java基础</span>
+    
+        <span class="sidebar-tag-name" data-tags="回忆"><span class="iconfont-archer">&#xe606;</span>回忆</span>
+    
+        <span class="sidebar-tag-name" data-tags="源码"><span class="iconfont-archer">&#xe606;</span>源码</span>
+    
+        <span class="sidebar-tag-name" data-tags="SDWebImage"><span class="iconfont-archer">&#xe606;</span>SDWebImage</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br/>
+    1、请确保node版本大于6.2<br/>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="老实说"><span class="iconfont-archer">&#xe60a;</span>老实说</span>
+    
+        <span class="sidebar-category-name" data-categories="iOS"><span class="iconfont-archer">&#xe60a;</span>iOS</span>
+    
+        <span class="sidebar-category-name" data-categories="网络编程"><span class="iconfont-archer">&#xe60a;</span>网络编程</span>
+    
+        <span class="sidebar-category-name" data-categories="科学上网"><span class="iconfont-archer">&#xe60a;</span>科学上网</span>
+    
+        <span class="sidebar-category-name" data-categories="hexo"><span class="iconfont-archer">&#xe60a;</span>hexo</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: "/",
+        author: "周老实"
+    }
+</script>
+    <!-- CDN failover -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ === 'undefined')
+        {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
+        }
+    </script>
+    <script src="/scripts/main.js"></script>
+    <!-- algolia -->
+    
+    <!-- busuanzi  -->
+    
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <!-- CNZZ  -->
+    
+    </div>
+    <!-- async load share.js -->
+     
+    </body>
+</html>
+
+
