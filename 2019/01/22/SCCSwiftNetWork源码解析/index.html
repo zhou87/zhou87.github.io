@@ -1,0 +1,1255 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <!-- title -->
+
+
+
+
+<!-- keywords -->
+
+
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="author" content="周老实">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="周老实">
+    
+    <meta name="keywords" content="hexo,hexo-theme,hexo-blog">
+    
+    <meta name="description" content>
+    <meta name="description" content="前言上次罗列了一下在App里面用到的一些网络请求方式，概括的说应该是两总类型：一类是直接url各种语法糖链接起来拿到请求数据，另一类就是针对RX做了一层封装，用RX的方式调用。那么这里我们就来总结一下那些类似&amp;quot;post&amp;quot;、&amp;quot;vaildData&amp;quot;之类的关键字里面做了什么，其他的方法又是怎么封装的。 从一个网络请求说起先来看一个简单的网络请求吧： 1234567">
+<meta name="keywords" content="源码阅读,归纳总结">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SCCSwiftNetWork是怎么封装的">
+<meta property="og:url" content="http://yoursite.com/2019/01/22/SCCSwiftNetWork源码解析/index.html">
+<meta property="og:site_name" content="周老实">
+<meta property="og:description" content="前言上次罗列了一下在App里面用到的一些网络请求方式，概括的说应该是两总类型：一类是直接url各种语法糖链接起来拿到请求数据，另一类就是针对RX做了一层封装，用RX的方式调用。那么这里我们就来总结一下那些类似&amp;quot;post&amp;quot;、&amp;quot;vaildData&amp;quot;之类的关键字里面做了什么，其他的方法又是怎么封装的。 从一个网络请求说起先来看一个简单的网络请求吧： 1234567">
+<meta property="og:locale" content="zh-cn">
+<meta property="og:updated_time" content="2019-01-22T12:27:26.938Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SCCSwiftNetWork是怎么封装的">
+<meta name="twitter:description" content="前言上次罗列了一下在App里面用到的一些网络请求方式，概括的说应该是两总类型：一类是直接url各种语法糖链接起来拿到请求数据，另一类就是针对RX做了一层封装，用RX的方式调用。那么这里我们就来总结一下那些类似&amp;quot;post&amp;quot;、&amp;quot;vaildData&amp;quot;之类的关键字里面做了什么，其他的方法又是怎么封装的。 从一个网络请求说起先来看一个简单的网络请求吧： 1234567">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>SCCSwiftNetWork是怎么封装的 · 周老实</title>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s infinite;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href="/css/style.css?v=20180824" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="stylesheet" href="/css/mobile.css?v=20180824" media="(max-width: 980px)">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+(function( w ){
+	"use strict";
+	// rel=preload support test
+	if( !w.loadCSS ){
+		w.loadCSS = function(){};
+	}
+	// define on the loadCSS obj
+	var rp = loadCSS.relpreload = {};
+	// rel=preload feature support test
+	// runs once and returns a function for compat purposes
+	rp.support = (function(){
+		var ret;
+		try {
+			ret = w.document.createElement( "link" ).relList.supports( "preload" );
+		} catch (e) {
+			ret = false;
+		}
+		return function(){
+			return ret;
+		};
+	})();
+
+	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+	// then change that media back to its intended value on load
+	rp.bindMediaToggle = function( link ){
+		// remember existing media attr for ultimate state, or default to 'all'
+		var finalMedia = link.media || "all";
+
+		function enableStylesheet(){
+			link.media = finalMedia;
+		}
+
+		// bind load handlers to enable media
+		if( link.addEventListener ){
+			link.addEventListener( "load", enableStylesheet );
+		} else if( link.attachEvent ){
+			link.attachEvent( "onload", enableStylesheet );
+		}
+
+		// Set rel and non-applicable media type to start an async request
+		// note: timeout allows this to happen async to let rendering continue in IE
+		setTimeout(function(){
+			link.rel = "stylesheet";
+			link.media = "only x";
+		});
+		// also enable media after 3 seconds,
+		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+		setTimeout( enableStylesheet, 3000 );
+	};
+
+	// loop through link elements in DOM
+	rp.poly = function(){
+		// double check this to prevent external calls from running
+		if( rp.support() ){
+			return;
+		}
+		var links = w.document.getElementsByTagName( "link" );
+		for( var i = 0; i < links.length; i++ ){
+			var link = links[ i ];
+			// qualify links to those with rel=preload and as=style attrs
+			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+				// prevent rerunning on link
+				link.setAttribute( "data-loadcss", true );
+				// bind listeners to toggle media back
+				rp.bindMediaToggle( link );
+			}
+		}
+	};
+
+	// if unsupported, run the polyfill
+	if( !rp.support() ){
+		// run once at least
+		rp.poly();
+
+		// rerun poly on an interval until onload
+		var run = w.setInterval( rp.poly, 500 );
+		if( w.addEventListener ){
+			w.addEventListener( "load", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		} else if( w.attachEvent ){
+			w.attachEvent( "onload", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		}
+	}
+
+
+	// commonjs
+	if( typeof exports !== "undefined" ){
+		exports.loadCSS = loadCSS;
+	}
+	else {
+		w.loadCSS = loadCSS;
+	}
+}( typeof global !== "undefined" ? global : this ) );
+</script>
+
+    <link rel="icon" href="/assets/favicon1.ico">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script">
+    <link rel="preload" href="/scripts/main.js" as="script">
+    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin>
+    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin>
+    
+    <!-- fancybox -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+</head>
+
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >周老实的博客.</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">SCCSwiftNetWork是怎么封装的</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href=/>周老实的博客.</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro" style="
+
+
+
+
+
+
+
+height:50vh;
+">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            SCCSwiftNetWork是怎么封装的
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "源码阅读">源码阅读</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "归纳总结">归纳总结</a>
+    
+</div>
+                
+                
+                    <div class="post-intro-read">
+                        <span>字数统计: <span class="post-count word-count">3.7k</span>阅读时长: <span class="post-count reading-time">17 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2019/01/22</span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+        <script>
+ 
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  function asyncErr(){
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
+    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+
+  var asyncLoadWithFallBack = function(arr, success, reject) {
+      var currReject = function(){
+        reject()
+        arr.shift()
+        if(arr.length)
+          async(arr[0], success, currReject)
+        }
+
+      async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack([
+    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
+    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
+    "/lib/webfontloader.min.js"
+  ], asyncCb, asyncErr)
+</script>        
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>上次罗列了一下在<code>App</code>里面用到的一些网络请求方式，概括的说应该是两总类型：一类是直接<code>url</code>各种语法糖链接起来拿到请求数据，另一类就是针对<code>RX</code>做了一层封装，用<code>RX</code>的方式调用。那么这里我们就来总结一下那些类似<code>&quot;post&quot;</code>、<code>&quot;vaildData&quot;</code>之类的关键字里面做了什么，其他的方法又是怎么封装的。</p>
+<h3 id="从一个网络请求说起"><a href="#从一个网络请求说起" class="headerlink" title="从一个网络请求说起"></a>从一个网络请求说起</h3><p>先来看一个简单的网络请求吧：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">let url = &quot;https://www.baidu.com/&quot; (这里是需要发送请求的url)</span><br><span class="line">        </span><br><span class="line">let params = [</span><br><span class="line">    &quot;name&quot;:&quot;tangeche&quot;,</span><br><span class="line">    &quot;phone&quot;:&quot;12312312&quot;,</span><br><span class="line">    &quot;token&quot;:&quot;YEHodfIOU&quot;,</span><br><span class="line">    &quot;code&quot;: &quot;123456&quot;]</span><br><span class="line">    </span><br><span class="line">url</span><br><span class="line">    .headers([&quot;Content-Type&quot; : &quot;application/json&quot;])</span><br><span class="line">    .timeout(5)</span><br><span class="line">    .parameters(params)</span><br><span class="line">    .post(encoding: SCCParamterEncoding.jsonRaw)</span><br><span class="line">    .validData</span><br><span class="line">    .subscribe(onNext: &#123; (json) in</span><br><span class="line">        print(json)</span><br><span class="line">    &#125;, onError: &#123; (error) in</span><br><span class="line">        print(error)</span><br><span class="line">    &#125;)</span><br><span class="line">    .disposed(by: bag)</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>这里的<code>url</code>根据类型推断应该是一个<code>String</code>类型，后面直接<code>.headers</code>,很明显是对<code>String</code>做了扩展。点进去看就知道，在<code>Alamofire</code>里面有对<code>String</code>做了一个扩展：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">extension String: URLConvertible &#123;</span><br><span class="line">    public func asURL() throws -&gt; URL &#123;</span><br><span class="line">        guard let url = URL(string: self) else &#123; throw AFError.invalidURL(url: self) &#125;</span><br><span class="line">        return url</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后，<code>SCCSwiftNetWork</code>里面又对<code>URLConvertible</code>做了一个扩展:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">extension URLConvertible &#123;</span><br><span class="line"></span><br><span class="line">    public func timeout(_ timeout: TimeInterval) -&gt; SCCSwiftyNetwork.SCCURL</span><br><span class="line"></span><br><span class="line">    public func validatableParamters(_ params: SCCModelKeeper.SCCValidatableParameters) -&gt; SCCSwiftyNetwork.SCCURL</span><br><span class="line"></span><br><span class="line">    public func parameters(_ params: Parameters) -&gt; SCCSwiftyNetwork.SCCURL</span><br><span class="line"></span><br><span class="line">    public func headers(_ headers: HTTPHeaders) -&gt; SCCSwiftyNetwork.SCCURL</span><br><span class="line"></span><br><span class="line">    public func download(to path: String) -&gt; RxSwift.Observable&lt;String&gt;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样我们就能直接拿一个<code>String</code>做上面那些操作了，比如<code>timeout</code>是设置网络超时时间，<code>validatableParamters</code>是对传入的参数做一些数据结构校验，也是大佬们封装好的，<code>parameters</code>显而易见是上传参数，<code>headers</code>请求头，<code>download</code>是一个将数据下载到本地的方法。但是，有没有注意到这些扩展方法里面都返回的是一个<code>SCCURL</code>，那这个<code>SCCURL</code>又是什么呢？</p>
+<p>点开<code>SCCURL</code>类你会发现，原来他也是扩展自<code>URLConvertible</code>，那么他的实例照样可以<code>.headers</code>、<code>.parameters</code>了。正如你看到的，前面这些都是在配置请求前的参数之类的，那么这些准备做好了是不是要开始发送网络请求了。没错，<code>SCCURL</code>里面就扩展了发送网络请求的方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">public extension SCCURL &#123;</span><br><span class="line">    </span><br><span class="line">    func get(encoding: ParameterEncoding = URLEncoding.default) -&gt; Observable&lt;(Any, String)&gt; &#123;</span><br><span class="line">        return request(method: .get, encoding: encoding)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    func post(encoding: ParameterEncoding = URLEncoding.default) -&gt; Observable&lt;(Any, String)&gt; &#123;</span><br><span class="line">        return request(method: .post, encoding: encoding)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    ...</span><br><span class="line">        </span><br><span class="line">    func request(method: HTTPMethod, encoding: ParameterEncoding) -&gt; Observable&lt;(Any, String)&gt; &#123;</span><br><span class="line">        return request(method: method, parameters: parameters, headers: headers, timeout: timeout, encoding: encoding)</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里的扩展应该涵盖了大部分的请求方式，主流的请求方式应该还是<br><code>get</code>,<code>post</code>，正如例子中用到的<code>post</code>。最后，所有的请求都会归纳到方法，不妨把这个方法直接贴出来：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line">// Instance member cannot be uesed as default parameter</span><br><span class="line">    func request(method: HTTPMethod,</span><br><span class="line">             parameters: Parameters?,</span><br><span class="line">                headers: HTTPHeaders?,</span><br><span class="line">                timeout: TimeInterval? = nil,</span><br><span class="line">               encoding: ParameterEncoding = URLEncoding.default,</span><br><span class="line">               useCache: Bool = false) -&gt; Observable&lt;(Any, String)&gt; &#123;</span><br><span class="line">        </span><br><span class="line">        var headers = headers</span><br><span class="line">        let url = (try? self.asURL())?.absoluteString ?? &quot;&quot;</span><br><span class="line">        return Observable&lt;(Any, String)&gt;.create &#123; observer in</span><br><span class="line">            /// 一个判断是否有缓存的Bool值</span><br><span class="line">            var hasCache = false</span><br><span class="line">            /// 判断是否有缓存，如果有直接取缓存的数据返回</span><br><span class="line">            if useCache, let value = NSKeyedUnarchiver.unarchiveObject(withFile: self.cacheKey) &#123;</span><br><span class="line">                observer.onNext((value, url))</span><br><span class="line">                hasCache = true</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            if var commonHeader = RequestCommonConfiguration.shared.headers &#123;</span><br><span class="line">                /// 更新请求headers</span><br><span class="line">                headers?.forEach(&#123; commonHeader[$0] = $1 &#125;)</span><br><span class="line">                headers = commonHeader</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            // Configure timeout for EscapedDog Dalao</span><br><span class="line">            /// 如果有设置超时时间，根据超时时间得到一个sessionManager</span><br><span class="line">            let manager: SessionManager</span><br><span class="line">            if let timeout = timeout, timeout &gt; 0 &#123;</span><br><span class="line">                if let cachedManager = customManagers[timeout] &#123;</span><br><span class="line">                    manager = cachedManager</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    manager = configureManager(with: timeout)</span><br><span class="line">                    // Retain manager</span><br><span class="line">                    customManagers[timeout] = manager</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                manager = defaultManager</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            let task = manager.request(self, method: method, parameters: parameters, encoding:encoding, headers: headers)</span><br><span class="line">                .responseJSON &#123; response in</span><br><span class="line">                    /// 如果抛出错误，上报错误</span><br><span class="line">                    if let error = response.result.error &#123;</span><br><span class="line">                        SCCValidateResultReporter.request(url: url, errors: [], error: &quot;\(error.code()) \(error.formatterDescription())&quot;)</span><br><span class="line">                        observer.onError(error)</span><br><span class="line">                        return</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                    if let value = response.result.value &#123;</span><br><span class="line">                        /// 如果使用缓存的话，在之前没有缓存的情况下将数据写入缓存,有则不写</span><br><span class="line">                        if useCache &#123;</span><br><span class="line">                            _ = NSKeyedArchiver.archiveRootObject(value, toFile: self.cacheKey)</span><br><span class="line">                            if hasCache &#123;</span><br><span class="line">                                observer.onCompleted()</span><br><span class="line">                                return</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;</span><br><span class="line">                        /// 如果不使用缓存，将返回的数据和url构成一个元组返回</span><br><span class="line">                        observer.onNext((value, url))</span><br><span class="line">                    &#125;</span><br><span class="line">                    observer.onCompleted()</span><br><span class="line">            &#125;</span><br><span class="line">            return Disposables.create(with: task.cancel)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到，这个方法发送了一个请求，返回了一个<code>(Any, String)</code>类型的的<code>observable</code>。说下几个值得注意的点：</p>
+<blockquote>
+<ul>
+<li><strong>缓存处理</strong></li>
+</ul>
+</blockquote>
+<p>在传入参数中有个<code>useCache</code>(不过外部好像并没有用到过),如果使用缓存的话，那么会先根据<code>url</code>创建一个<code>cacheKey</code>尝试获取本地有没有缓存上次请求的数据，如果有的话，<code>observer</code>直接将得到的缓存发送出去，标记<code>hasCache=true</code>。在请求成功后，同样是使用缓存的情况下根据<code>url</code>创建的<code>cacheKey</code>将请求回来的数据写入缓存，已有缓存的话，<code>observer</code>发送一个<code>completed</code>事件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">private extension URLConvertible &#123;</span><br><span class="line">    var cacheKey: String &#123;</span><br><span class="line">        let url = try? asURL()</span><br><span class="line">        assert(url != nil, &quot;Invalid URL&quot;)</span><br><span class="line">        let cachePath = NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true)[0]</span><br><span class="line">        let fileName = url!.absoluteString.replacingOccurrences(of: &quot;/&quot;, with: &quot;-&quot;)</span><br><span class="line">        return &quot;\(cachePath)/\(fileName)&quot;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<ul>
+<li><strong>默认headers</strong></li>
+</ul>
+</blockquote>
+<p>为了方便服务端获取更多的有关<code>App</code>的信息，单独写了一个类<br><code>RequestCommonConfiguration</code>。这是一个单例，里面为<br><code>headers</code>写死了一些默认的App的基本数据，类似<code>Appversion</code>、<br><code>AppName</code>等等。发送请求前，再对外面传进来的<code>headers</code>做了一次拼接。</p>
+<blockquote>
+<ul>
+<li><strong>根据timeout创建SessionManager</strong></li>
+</ul>
+</blockquote>
+<p><code>customManager</code>是一个<code>[TimeInterval:SessionManager]</code>键值对，根据不同的<br><code>timeout</code>时间维护不同的<code>SessionManager</code>。这里为什么需要根据<code>timeout</code>来维护不同的<code>session</code>而不用一个全局的<br><code>session</code>，大概可以理解为如果公用一个<code>session</code>的话那当前一个请求还没有真正发出去的时候，下一个请求来了我们改变了<code>session</code>的<code>timeout</code>那么会影响到前一个请求。</p>
+<blockquote>
+<ul>
+<li><strong>错误上报</strong></li>
+</ul>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SCCValidateResultReporter.request(url: url, errors: [], error: &quot;\(error.code()) \(error.formatterDescription())&quot;)</span><br></pre></td></tr></table></figure>
+<p>是一个封装好的将错误上报到一个错误统计平台，便于App的错误分析。</p>
+<h3 id="解析数据"><a href="#解析数据" class="headerlink" title="解析数据"></a>解析数据</h3><p>请求发出去了，数据也拿到了，那么接下来就是解析数据了。前面我们已经知道网络请求回来返回的是一个<code>(Any, String)</code>类型的<code>Observable</code>,在数据解析文件里面对这个类型的<code>Observable</code>做这么几个方法的扩展：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public extension Observable where Element == (Any, String) &#123;</span><br><span class="line"></span><br><span class="line">    var validDataUrl: Observable&lt;(JSON, String)&gt; &#123;</span><br><span class="line">        return flatMap(parse)</span><br><span class="line">    &#125;</span><br><span class="line">       </span><br><span class="line">    var validData: Observable&lt;JSON&gt; &#123;</span><br><span class="line">        return map&#123; $0.0 &#125;</span><br><span class="line">            .flatMap(parseOnlyObject)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<ul>
+<li><strong>validDataUrl</strong></li>
+</ul>
+</blockquote>
+<p>可以看到这里的<code>validDataUrl</code>属性是将<code>Observable&lt;(Any,String)&gt;</code>转化为了<code>Observable&lt;(JSON,String)&gt;</code>,通过一个<code>parse</code>方法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">private func parse(object: (Any, String)) -&gt; Observable&lt;(JSON, String)&gt; &#123;</span><br><span class="line">    let json = JSON(object.0)</span><br><span class="line">    guard let _ = json.dictionary else &#123;</span><br><span class="line">        let error = SCCError.invalidFormat(message: Message.invalidFormat, object: object.0)</span><br><span class="line">        SCCValidateResultReporter.request(url: object.1, errors: [], error: &quot;\(error.code()) \(error.formatterDescription())&quot;)</span><br><span class="line">        return .error(error)</span><br><span class="line">    &#125;</span><br><span class="line">    return handleJSON(json: json, url: object.1)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里还看不出来对数据做了怎么的操作，只是将<code>Any</code>类型的数据转化为了<code>JSON</code>，如果有<code>dictionary</code>值则继续处理，否则发送一个错误事件并将错误上报。那我们再看看<code>handleJSON</code>这个方法是怎么实现的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">private func handleJSON(returnKey: String = Key.data, json: JSON, url: String) -&gt; Observable&lt;(JSON, String)&gt; &#123;</span><br><span class="line">    /// 如果返回&apos;success&apos;字段为true</span><br><span class="line">    if check(json: json[Key.success]) &#123;</span><br><span class="line">        if returnKey.isEmpty &#123;</span><br><span class="line">            return .just((json, url))</span><br><span class="line">        &#125;</span><br><span class="line">        return .just((json[returnKey], url))</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        </span><br><span class="line">        let error = handleError(json: json)</span><br><span class="line">        SCCValidateResultReporter.request(url: url, errors: [], error: &quot;\(error.code()) \(error.formatterDescription())&quot;)</span><br><span class="line">        return .error(error)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个方法先对传进来的<code>json</code>的<code>success</code>字段做一次校验，如果为<code>false</code>的话直接发送错误事件并上报。如果为<code>ture</code>的话，这里的<code>returnKey</code>这个参数应该是一个取服务端对应<code>key</code>里面的数据，目前默认约定好的应该是<code>data</code>(<code>Key</code>是一个结构体，里面有很多静态属性，data = “data”)里面的数据。这个最好应该是跟服务端约定好的事，可以不一定是<code>data</code>。目前看项目里面别的地方好像都没有传入这个参数，不过加一个这个参数可以保证灵活性吧，万一哪天一个新来的服务端大佬不熟悉这个规则，将<code>data</code>变为<code>Data</code>那还是有一定的补救的余地，不过这中情况也是服务端可以直接修复的，也不需要客户端来补救。</p>
+<blockquote>
+<ul>
+<li><strong>validData</strong></li>
+</ul>
+</blockquote>
+<p>对应的，<code>validData</code>是将<code>Observable&lt;(Any,String)&gt;</code>转化为<code>Observable&lt;JSON&gt;</code>，这里先用<code>map</code>将<code>(Any,String)</code>转化为<code>Any</code>,再<code>flatMap</code>调用<code>parseOnlyObject</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">private func parseOnlyObject(object: Any) -&gt; Observable&lt;JSON&gt; &#123;</span><br><span class="line">    let json = JSON(object)</span><br><span class="line">    guard let _ = json.dictionary else &#123;</span><br><span class="line">        return .error(SCCError.invalidFormat(message: Message.invalidFormat, object: object))</span><br><span class="line">    &#125;</span><br><span class="line">    return handleJSON(json: json)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里和上面和类似，就不用过多笔墨了。可以看一下<code>handleError</code>这个方法怎么实现的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">func handleError(json: JSON) -&gt; SCCError &#123;</span><br><span class="line">    </span><br><span class="line">    let code = json[Key.code].intValue</span><br><span class="line">    if ErrorCode.notLogin.rawValue == code || ErrorCode.tokenLost.rawValue == code &#123;</span><br><span class="line">        NotificationCenter.default.post(name: .SCCNotLogin, object: nil)</span><br><span class="line">    &#125;</span><br><span class="line">    let traceId = json[Key.traceId].stringValue</span><br><span class="line">    var message = &quot;\(json[Key.msg].stringValue)\n\(traceId)&quot;</span><br><span class="line">    if !traceId.isEmpty, let topVC = UIViewController.applicationTopVC() &#123;</span><br><span class="line">        SCCModulor.sharedInstance().moduleName(&quot;wirelessToast&quot;, openWithParams: [&quot;icon&quot;: &quot;qrcode&quot;, &quot;text&quot;: message, &quot;qrcodeText&quot;: traceId, &quot;vc&quot;: topVC, &quot;duration&quot;: &quot;2000&quot;], callback:nil)</span><br><span class="line">        //已经弹过toast，防止上层业务二次弹出，将message置空，ui toast层做判断拦截</span><br><span class="line">        message = &quot;&quot;</span><br><span class="line">    &#125;</span><br><span class="line">    let error = SCCError.business(errorCode: code,</span><br><span class="line">                                  message: message,</span><br><span class="line">                                  object: json[Key.data])</span><br><span class="line">    return error</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>SCCError</code>是一个对<code>App</code>网络错误类别统一归类的的类，这里的业务逻辑是如果是未登录或者<code>token</code>丢失的错误的话会发送一个未登录通知。另一个逻辑是在有<code>traceId</code>的情况会找到当前<code>App</code>的<code>topVC</code>弹一个带有二维码的<code>toast</code>。这个找<code>topVc</code>的方法值得学习下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">extension UIViewController &#123;</span><br><span class="line">    </span><br><span class="line">    static func applicationTopVC() -&gt; UIViewController? &#123;</span><br><span class="line">        var window: UIWindow? = UIApplication.shared.keyWindow</span><br><span class="line">        if window?.windowLevel != UIWindowLevelNormal &#123;</span><br><span class="line">            let windows = UIApplication.shared.windows</span><br><span class="line">            for tmpWin: UIWindow in windows &#123;</span><br><span class="line">                if tmpWin.windowLevel == UIWindowLevelNormal &#123;</span><br><span class="line">                    window = tmpWin</span><br><span class="line">                    break</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        for frontView: UIView? in window?.subviews ?? [UIView?]() &#123;</span><br><span class="line">            var nextResponder = frontView?.next</span><br><span class="line">            if let lenderClass = objc_getClass(&quot;UILayoutContainerView&quot;) as? UIView &#123;</span><br><span class="line">                </span><br><span class="line">                if let isMember = frontView?.isMember(of: lenderClass.classForCoder), !isMember &#123;</span><br><span class="line">                    let arr = frontView?.value(forKey: &quot;subviewCache&quot;) as? [Any]</span><br><span class="line">                    if (arr?.count ?? 0) &gt; 0 &#123;</span><br><span class="line">                        let v = arr?[0] as? UIView</span><br><span class="line">                        nextResponder = v?.next</span><br><span class="line">                    &#125; else &#123;</span><br><span class="line">                        nextResponder = frontView?.subviews[0].next</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">       </span><br><span class="line">            if (nextResponder is UITabBarController) &#123;</span><br><span class="line">                let tabbar = nextResponder as? UITabBarController</span><br><span class="line">                if let selectedIndex = tabbar?.selectedIndex &#123;</span><br><span class="line">                    let vc = tabbar?.viewControllers?[selectedIndex]</span><br><span class="line">                    guard let nav = vc as? UINavigationController else &#123;</span><br><span class="line">                        return vc</span><br><span class="line">                    &#125;</span><br><span class="line">                    return nav.childViewControllers.last</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; else if (nextResponder is UINavigationController) &#123;</span><br><span class="line">                let nav = nextResponder as? UINavigationController</span><br><span class="line">                return nav?.viewControllers.last</span><br><span class="line">            &#125; else if (nextResponder is UIViewController) &#123;</span><br><span class="line">                let vc = nextResponder as? UIViewController</span><br><span class="line">                return vc</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return nil</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>到此，第一类请求方式差不多就过完了，接下来我们主要看看怎么对这些方法进行<code>RX</code>方法的封装。</p>
+<h3 id="API-RX"><a href="#API-RX" class="headerlink" title="API+RX"></a>API+RX</h3><p>跟第一类方式一样，先看一个简单的网络请求：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">BankResource()</span><br><span class="line">    .rx.jsonWithParams()</span><br><span class="line">    .subscribe(&#123; (event) in</span><br><span class="line">        switch event &#123;</span><br><span class="line">        case .next(_):</span><br><span class="line">            break</span><br><span class="line">        case .error(let error):</span><br><span class="line">            self.scc.toast(content: error.formatterDescription())</span><br><span class="line">            break</span><br><span class="line">        default: break</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">    .disposed(by: bag)</span><br></pre></td></tr></table></figure>
+<p>分析这个方法之前我们先看一个类<code>SCCApi</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">open class SCCApi: NSObject, APIType &#123;</span><br><span class="line"></span><br><span class="line">    public lazy var url: SCCURL = &#123;</span><br><span class="line">        return SCCURL(url: self.apiURL())</span><br><span class="line">    &#125;()</span><br><span class="line"></span><br><span class="line">    public lazy var method: HTTPMethod = &#123;</span><br><span class="line">        return self.apiType()</span><br><span class="line">    &#125;()</span><br><span class="line"></span><br><span class="line">    open func apiURL() -&gt; String! &#123;</span><br><span class="line">        assertionFailure(&quot;Should be overrided by subclass.&quot;)</span><br><span class="line">        return &quot;&quot;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    open func apiType() -&gt; HTTPMethod &#123;</span><br><span class="line">        return .get</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    open func composeJSONWithPropertyParams() -&gt; Observable&lt;JSON&gt; &#123;</span><br><span class="line">        return observableData.json</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    open func composeJSONWithParams(_ params: Parameters = [:]) -&gt; Observable&lt;JSON&gt; &#123;</span><br><span class="line">        return url.request(method: method, parameters: params, headers: headers).json</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">postfix operator =&gt;</span><br><span class="line"></span><br><span class="line">public postfix func =&gt; &lt;T: Mappable&gt;(object: Any?) -&gt; T? &#123;</span><br><span class="line"> </span><br><span class="line">    return Mapper().map(JSONObject: object)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public postfix func =&gt; &lt;T: Mappable&gt;(object: Any?) -&gt; [T]? &#123;</span><br><span class="line"></span><br><span class="line">    return Mapper().mapArray(JSONObject: object)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到，这个类有两个属性：<code>url</code>,<code>method</code>;四个方法：<code>apiURL()</code>，<code>apiType()</code>，<code>composeJSONWithPropertyParams()</code>，<code>composeJSONWithParams(params:)</code>,刚看的时候可能会想<code>HTTPMethod</code>，<code>observableData</code>这些都是哪里来的，从没见过。嗯，别忘了它还遵守一个协议：<code>APIType</code>，我们看看里面都有些什么：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">public protocol APIType &#123;</span><br><span class="line">    var url: SCCURL &#123; get &#125;</span><br><span class="line">    var method: HTTPMethod &#123; get &#125;</span><br><span class="line">    var headers: HTTPHeaders &#123; get &#125;</span><br><span class="line">    var parameters: Parameters &#123; get &#125;</span><br><span class="line">    var observableData: Observable&lt;(Any, String)&gt; &#123; get &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public extension APIType &#123;</span><br><span class="line"></span><br><span class="line">    var method: HTTPMethod &#123; return .get &#125;</span><br><span class="line">    var headers: HTTPHeaders &#123;</span><br><span class="line">        return RequestCommonConfiguration.shared.headers ?? [:]</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    var parameters: Parameters &#123;</span><br><span class="line">        var parameters: Parameters = [:]</span><br><span class="line">        let mirror = Mirror(reflecting: self)</span><br><span class="line">        mirror.children.forEach &#123; parameters[$0.label!] = $0.value &#125;</span><br><span class="line">        return parameters</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    var observableData: Observable&lt;(Any, String)&gt; &#123;</span><br><span class="line">        return url.request(method: method, parameters: parameters, headers: headers)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们刚才疑惑的<code>observableData</code>在这里好像找到了，他是一个<code>Observable&lt;(Any,String)&gt;</code>,在扩展里面默认是根据默认参数调用了之前提到的网络请求方法。而<code>HTTPMethod</code>是一个<code>Alamofire</code>请求方式的类型别名:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public typealias Parameters = Alamofire.Parameters</span><br><span class="line">public typealias HTTPHeaders = Alamofire.HTTPHeaders</span><br><span class="line">public typealias HTTPMethod = Alamofire.HTTPMethod</span><br></pre></td></tr></table></figure>
+<p>还有<code>url</code>，<code>headers</code>，<code>parameters</code>这几个属性，可以留意一下<code>parameters</code>这个属性，它里面有用到<code>Mirror</code>(反射),这个很有意思。<code>Mirror(reflecting: self)</code>能够反射出这个实例的类型(<code>subjectType</code>)、属性集合(<code>children</code>)、对象展示类型(<code>displayStyle</code>)。这和<code>OC</code>里面<code>runtime</code>很类似，我们可以动态获取一个实例的属性了，正如上面代码里的一样。再倒回去看<code>SCCApi</code>，后面两个比较长的方法也就是将请求回来的数据做一次<code>JSON</code>(这里的json方法是老方法，应该用<code>vaildData</code>)解析，然后返回一个<code>Observable&lt;JSON&gt;</code>.这里有一个新版本的<code>SCCApi</code>:<code>SCCStandarApi</code>:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">/// For compatibility with older version</span><br><span class="line">open class SCCStandardApi: SCCApi &#123;</span><br><span class="line"></span><br><span class="line">    open override func composeJSONWithPropertyParams() -&gt; Observable&lt;JSON&gt; &#123;</span><br><span class="line">        return observableData.validData</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    open override func composeJSONWithParams(_ params: Parameters) -&gt; Observable&lt;JSON&gt; &#123;</span><br><span class="line">        return url.request(method: method, parameters: params, headers: headers).validData</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>最后终于到了<code>RX</code>封装的方法了：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">extension Reactive where Base: SCCApi &#123;</span><br><span class="line"></span><br><span class="line">    public func jsonWithPropertyParams() -&gt; Observable&lt;JSON&gt; &#123;</span><br><span class="line">        return self.base.composeJSONWithPropertyParams()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public func jsonWithParams(_ params: Parameters = [:]) -&gt; Observable&lt;JSON&gt; &#123;</span><br><span class="line">        return self.base.composeJSONWithParams(params)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">extension Reactive where Base: SCCApi &#123;</span><br><span class="line"></span><br><span class="line">    public func modelWithPropertyParams&lt;T: Mappable&gt;(_ modelType: T.Type, key: String? = nil) -&gt; Observable&lt;T?&gt; &#123;</span><br><span class="line">        return base</span><br><span class="line">            .rx</span><br><span class="line">            .jsonWithPropertyParams()</span><br><span class="line">            .map(valueForKey(key))</span><br><span class="line">            .map(=&gt;)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public func modelWithParams&lt;T: Mappable&gt;(_ params: Parameters = [:], modelType: T.Type, key: String? = nil) -&gt; Observable&lt;T?&gt; &#123;</span><br><span class="line">        return base</span><br><span class="line">            .rx</span><br><span class="line">            .jsonWithParams(params)</span><br><span class="line">            .map(valueForKey(key))</span><br><span class="line">            .map(=&gt;)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public func modelsWithPropertyParams&lt;T: Mappable&gt;(_ modelType: T.Type, key: String? = nil) -&gt; Observable&lt;[T]?&gt; &#123;</span><br><span class="line">        return base</span><br><span class="line">            .rx</span><br><span class="line">            .jsonWithPropertyParams()</span><br><span class="line">            .map(valueForKey(key))</span><br><span class="line">            .map(=&gt;)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public func modelsWithParams&lt;T: Mappable&gt;(_ params: Parameters = [:], modelType: T.Type, key: String? = nil) -&gt; Observable&lt;[T]?&gt; &#123;</span><br><span class="line">        return base</span><br><span class="line">            .rx</span><br><span class="line">            .jsonWithParams(params)</span><br><span class="line">            .map(valueForKey(key))</span><br><span class="line">            .map(=&gt;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这些方法分为两组，一组是返回<code>Observable&lt;JSON&gt;</code>，一类是返回一个泛型<code>model</code>。第一个方法不带参数，获取<code>api</code>的属性作为参数进行网络请求。第二个方法需要传入参数。<br>下面一组方法也是在将数据转为<code>JSON</code>之后再通过一层<code>Mapper</code>的转化，转化为<code>model</code>。<code>Mapper</code>方法是接入的第三方库<code>ObjectMapper</code>,这里就不展开讲了，下次有机会也对这个库做个总结。</p>
+<h3 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h3><p>总体下来，这里对网络库的封装主要还是体现在对<code>Rx</code>的支持，这也更契合现在<code>swift</code>和<code>RX</code>结合使用的理念。还有就是对数据的校验和错误处理都比较严谨。这都是值得学习的地方。</p>
+<p>这次<code>SCCSwiftNetWork</code>的总结就先到这里吧，有很多不到位的地方，也可能有很多理解或者是笔误的地方，请不吝赐教。谢谢！</p>
+
+    </article>
+    <!-- license  -->
+    
+        <div class="license-wrapper">
+            <p>原文作者：<a href="http://yoursite.com">周老实</a>
+            <p>原文链接：<a href="http://yoursite.com/2019/01/22/SCCSwiftNetWork源码解析/">http://yoursite.com/2019/01/22/SCCSwiftNetWork源码解析/</a>
+            <p>发表日期：<a href="http://yoursite.com/2019/01/22/SCCSwiftNetWork源码解析/">January 22nd 2019, 9:00:32 am</a>
+            <p>更新日期：<a href="http://yoursite.com/2019/01/22/SCCSwiftNetWork源码解析/">January 22nd 2019, 8:27:26 pm</a>
+            <p>版权声明：本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
+        </div>
+    
+    <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href= "/2019/03/13/记录下Cocoapods怎么创建私有podspec/" title= "记录下Cocoapods怎么创建私有podspec">
+                    <div class="nextTitle">记录下Cocoapods怎么创建私有podspec</div>
+                </a>
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/2019/01/18/网络库的使用/" title= "网络库的使用">
+                    <div class="prevTitle">网络库的使用</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!-- gitalk评论 -->
+
+    <!-- utteranc评论 -->
+
+    <!-- partial('_partial/comment/changyan') -->
+    <!--PC版-->
+
+
+    
+    
+
+    <!-- 评论 -->
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:brightzhou123@foxmail.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/fi3ework" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+            
+                <span class="iconfont-archer wechat" title=wechat>
+                  
+                  <img class="profile-qr" src="/assets/example_qr.png" />
+                </span>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#从一个网络请求说起"><span class="toc-number">2.</span> <span class="toc-text">从一个网络请求说起</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#解析数据"><span class="toc-number">3.</span> <span class="toc-text">解析数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#API-RX"><span class="toc-number">4.</span> <span class="toc-text">API+RX</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#结语"><span class="toc-number">5.</span> <span class="toc-text">结语</span></a></li></ol>
+    </div>
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 24
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2020 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/06</span><a class="archive-post-title" href= "/2020/07/06/A-half-of-2020/" >A half of 2020</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/29</span><a class="archive-post-title" href= "/2020/06/29/WWDC 2020/" >WWDC 2020</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2019 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/14</span><a class="archive-post-title" href= "/2019/03/14/vultr搭建ss/" >vultr搭建ss</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/13</span><a class="archive-post-title" href= "/2019/03/13/记录下Cocoapods怎么创建私有podspec/" >记录下Cocoapods怎么创建私有podspec</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/22</span><a class="archive-post-title" href= "/2019/01/22/SCCSwiftNetWork源码解析/" >SCCSwiftNetWork是怎么封装的</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/18</span><a class="archive-post-title" href= "/2019/01/18/网络库的使用/" >网络库的使用</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/2017回顾/" >2017回顾</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/11</span><a class="archive-post-title" href= "/2018/01/11/SDWebImage源码阅读/" >SDWebImage源码阅读(上)</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2017 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/29</span><a class="archive-post-title" href= "/2017/12/29/HTTPS加密过程和TLS证书验证/" >HTTPS加密过程和TLS证书验证</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/28</span><a class="archive-post-title" href= "/2017/12/28/Objective-C中的复制忍者卡卡西-NSProxy/" >Objective-C中的复制忍者卡卡西---NSProxy</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/21</span><a class="archive-post-title" href= "/2017/12/21/献给许许多多的忌日/" >献给许许多多的忌日</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/20</span><a class="archive-post-title" href= "/2017/12/20/测试下把hexo搬到自己电脑上/" >测试下把hexo搬到自己电脑上</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/20</span><a class="archive-post-title" href= "/2017/11/20/圣杯传奇/" >圣杯传奇</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/08</span><a class="archive-post-title" href= "/2017/11/08/AppStore审核记录/" >AppStore审核记录</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/02</span><a class="archive-post-title" href= "/2017/11/02/记一次CocoaPods的安装/" >记一次CocoaPods的安装</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/30</span><a class="archive-post-title" href= "/2017/10/30/The-time-gone/" >The time has gone</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/30</span><a class="archive-post-title" href= "/2017/10/30/红楼遗梦/" >红楼遗梦</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/27</span><a class="archive-post-title" href= "/2017/10/27/Java学习笔记-基础语法/" >Java学习笔记-基础语法</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/11</span><a class="archive-post-title" href= "/2017/08/11/滑动视图子视图触摸时间延迟问题/" >滑动视图子视图触摸时间延迟问题</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/02</span><a class="archive-post-title" href= "/2017/05/02/2017-像个书虫/" >2017 像个书虫</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/21</span><a class="archive-post-title" href= "/2017/04/21/Hexo 图片测试/" >Hexo 图片测试</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/20</span><a class="archive-post-title" href= "/2017/04/20/无奈之相册/" >无奈之相册</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/17</span><a class="archive-post-title" href= "/2017/04/17/折腾Hexo过程中的一些坑/" >折腾Hexo过程中的一些坑</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/17</span><a class="archive-post-title" href= "/2017/04/17/PostName/" >测试下Hexo</a>
+        </li>
+    
+    </div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="阅读"><span class="iconfont-archer">&#xe606;</span>阅读</span>
+    
+        <span class="sidebar-tag-name" data-tags="hexo博客搭建"><span class="iconfont-archer">&#xe606;</span>hexo博客搭建</span>
+    
+        <span class="sidebar-tag-name" data-tags="总结"><span class="iconfont-archer">&#xe606;</span>总结</span>
+    
+        <span class="sidebar-tag-name" data-tags="随笔"><span class="iconfont-archer">&#xe606;</span>随笔</span>
+    
+        <span class="sidebar-tag-name" data-tags="iOS App Store审核"><span class="iconfont-archer">&#xe606;</span>iOS App Store审核</span>
+    
+        <span class="sidebar-tag-name" data-tags="NSProxy"><span class="iconfont-archer">&#xe606;</span>NSProxy</span>
+    
+        <span class="sidebar-tag-name" data-tags="HTTPS/TLS"><span class="iconfont-archer">&#xe606;</span>HTTPS/TLS</span>
+    
+        <span class="sidebar-tag-name" data-tags="WWDC"><span class="iconfont-archer">&#xe606;</span>WWDC</span>
+    
+        <span class="sidebar-tag-name" data-tags="vultr"><span class="iconfont-archer">&#xe606;</span>vultr</span>
+    
+        <span class="sidebar-tag-name" data-tags="ss"><span class="iconfont-archer">&#xe606;</span>ss</span>
+    
+        <span class="sidebar-tag-name" data-tags="heox博客搭建"><span class="iconfont-archer">&#xe606;</span>heox博客搭建</span>
+    
+        <span class="sidebar-tag-name" data-tags="手势延迟"><span class="iconfont-archer">&#xe606;</span>手势延迟</span>
+    
+        <span class="sidebar-tag-name" data-tags="iOS"><span class="iconfont-archer">&#xe606;</span>iOS</span>
+    
+        <span class="sidebar-tag-name" data-tags="CocoaPods"><span class="iconfont-archer">&#xe606;</span>CocoaPods</span>
+    
+        <span class="sidebar-tag-name" data-tags="源码阅读"><span class="iconfont-archer">&#xe606;</span>源码阅读</span>
+    
+        <span class="sidebar-tag-name" data-tags="归纳总结"><span class="iconfont-archer">&#xe606;</span>归纳总结</span>
+    
+        <span class="sidebar-tag-name" data-tags="Cocoapods"><span class="iconfont-archer">&#xe606;</span>Cocoapods</span>
+    
+        <span class="sidebar-tag-name" data-tags="记录"><span class="iconfont-archer">&#xe606;</span>记录</span>
+    
+        <span class="sidebar-tag-name" data-tags="Java"><span class="iconfont-archer">&#xe606;</span>Java</span>
+    
+        <span class="sidebar-tag-name" data-tags="Java基础"><span class="iconfont-archer">&#xe606;</span>Java基础</span>
+    
+        <span class="sidebar-tag-name" data-tags="回忆"><span class="iconfont-archer">&#xe606;</span>回忆</span>
+    
+        <span class="sidebar-tag-name" data-tags="源码"><span class="iconfont-archer">&#xe606;</span>源码</span>
+    
+        <span class="sidebar-tag-name" data-tags="SDWebImage"><span class="iconfont-archer">&#xe606;</span>SDWebImage</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br/>
+    1、请确保node版本大于6.2<br/>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="老实说"><span class="iconfont-archer">&#xe60a;</span>老实说</span>
+    
+        <span class="sidebar-category-name" data-categories="iOS"><span class="iconfont-archer">&#xe60a;</span>iOS</span>
+    
+        <span class="sidebar-category-name" data-categories="网络编程"><span class="iconfont-archer">&#xe60a;</span>网络编程</span>
+    
+        <span class="sidebar-category-name" data-categories="科学上网"><span class="iconfont-archer">&#xe60a;</span>科学上网</span>
+    
+        <span class="sidebar-category-name" data-categories="hexo"><span class="iconfont-archer">&#xe60a;</span>hexo</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: "/",
+        author: "周老实"
+    }
+</script>
+    <!-- CDN failover -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ === 'undefined')
+        {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
+        }
+    </script>
+    <script src="/scripts/main.js"></script>
+    <!-- algolia -->
+    
+    <!-- busuanzi  -->
+    
+    <!-- CNZZ  -->
+    
+    </div>
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
+     
+    </body>
+</html>
+
+
