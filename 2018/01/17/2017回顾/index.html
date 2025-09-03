@@ -1,0 +1,1281 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <!-- title -->
+
+
+
+
+<!-- keywords -->
+
+
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" >
+    <meta name="author" content="周老实">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="周老实">
+    
+    <meta name="keywords" content="hexo,hexo-theme,hexo-blog">
+    
+    <meta name="description" content="">
+    <meta name="description" content="前言   其实一直不敢承认2017就这么过去了，但是，事实就是她已经离你而去，而且你永远都不可能再拥有她，想有也只能是回忆或者是在梦里吧。   有时候，停下来想想，上次从家里坐着绿皮火车来杭州打工不就是上个月的事吗；又有时候，好像几个月没有一起去看个电影了吧。   人有时候就是个复杂的矛盾的个体。 工作   岁月是把杀猪刀，黑了木耳，紫了葡萄，软了香蕉。掐指一算，距离毕业离校也有2个半年头了（虽然">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2017回顾">
+<meta property="og:url" content="http://yoursite.com/2018/01/17/2017%E5%9B%9E%E9%A1%BE/index.html">
+<meta property="og:site_name" content="周老实">
+<meta property="og:description" content="前言   其实一直不敢承认2017就这么过去了，但是，事实就是她已经离你而去，而且你永远都不可能再拥有她，想有也只能是回忆或者是在梦里吧。   有时候，停下来想想，上次从家里坐着绿皮火车来杭州打工不就是上个月的事吗；又有时候，好像几个月没有一起去看个电影了吧。   人有时候就是个复杂的矛盾的个体。 工作   岁月是把杀猪刀，黑了木耳，紫了葡萄，软了香蕉。掐指一算，距离毕业离校也有2个半年头了（虽然">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://ooqxuxrxe.bkt.clouddn.com/004.jpg">
+<meta property="article:published_time" content="2018-01-17T08:43:35.000Z">
+<meta property="article:modified_time" content="2025-08-27T08:45:29.586Z">
+<meta property="article:author" content="周老实">
+<meta property="article:tag" content="回忆">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://ooqxuxrxe.bkt.clouddn.com/004.jpg">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    
+    <title>2017回顾 · zhou</title>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s infinite;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href= "/css/style.css?v=20180824" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <link rel="stylesheet" href= "/css/mobile.css?v=20180824" media="(max-width: 980px)">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+(function( w ){
+	"use strict";
+	// rel=preload support test
+	if( !w.loadCSS ){
+		w.loadCSS = function(){};
+	}
+	// define on the loadCSS obj
+	var rp = loadCSS.relpreload = {};
+	// rel=preload feature support test
+	// runs once and returns a function for compat purposes
+	rp.support = (function(){
+		var ret;
+		try {
+			ret = w.document.createElement( "link" ).relList.supports( "preload" );
+		} catch (e) {
+			ret = false;
+		}
+		return function(){
+			return ret;
+		};
+	})();
+
+	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+	// then change that media back to its intended value on load
+	rp.bindMediaToggle = function( link ){
+		// remember existing media attr for ultimate state, or default to 'all'
+		var finalMedia = link.media || "all";
+
+		function enableStylesheet(){
+			link.media = finalMedia;
+		}
+
+		// bind load handlers to enable media
+		if( link.addEventListener ){
+			link.addEventListener( "load", enableStylesheet );
+		} else if( link.attachEvent ){
+			link.attachEvent( "onload", enableStylesheet );
+		}
+
+		// Set rel and non-applicable media type to start an async request
+		// note: timeout allows this to happen async to let rendering continue in IE
+		setTimeout(function(){
+			link.rel = "stylesheet";
+			link.media = "only x";
+		});
+		// also enable media after 3 seconds,
+		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+		setTimeout( enableStylesheet, 3000 );
+	};
+
+	// loop through link elements in DOM
+	rp.poly = function(){
+		// double check this to prevent external calls from running
+		if( rp.support() ){
+			return;
+		}
+		var links = w.document.getElementsByTagName( "link" );
+		for( var i = 0; i < links.length; i++ ){
+			var link = links[ i ];
+			// qualify links to those with rel=preload and as=style attrs
+			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+				// prevent rerunning on link
+				link.setAttribute( "data-loadcss", true );
+				// bind listeners to toggle media back
+				rp.bindMediaToggle( link );
+			}
+		}
+	};
+
+	// if unsupported, run the polyfill
+	if( !rp.support() ){
+		// run once at least
+		rp.poly();
+
+		// rerun poly on an interval until onload
+		var run = w.setInterval( rp.poly, 500 );
+		if( w.addEventListener ){
+			w.addEventListener( "load", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		} else if( w.attachEvent ){
+			w.attachEvent( "onload", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		}
+	}
+
+
+	// commonjs
+	if( typeof exports !== "undefined" ){
+		exports.loadCSS = loadCSS;
+	}
+	else {
+		w.loadCSS = loadCSS;
+	}
+}( typeof global !== "undefined" ? global : this ) );
+</script>
+
+    <link rel="icon" href= "/assets/favicon1.ico" />
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script" />
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script" />
+    <link rel="preload" href="/scripts/main.js" as="script" />
+    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin>
+    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin>
+    
+    <!-- fancybox -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >zhou的博客.</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">2017回顾</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href=/>zhou的博客.</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro" style="
+
+
+
+
+
+
+
+height:50vh;
+">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            2017回顾
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "回忆">回忆</a>
+    
+</div>
+                
+                
+                    <div class="post-intro-read">
+                        <span>字数统计: <span class="post-count word-count">3.7k</span>阅读时长: <span class="post-count reading-time">12 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2018/01/17</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+        <script>
+ 
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  function asyncErr(){
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
+    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+
+  var asyncLoadWithFallBack = function(arr, success, reject) {
+      var currReject = function(){
+        reject()
+        arr.shift()
+        if(arr.length)
+          async(arr[0], success, currReject)
+        }
+
+      async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack([
+    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
+    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
+    "/lib/webfontloader.min.js"
+  ], asyncCb, asyncErr)
+</script>        
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>   其实一直不敢承认2017就这么过去了，但是，事实就是她已经离你而去，而且你永远都不可能再拥有她，想有也只能是回忆或者是在梦里吧。<br>   有时候，停下来想想，上次从家里坐着绿皮火车来杭州打工不就是上个月的事吗；又有时候，好像几个月没有一起去看个电影了吧。<br>   人有时候就是个复杂的矛盾的个体。</p>
+<h3 id="工作"><a href="#工作" class="headerlink" title="工作"></a>工作</h3><p>   岁月是把杀猪刀，黑了木耳，紫了葡萄，软了香蕉。掐指一算，距离毕业离校也有2个半年头了（虽然我不是很怀念在学校的日子，但是还是习惯拿毕业做个对比），也预示着在这家创业小作坊打了2年零6个月的卡，而且现在还在这里上班，至少我在写这篇文章的时候还是在这家小作坊里敲下的键盘。其实也不是对这家公司恋恋不舍，只是短时间内没有更好的（一不小心说出了心里话，耿直boy）。其实在今年之前，我觉得在这家公司还是挺不错的，虽然工资低了点，但是技术团队还是挺完整的，大家关系也不错，至少有组织的感觉。相比现在公司的状况，肯定好了不少。<br>    自从2016年10月份公司重组后，我们技术小组在不知情的情况下留在了现在这家小作坊，之后，大家都慢慢都走了，到了今年年初，11个小伙伴走的就剩下我和负责后台的技术总监了。老板见这情况找我约谈，最后结果给我的条件是稍微提了点薪，让我考虑下要不要留下来。我还是说要出去面试几家试试，没有合适的就留下。3月份，2个礼拜面了4家，确实不理想，也确实留下来了，其中一个原因也跟我在这上班步行10分钟就到了有关。</p>
+<span id="more"></span>    
+<pre><code>大家都走了，我留下来了，所以，`iOS`这块就是我一个人做了。不，应该说一直都是我一个人，公司没有重组之前，虽然有招过一两个开发，但是都没有超过3个月都走了。所以`iOS`这块一直都是我在做。重组之后，今年3月份，公司搬到了之前公司的钱塘江对面。虽然只有一江之隔，但是我上班却方便了不少，之前每天都是骑着死飞花半小时翻过三桥才能到公司，现在只要步行10分钟，这应该是这一年唯一一件听上去还不错的事情吧。
+3月、4月公司没有项目，处在空窗期，我大部分时间都是看看视频教程，自己学点东西。
+5月初，“捷牛送药”项目确定下来了，项目周期也列出来了，我也就开始了浑天暗地的开发阶段，一个完整的项目开发完预计要3个多月。
+上班，敲代码；下班，睡觉。
+这样过了3个月，项目快接近尾声了，市场部说，为了迎合市场需求，我们应该把老产品升级下。于是乎，&quot;捷牛送药&quot;项目就此胎死腹中，整个20人的小作坊又开始把工作投入到一个新的项目--&quot;捷牛生活&quot;当中。
+上班，敲代码；下班，睡觉。
+这样又过了3个月左右，产品开发得差不多，也上线了。然后就是维护，11月中旬又开始开发第二版，12月底发布。
+总得来说，今年的工作还是属于搬砖比较多，两个项目下来，都是些简单地业务逻辑代码，学到的东西还是有限的，毕竟是一个人闷着头开发两个项目，无异于闭门造车。
+工作上就这些，一词以蔽之：搬砖。
+</code></pre>
+<h3 id="生活"><a href="#生活" class="headerlink" title="生活"></a>生活</h3><blockquote>
+<p>假如生活欺骗了你，<br>不要悲伤，不要心急！<br>犹豫的日子里需要镇静。<br>      —普希金。</p>
+</blockquote>
+<p>我失恋了，是的，在2017年5月24号；不，应该是在11月7号；也不对，应该是在8月或者9月份。也不管这么多了，反正就是这样，从5月份开始，我回到了一个人生活的日子。一个人的日子，自由自在，虽然有点单调，每天一个人上班下班，一个人吃饭睡觉。偶尔周末还会去附近超市买点生活用品，吃个快餐。清净多了。<br>也正是在这期间：在一个不知具体日期的某个周六，我开始自己买菜做饭了，之后的每个周末，我都会自己买几个菜，一般是4个，自己胡乱下锅炒、煮、炖，吃到撑，就很开心。偶尔还会一个人小酌一杯，好像是在庆祝今天又完成了一个艰巨的任务。有时候兴致来了，吃完还会对着谱子在3月份买来的二手电子琴上瞎弹一通,就很舒服。<br>一个人的生活就是这样，就像我做的菜一样，几个礼拜一直吃着同样的几道菜——重复、单调，没有一丝波澜。</p>
+<h3 id="读书"><a href="#读书" class="headerlink" title="读书"></a>读书</h3><p>阅读是一种生活态度，这一年刚开始也打算记录自己的阅读状态，但是做的不是很好。期间，断断续续地看了一些书，有些看了一点，或者是没有看完我就不列出来，下面是完整看完的书，基本上都是纸质书。<br>*** 非技术书籍 ***</p>
+<ul>
+<li>《如何阅读一本书》</li>
+<li>《全球通史》</li>
+<li>《红楼梦》</li>
+<li>《图解股票历史》</li>
+<li>《独居的一年》<br>*** 技术类书籍 ***</li>
+<li>《Objective-C高级编程iOS与OS X多线程和内存管理》</li>
+<li>《Effective Objective-C2.0 编写高质量iOS好、与OS X代码的52个有效方法》</li>
+<li>《精通Python网络爬虫》</li>
+<li>《Java核心技术 卷I》<br>可以看到，今年读的书也不算多，而且还没有读书笔记，而且技术类的看的也比较杂。</li>
+</ul>
+<h3 id="健康"><a href="#健康" class="headerlink" title="健康"></a>健康</h3><p>大概是从16年底的时候，我开始长胖了，我是这么觉得的。但是老母亲说过年的时候没有那么胖，反正国庆节回家的时候，老母亲说我长胖了，很多人都说我胖了，经常见面的同事也说我怎么突然长胖了。我自己倒一直持怀疑态度，要知道我可是体重一直都不到120标准的瘦子。但是到今年年初，我就已经有130，当时我就吓坏了，还以为是称坏了。11月初，随手拍了一张发朋友圈，都说胖了，看来确实胖了。<br>之后，大概在12月初，自己定了计划，每周会挑选2个晚上8点左右绕钱塘江旁跑个5.5公里左右，看看风景，放松心情，也当是减肥吧。<br>希望这个习惯能一直坚持下去。</p>
+<h3 id="旅行"><a href="#旅行" class="headerlink" title="旅行"></a>旅行</h3><p>今年3月份踏出了徒步第一步，去的是闻名已久的“徽杭古道”。早上起很早，跟团走了一天，海拔和里程都还能接受，整个走下来还行，不会很累。沿路上的风景还行，特别是到了山顶，那个山体还不错，是我喜欢的类型。最重要的是，山顶有户人家，专门提供面食，那个时候来一碗热汤面真的是不要太爽。这也导致，以后跟同事去徒步都说“要是这个时候有碗热汤面真的很棒！”。“徽杭古道”算是入门级的徒步路线，比较适合新手。<br>后面就是11月份了，去了台州的“南黄古道”，这个纯属休闲游。<br>还有12月份的西湖群山，这个没有做好准备，一直找不到合理的路线，虽然有老杭州同事知道，还是走错了。下次有机会，跟同事重新走遍。没事的时候可以常走走，很近，很合适。<br>还有就是后面的临安的“道场坪”。说是去看雪，然后并没有，只有一些冰串，不过也还行。</p>
+<h3 id="音乐"><a href="#音乐" class="headerlink" title="音乐"></a>音乐</h3><p>今年应该算是一个乐盲的乐音元年。音乐大家都会听，我也是，可能比较没有节制，不管是上班，下班，短途旅行，火车，地铁，只要有空闲时间我基本上都是会带着耳机，听着一些已经听了几百遍的歌曲。今年年初，鬼使神差地花了300块大洋买了一个父母买给小朋友练习的二手电子琴，准备也开始试着学习钢琴。可能是哪天听到了不该听的钢琴曲才导致会做出这个不切实际的决定。<br>刚开始，跟着《宋大叔教音乐》学习了点乐理基础知识，后面也买了一套钢琴教材：《哈农钢琴练指法》、《拜厄钢琴基本》、《车尔尼599》。然而，对于五线谱还没有很熟悉的我，只会对着视频练习《哈农》的第一首练习曲，确实有点尴尬。主要还是自己偷懒了，花在练琴的时间不多。</p>
+<h3 id="摄影"><a href="#摄影" class="headerlink" title="摄影"></a>摄影</h3><p>摄影还是在徒步的过程中接触到的。每次游玩过一个地方后拍出来的照片总是跟别人差的不是一个档次，不管是虚荣心也好还是好奇也好，这也促使了我想要学习怎么把照片拍得好看点。开始有这个觉悟的时候是快要到年底了，所以目前学习得还不算多，不管是构图还是后期处理都是没有入门级别的我感觉。目前能用到的工具还是不离手的手机，虽说现在手机的拍照性能也是不错的，但是跟市面上的单反啊，微单啊等等专业工具还是差很多。所以，每次看到自己拍出的照片我都会纠结要不要去装个X买个单反玩玩，哈哈。不过，对于还没完全入门的鶸，用手机应该足够了，主要还是要把拍照技巧掌握熟练，还有就是后期处理。<br>听说旅行和摄影很配哦,配一张在十里琅珰拍的照片。<br><img src="http://ooqxuxrxe.bkt.clouddn.com/004.jpg" alt="江南"></p>
+<h3 id="评价与计划"><a href="#评价与计划" class="headerlink" title="评价与计划"></a>评价与计划</h3><blockquote>
+<p>*** 评价： ***</p>
+</blockquote>
+<p>丧、麻木、行尸走肉等等类似的词语都可以用来形容整个2017。或许是因为失去了些东西，也或许是没有得到某些东西。在多数没有目标，浑浑噩噩的日子里，幸好没有在生活中缴械投降。虽然这样的生活总是让人悲伤，但有时候不服输的性子总是会迫使你突出重围。或许是因祸得福，我学会了烧菜；试着去学习音乐；学着出去走走，去徒步，看看周边的世界，感受大自然；会坚持晚上在钱塘江挥洒汗水。谁说结束不是另一个开始呢。</p>
+<blockquote>
+<p><em><strong>计划：</strong></em></p>
+</blockquote>
+<p>2018，新的开始，新的起点，应该要从新的环境开始，所以准备在年后换一个新的环境，重新开始修行。</p>
+<ol>
+<li>关于技术，不能停留在画画皮，2018要更系统地学习知识了，不管是AMP还是OC底层都要掌握。还有就是Apple的新宠swift，之前从2.0的时候就在学，但是一直在实际项目中派不上用场，所以一直处在搁浅状态。来年希望能熟练swift开发，至少要用它开发一个中等规模的项目。还有计算机网络方面也要更深入的了解，基础知识，数据结构和算法应该都要掌握，夯实基础。所以总结下目标：</li>
+</ol>
+<ul>
+<li><em><strong>通过看书夯实技术：</strong></em></li>
+</ul>
+<ol>
+<li>《数据结构与算法分析》</li>
+<li>《深入解析 MAC OS X &amp; IOS 操作系统》</li>
+<li>《高性能iOS应用开发》</li>
+<li>《Swift进阶》</li>
+<li>《Core Data》</li>
+<li>《函数式Swift》</li>
+<li>《Swifter 100个Swift开发必备的Tips》</li>
+<li>《图解HTTP》、《图解TCP&#x2F;IP》</li>
+<li>《程序员的自我修养》</li>
+<li>《计算机网络 自顶向下方法》</li>
+</ol>
+<ul>
+<li><em><strong>积极参与社区分享，体验开源精神</strong></em><br>  2018，希望能在GitHub上为社区贡献一点自己的代码，主要是OC和Swift吧，争取能收获100个star。这个任务有点艰巨啊，但会努力争取的。</li>
+</ul>
+<p>2.关于读书，这里指的是非技术类的书籍，我没有特别的癖好，各类书籍都有涉猎，所以不挑。计划，2018能看完至少10本书吧，不单是看完，每本书都要写个书评出来。</p>
+<p>3.关于健康，目前来说距离钱塘江还是比较近，所以去江旁边跑步的机会还是比较多，坚持一周2-3次夜跑。以后即使换了地方，也要把这个习惯延续下去。</p>
+<p>4.关于旅行，周末有空的时候可以跟同事、朋友去周边徒步，当然自己一个人也可以出去。5次徒步应该不算多吧，希望也能记录下来。旅行和摄影应该是分不开的，所以，在这个过程中，希望也能把摄影学习坚持下来。关于摄影，能用PS,Lightroom等软件完成简单的后期修图也勉强算个小目标吧。</p>
+<p>5.关于音乐，一直都是个小菜，虽然稍微能看点五线谱，跟着五线谱弹点简单点的谱子，但是遇到复杂的蒙圈了，所以有机会还是要花点时间学习。先把基础乐理知识掌握好，然后再去练习经典的曲目。可能是音质上跟钢琴有天壤之别的原因，对弹电子琴确实不是很热衷，但没有条件只能这样了。希望今年能熟练地弹会两首曲子：《Pour Alice》、《A comme amour》，一首诗贝多芬的，一首诗理查德的，都是我个人非常喜欢的。</p>
+<p>6.关于其他，希望父母健康，准备今年看情况找个机会让老母亲来杭州转转，来看看她儿子生活的城市、也是她儿子喜欢的城市。母亲这辈子应该也没有去过几个地方，更别说旅游了，所以希望趁现在还能走得动，带她出来走走。</p>
+<p>祝好，以上！</p>
+
+    </article>
+    <!-- license  -->
+    
+        <div class="license-wrapper">
+            <p>原文作者：<a href="http://yoursite.com">周老实</a>
+            <p>原文链接：<a href="http://yoursite.com/2018/01/17/2017%E5%9B%9E%E9%A1%BE/">http://yoursite.com/2018/01/17/2017%E5%9B%9E%E9%A1%BE/</a>
+            <p>发表日期：<a href="http://yoursite.com/2018/01/17/2017%E5%9B%9E%E9%A1%BE/">January 17th 2018, 4:43:35 pm</a>
+            <p>更新日期：<a href="http://yoursite.com/2018/01/17/2017%E5%9B%9E%E9%A1%BE/">August 27th 2025, 4:45:29 pm</a>
+            <p>版权声明：本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
+        </div>
+    
+    <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href= "/2018/12/27/%E5%9B%9E%E9%A6%962018/" title= "回首2018">
+                    <div class="nextTitle">回首2018</div>
+                </a>
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/2018/01/11/SDWebImage%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/" title= "SDWebImage源码阅读(上)">
+                    <div class="prevTitle">SDWebImage源码阅读(上)</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!-- gitalk评论 -->
+
+    <!-- utteranc评论 -->
+
+    <!-- partial('_partial/comment/changyan') -->
+    <!--PC版-->
+
+
+    
+    
+
+    <!-- 评论 -->
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:brightzhou123@foxmail.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="https://github.com/zhou87" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+            
+                <span class="iconfont-archer wechat" title=wechat>
+                  
+                  <img class="profile-qr" src="/assets/qr.png" />
+                </span>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <a href="https://www.zhihu.com/people/zhou-lao-shi-10/activities" class="iconfont-archer zhihu" target="_blank" title=zhihu></a>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+    <div class="busuanzi-container">
+    
+     
+    <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+    
+    </div>
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B7%A5%E4%BD%9C"><span class="toc-number">2.</span> <span class="toc-text">工作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%9F%E6%B4%BB"><span class="toc-number">3.</span> <span class="toc-text">生活</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%BB%E4%B9%A6"><span class="toc-number">4.</span> <span class="toc-text">读书</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%81%A5%E5%BA%B7"><span class="toc-number">5.</span> <span class="toc-text">健康</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%85%E8%A1%8C"><span class="toc-number">6.</span> <span class="toc-text">旅行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9F%B3%E4%B9%90"><span class="toc-number">7.</span> <span class="toc-text">音乐</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%91%84%E5%BD%B1"><span class="toc-number">8.</span> <span class="toc-text">摄影</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%84%E4%BB%B7%E4%B8%8E%E8%AE%A1%E5%88%92"><span class="toc-number">9.</span> <span class="toc-text">评价与计划</span></a></li></ol>
+    </div>
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 26
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2024 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/11</span><a class="archive-post-title" href= "/2024/02/11/%E5%8E%86%E5%8E%86%E5%8F%98%E5%8C%96%E7%9A%842023/" >历历变化的2023</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2020 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/06</span><a class="archive-post-title" href= "/2020/07/06/A-half-of-2020/" >A half of 2020</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/29</span><a class="archive-post-title" href= "/2020/06/29/WWDC%202020/" >WWDC 2020</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2019 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/14</span><a class="archive-post-title" href= "/2019/03/14/vultr%E6%90%AD%E5%BB%BAss/" >vultr搭建ss</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/13</span><a class="archive-post-title" href= "/2019/03/13/%E8%AE%B0%E5%BD%95%E4%B8%8BCocoapods%E6%80%8E%E4%B9%88%E5%88%9B%E5%BB%BA%E7%A7%81%E6%9C%89podspec/" >记录下Cocoapods怎么创建私有podspec</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/22</span><a class="archive-post-title" href= "/2019/01/22/SCCSwiftNetWork%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/" >SCCSwiftNetWork是怎么封装的</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/18</span><a class="archive-post-title" href= "/2019/01/18/%E7%BD%91%E7%BB%9C%E5%BA%93%E7%9A%84%E4%BD%BF%E7%94%A8/" >网络库的使用</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/27</span><a class="archive-post-title" href= "/2018/12/27/%E5%9B%9E%E9%A6%962018/" >回首2018</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/17</span><a class="archive-post-title" href= "/2018/01/17/2017%E5%9B%9E%E9%A1%BE/" >2017回顾</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/11</span><a class="archive-post-title" href= "/2018/01/11/SDWebImage%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/" >SDWebImage源码阅读(上)</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2017 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/29</span><a class="archive-post-title" href= "/2017/12/29/HTTPS%E5%8A%A0%E5%AF%86%E8%BF%87%E7%A8%8B%E5%92%8CTLS%E8%AF%81%E4%B9%A6%E9%AA%8C%E8%AF%81/" >HTTPS加密过程和TLS证书验证</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/28</span><a class="archive-post-title" href= "/2017/12/28/Objective-C%E4%B8%AD%E7%9A%84%E5%A4%8D%E5%88%B6%E5%BF%8D%E8%80%85%E5%8D%A1%E5%8D%A1%E8%A5%BF-NSProxy/" >Objective-C中的复制忍者卡卡西---NSProxy</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/21</span><a class="archive-post-title" href= "/2017/12/21/%E7%8C%AE%E7%BB%99%E8%AE%B8%E8%AE%B8%E5%A4%9A%E5%A4%9A%E7%9A%84%E5%BF%8C%E6%97%A5/" >献给许许多多的忌日</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/20</span><a class="archive-post-title" href= "/2017/12/20/%E6%B5%8B%E8%AF%95%E4%B8%8B%E6%8A%8Ahexo%E6%90%AC%E5%88%B0%E8%87%AA%E5%B7%B1%E7%94%B5%E8%84%91%E4%B8%8A/" >测试下把hexo搬到自己电脑上</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/20</span><a class="archive-post-title" href= "/2017/11/20/%E5%9C%A3%E6%9D%AF%E4%BC%A0%E5%A5%87/" >圣杯传奇</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/08</span><a class="archive-post-title" href= "/2017/11/08/AppStore%E5%AE%A1%E6%A0%B8%E8%AE%B0%E5%BD%95/" >AppStore审核记录</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/02</span><a class="archive-post-title" href= "/2017/11/02/%E8%AE%B0%E4%B8%80%E6%AC%A1CocoaPods%E7%9A%84%E5%AE%89%E8%A3%85/" >记一次CocoaPods的安装</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/30</span><a class="archive-post-title" href= "/2017/10/30/The-time-gone/" >The time has gone</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/30</span><a class="archive-post-title" href= "/2017/10/30/%E7%BA%A2%E6%A5%BC%E9%81%97%E6%A2%A6/" >红楼遗梦</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/27</span><a class="archive-post-title" href= "/2017/10/27/Java%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/" >Java学习笔记-基础语法</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/11</span><a class="archive-post-title" href= "/2017/08/11/%E6%BB%91%E5%8A%A8%E8%A7%86%E5%9B%BE%E5%AD%90%E8%A7%86%E5%9B%BE%E8%A7%A6%E6%91%B8%E6%97%B6%E9%97%B4%E5%BB%B6%E8%BF%9F%E9%97%AE%E9%A2%98/" >滑动视图子视图触摸时间延迟问题</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/02</span><a class="archive-post-title" href= "/2017/05/02/2017-%E5%83%8F%E4%B8%AA%E4%B9%A6%E8%99%AB/" >2017 像个书虫</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/21</span><a class="archive-post-title" href= "/2017/04/21/Hexo%20%E5%9B%BE%E7%89%87%E6%B5%8B%E8%AF%95/" >Hexo 图片测试</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/20</span><a class="archive-post-title" href= "/2017/04/20/%E6%97%A0%E5%A5%88%E4%B9%8B%E7%9B%B8%E5%86%8C/" >无奈之相册</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/17</span><a class="archive-post-title" href= "/2017/04/17/%E6%8A%98%E8%85%BEHexo%E8%BF%87%E7%A8%8B%E4%B8%AD%E7%9A%84%E4%B8%80%E4%BA%9B%E5%9D%91/" >折腾Hexo过程中的一些坑</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/17</span><a class="archive-post-title" href= "/2017/04/17/PostName/" >测试下Hexo</a>
+        </li>
+    
+    </div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="iOS App Store审核"><span class="iconfont-archer">&#xe606;</span>iOS App Store审核</span>
+    
+        <span class="sidebar-tag-name" data-tags="回忆"><span class="iconfont-archer">&#xe606;</span>回忆</span>
+    
+        <span class="sidebar-tag-name" data-tags="总结"><span class="iconfont-archer">&#xe606;</span>总结</span>
+    
+        <span class="sidebar-tag-name" data-tags="随笔"><span class="iconfont-archer">&#xe606;</span>随笔</span>
+    
+        <span class="sidebar-tag-name" data-tags="hexo博客搭建"><span class="iconfont-archer">&#xe606;</span>hexo博客搭建</span>
+    
+        <span class="sidebar-tag-name" data-tags="HTTPS/TLS"><span class="iconfont-archer">&#xe606;</span>HTTPS/TLS</span>
+    
+        <span class="sidebar-tag-name" data-tags="阅读"><span class="iconfont-archer">&#xe606;</span>阅读</span>
+    
+        <span class="sidebar-tag-name" data-tags="Java"><span class="iconfont-archer">&#xe606;</span>Java</span>
+    
+        <span class="sidebar-tag-name" data-tags="Java基础"><span class="iconfont-archer">&#xe606;</span>Java基础</span>
+    
+        <span class="sidebar-tag-name" data-tags="NSProxy"><span class="iconfont-archer">&#xe606;</span>NSProxy</span>
+    
+        <span class="sidebar-tag-name" data-tags="归纳总结"><span class="iconfont-archer">&#xe606;</span>归纳总结</span>
+    
+        <span class="sidebar-tag-name" data-tags="源码阅读"><span class="iconfont-archer">&#xe606;</span>源码阅读</span>
+    
+        <span class="sidebar-tag-name" data-tags="WWDC"><span class="iconfont-archer">&#xe606;</span>WWDC</span>
+    
+        <span class="sidebar-tag-name" data-tags="vultr"><span class="iconfont-archer">&#xe606;</span>vultr</span>
+    
+        <span class="sidebar-tag-name" data-tags="ss"><span class="iconfont-archer">&#xe606;</span>ss</span>
+    
+        <span class="sidebar-tag-name" data-tags="源码"><span class="iconfont-archer">&#xe606;</span>源码</span>
+    
+        <span class="sidebar-tag-name" data-tags="SDWebImage"><span class="iconfont-archer">&#xe606;</span>SDWebImage</span>
+    
+        <span class="sidebar-tag-name" data-tags="heox博客搭建"><span class="iconfont-archer">&#xe606;</span>heox博客搭建</span>
+    
+        <span class="sidebar-tag-name" data-tags="手势延迟"><span class="iconfont-archer">&#xe606;</span>手势延迟</span>
+    
+        <span class="sidebar-tag-name" data-tags="iOS"><span class="iconfont-archer">&#xe606;</span>iOS</span>
+    
+        <span class="sidebar-tag-name" data-tags="Cocoapods"><span class="iconfont-archer">&#xe606;</span>Cocoapods</span>
+    
+        <span class="sidebar-tag-name" data-tags="记录"><span class="iconfont-archer">&#xe606;</span>记录</span>
+    
+        <span class="sidebar-tag-name" data-tags="CocoaPods"><span class="iconfont-archer">&#xe606;</span>CocoaPods</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br/>
+    1、请确保node版本大于6.2<br/>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="iOS"><span class="iconfont-archer">&#xe60a;</span>iOS</span>
+    
+        <span class="sidebar-category-name" data-categories="老实说"><span class="iconfont-archer">&#xe60a;</span>老实说</span>
+    
+        <span class="sidebar-category-name" data-categories="网络编程"><span class="iconfont-archer">&#xe60a;</span>网络编程</span>
+    
+        <span class="sidebar-category-name" data-categories="科学上网"><span class="iconfont-archer">&#xe60a;</span>科学上网</span>
+    
+        <span class="sidebar-category-name" data-categories="hexo"><span class="iconfont-archer">&#xe60a;</span>hexo</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: "/",
+        author: "周老实"
+    }
+</script>
+    <!-- CDN failover -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ === 'undefined')
+        {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
+        }
+    </script>
+    <script src="/scripts/main.js"></script>
+    <!-- algolia -->
+    
+    <!-- busuanzi  -->
+    
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <!-- CNZZ  -->
+    
+    </div>
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
+     
+    </body>
+</html>
+
+
